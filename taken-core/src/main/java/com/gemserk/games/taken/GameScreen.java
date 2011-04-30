@@ -46,6 +46,39 @@ import com.gemserk.resources.ResourceManagerImpl;
 
 public class GameScreen extends ScreenAdapter {
 
+	static class KeyboardCharacterController implements CharacterController {
+		
+		private Vector2 direction = new Vector2(0f, 0f);
+		
+		private boolean walking = false;
+		
+		@Override
+		public void update(int delta) {
+			
+			walking = false;
+			direction.set(0f,0f);
+			
+			if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
+				direction.x = 1f;
+				walking = true;
+			} else if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) {
+				direction.x = -1f;
+				walking = true;
+			}
+		}
+
+		@Override
+		public boolean isWalking() {
+			return walking;
+		}
+
+		@Override
+		public void getWalkingDirection(float[] d) {
+			d[0] = direction.x;
+			d[1] = direction.y;
+		}
+	}
+
 	private Game game;
 
 	private WorldWrapper worldWrapper;
@@ -207,7 +240,7 @@ public class GameScreen extends ScreenAdapter {
 		float width = 0.15f;
 		float height = 1f;
 
-		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, width, height, true);
+		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, width, height, true, 1f);
 
 		Entity entity = world.createEntity();
 
@@ -219,25 +252,11 @@ public class GameScreen extends ScreenAdapter {
 		// entity.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(viewportWidth, viewportWidth), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 1, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
-		entity.addComponent(new CharacterControllerComponent(new CharacterController() {
-
-			@Override
-			public void update(int delta) {
-
-			}
-
-			@Override
-			public boolean isWalking() {
-				return true;
-			}
-
-			@Override
-			public void getWalkingDirection(float[] d) {
-				d[0] = 1f;
-				d[1] = 0f;
-			}
-
-		}));
+		KeyboardCharacterController characterController = new KeyboardCharacterController();
+		
+		entity.addComponent(new CharacterControllerComponent(characterController));
+		
+		controllers.add(characterController);
 
 		entity.refresh();
 	}
@@ -253,7 +272,9 @@ public class GameScreen extends ScreenAdapter {
 		camera.move(cameraPosition.x, cameraPosition.y);
 		camera.rotate(cameraData.angle);
 
-		worldWrapper.update((int) (delta * 1000f));
+		int deltaInMs = (int) (delta * 1000f);
+		
+		worldWrapper.update(deltaInMs);
 
 		inputDevicesMonitor.update();
 
@@ -262,6 +283,11 @@ public class GameScreen extends ScreenAdapter {
 			// render debug stuff.
 			box2dCustomDebugRenderer.render();
 
+		}
+		
+		for (int i = 0; i < controllers.size(); i++) {
+			Controller controller = controllers.get(i);
+			controller.update(deltaInMs);
 		}
 
 	}

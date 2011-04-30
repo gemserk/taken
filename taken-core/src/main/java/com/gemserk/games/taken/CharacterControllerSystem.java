@@ -2,8 +2,10 @@ package com.gemserk.games.taken;
 
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 
@@ -57,6 +59,15 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 			float factor = maxSpeed / speed;
 			linearVelocity.mul(factor);
 			body.setLinearVelocity(linearVelocity);
+		}
+
+		SpriteComponent spriteComponent = e.getComponent(SpriteComponent.class);
+		Sprite sprite = spriteComponent.getSprite();
+
+		if (linearVelocity.x < 0f) {
+			sprite.setScale(-1f, 1f);
+		} else {
+			sprite.setScale(1f, 1f);
 		}
 		
 	}
