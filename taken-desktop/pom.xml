@@ -25,11 +25,11 @@
 		<!-- finalName>${project.artifactId}-${project.version}</finalName -->
 		<finalName>${project.artifactId}-${project.version}</finalName>
 
-		<webstartMain>com.gemserk.games.FIX.DesktopApplication</webstartMain>
+		<webstartMain>com.gemserk.games.taken.DesktopApplication</webstartMain>
 
-		<appletGameParameter>ccom.gemserk.games.FIX.DesktopApplication</appletGameParameter>
+		<appletGameParameter>ccom.gemserk.games.taken.DesktopApplication</appletGameParameter>
 		<mainClass>${appletGameParameter}</mainClass>
-		<jnlp.applet.mainClass>com.gemserk.games.FIX.DesktopApplication</jnlp.applet.mainClass>
+		<jnlp.applet.mainClass>com.gemserk.games.taken.DesktopApplication</jnlp.applet.mainClass>
 
 		<natives>${basedir}/target/natives/</natives>
 

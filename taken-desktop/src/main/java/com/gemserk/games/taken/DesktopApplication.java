@@ -1,7 +1,7 @@
-package com.gemserk.games.floatingislands;
+package com.gemserk.games.taken;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.gemserk.games.floatingislands.LibgdxGame;
+import com.gemserk.games.taken.LibgdxGame;
 
 public class DesktopApplication {
 	public static void main (String[] argv) {

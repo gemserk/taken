@@ -1,4 +1,4 @@
-package com.gemserk.games.floatingislands;
+package com.gemserk.games.taken;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
