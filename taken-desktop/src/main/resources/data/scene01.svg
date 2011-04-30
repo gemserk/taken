@@ -7,6 +7,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="20"
@@ -682,6 +683,27 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 0.5 : 1"
        sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3022"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3045"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3067"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -690,11 +712,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="45.2548"
-     inkscape:cx="10.0886"
-     inkscape:cy="3.75985"
+     inkscape:zoom="22.6274"
+     inkscape:cx="11.6559"
+     inkscape:cy="9.68245"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1440"
      inkscape:window-height="851"
@@ -710,7 +732,7 @@
        id="guide2820" />
     <sodipodi:guide
        orientation="0,1"
-       position="23.7188,2"
+       position="19.578,1.94455"
        id="guide3117" />
     <sodipodi:guide
        orientation="0,1"
@@ -739,6 +761,19 @@
   </metadata>
   <g
      inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Background"
+     style="display:none">
+    <image
+       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/background-512x512.jpg"
+       width="20"
+       height="20"
+       id="image3012"
+       x="0"
+       y="0" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="World"
      style="display:inline" />
@@ -749,8 +784,15 @@
      style="display:inline">
     <path
        style="fill:none;stroke:#fc0000;stroke-width:0.103061;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       d="M 0.088725,18 19.9838,18"
+       d="m 0,18.0555 56.3708,0"
        id="path3529-0"
+       inkscape:label="StaticBody"
+       sodipodi:nodetypes="cc"
+       collisionMask="1" />
+    <path
+       style="fill:none;stroke:#fc0000;stroke-width:0.103061;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="M 0,18.0555 0,8.64212"
+       id="path3529-0-6"
        inkscape:label="StaticBody"
        sodipodi:nodetypes="cc"
        collisionMask="1" />
@@ -759,5 +801,24 @@
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="Tools"
-     style="display:inline" />
+     style="display:inline">
+    <path
+       style="fill:none;stroke:#fc0000;stroke-width:0.103061;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m -10.8718,3.40504 -2.4749,3e-5"
+       id="path3529-0-6-4"
+       inkscape:label="StaticBody"
+       sodipodi:nodetypes="cc"
+       collisionMask="1" />
+    <text
+       xml:space="preserve"
+       style="font-size:2px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="-10.385638"
+       y="3.5597532"
+       id="text3081"><tspan
+         sodipodi:role="line"
+         id="tspan3083"
+         x="-10.385638"
+         y="3.5597532"
+         style="font-size:1px">edge</tspan></text>
+  </g>
 </svg>

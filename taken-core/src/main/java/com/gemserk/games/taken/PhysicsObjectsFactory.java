@@ -11,7 +11,9 @@ import com.badlogic.gdx.physics.box2d.World;
 public class PhysicsObjectsFactory {
 
 	private final World world;
-	
+
+	private final Vector2 tmp = new Vector2();
+
 	public PhysicsObjectsFactory(World world) {
 		this.world = world;
 	}
@@ -46,6 +48,35 @@ public class PhysicsObjectsFactory {
 		shape.dispose();
 
 		return body;
+	}
+
+	public Body createDynamicRectangle(float x, float y, float width, float height, boolean fixedRotation) {
+
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyType.DynamicBody;
+		// bodyDef.bullet = true;
+		bodyDef.position.set(x, y);
+		bodyDef.fixedRotation = fixedRotation;
+
+		Body body = world.createBody(bodyDef);
+
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(width / 2f, height / 2f);
+
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = shape;
+		fixtureDef.density = 1f;
+
+		body.createFixture(fixtureDef);
+
+		shape.dispose();
+
+		// 0.7112 mts
+
+		// body.setTransform(tmp, (float) (direction.angle() / 180f * Math.PI));
+
+		return body;
+
 	}
 
 }
