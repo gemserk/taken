@@ -8,4 +8,6 @@ public interface CharacterController extends Controller {
 	
 	void getWalkingDirection(float[] d);
 
+	boolean jumped();
+
 }

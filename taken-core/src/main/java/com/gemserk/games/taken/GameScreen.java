@@ -37,7 +37,9 @@ import com.gemserk.commons.svg.inkscape.SvgInkscapeGroupHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePath;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePathHandler;
 import com.gemserk.commons.svg.inkscape.SvgParser;
+import com.gemserk.componentsengine.input.ButtonMonitor;
 import com.gemserk.componentsengine.input.InputDevicesMonitorImpl;
+import com.gemserk.componentsengine.input.LibgdxButtonMonitor;
 import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
 import com.gemserk.componentsengine.properties.PropertyBuilder;
 import com.gemserk.resources.Resource;
@@ -52,10 +54,16 @@ public class GameScreen extends ScreenAdapter {
 		
 		private boolean walking = false;
 		
+		private boolean jumped = false;
+		
+		ButtonMonitor jumpButtonMonitor = new LibgdxButtonMonitor(Keys.W);
+		
 		@Override
 		public void update(int delta) {
 			
 			walking = false;
+			jumped = false;
+			
 			direction.set(0f,0f);
 			
 			if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
@@ -65,6 +73,11 @@ public class GameScreen extends ScreenAdapter {
 				direction.x = -1f;
 				walking = true;
 			}
+			
+			jumpButtonMonitor.update();
+			
+			jumped = jumpButtonMonitor.isPressed();
+			
 		}
 
 		@Override
@@ -76,6 +89,11 @@ public class GameScreen extends ScreenAdapter {
 		public void getWalkingDirection(float[] d) {
 			d[0] = direction.x;
 			d[1] = direction.y;
+		}
+
+		@Override
+		public boolean jumped() {
+			return jumped;
 		}
 	}
 
@@ -213,12 +231,10 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void createBackground() {
-		Resource<Texture> backgroundLayer0 = resourceManager.get("Background-Layer0");
-		Resource<Texture> backgroundLayer1 = resourceManager.get("Background-Layer1");
-		Resource<Texture> backgroundLayer2 = resourceManager.get("Background-Layer2");
-		createStaticSprite(new Sprite(backgroundLayer0.get()), 0f, 0f, viewportWidth, viewportWidth, 0f, -103, 0f, 0f, Color.WHITE);
-		createStaticSprite(new Sprite(backgroundLayer1.get()), 0f, 0f, viewportWidth, viewportWidth, 0f, -102, 0f, 0f, Color.WHITE);
-		createStaticSprite(new Sprite(backgroundLayer2.get()), 0f, 0f, viewportWidth, viewportWidth, 0f, -101, 0f, 0f, Color.WHITE);
+		Resource<Texture> background = resourceManager.get("Background");
+		
+		createStaticSprite(new Sprite(background.get()), 0f, 0f, 512, 512, 0f, -103, 0f, 0f, Color.WHITE);
+		createStaticSprite(new Sprite(background.get()), 512, 0f, 512, 512, 0f, -103, 0f, 0f, Color.WHITE);
 	}
 
 	void createStaticSprite(Sprite sprite, float x, float y, float width, float height, float angle, int layer, float centerx, float centery, Color color) {
@@ -306,10 +322,7 @@ public class GameScreen extends ScreenAdapter {
 
 		new LibgdxResourceBuilder(resourceManager) {
 			{
-				texture("Background-Layer0", "data/background-01-0-512x512.jpg");
-				texture("Background-Layer1", "data/background-01-1-512x512.png");
-				texture("Background-Layer2", "data/background-01-2-512x512.png");
-
+				texture("Background", "data/background-512x512.jpg");
 				texture("Human", "data/character-64x64.png");
 			}
 		};

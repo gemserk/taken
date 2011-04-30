@@ -12,10 +12,12 @@ import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 public class CharacterControllerSystem extends EntityProcessingSystem implements ActivableSystem {
 
 	private final ActivableSystem activableSystem = new ActivableSystemImpl();
-	
-	private final float[] direction = new float[] {0f, 0f};
-	
+
+	private final float[] direction = new float[] { 0f, 0f };
+
 	private final Vector2 force = new Vector2();
+
+	private final Vector2 impulse = new Vector2();
 
 	public CharacterControllerSystem() {
 		super(CharacterControllerComponent.class);
@@ -30,46 +32,63 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 	public boolean isEnabled() {
 		return activableSystem.isEnabled();
 	}
-	
+
 	@Override
 	protected void process(Entity e) {
 
 		CharacterControllerComponent component = e.getComponent(CharacterControllerComponent.class);
 		CharacterController characterController = component.getCharacterController();
-		
-		if (!characterController.isWalking())
-			return;
-		
-		characterController.getWalkingDirection(direction);
-		
+
 		PhysicsComponent physicsComponent = e.getComponent(PhysicsComponent.class);
 		Body body = physicsComponent.getBody();
-		
-		force.set(direction[0], direction[1]);
-		force.mul(10f);
-		
-		body.applyForce(force, body.getTransform().getPosition());
-		
-		Vector2 linearVelocity = body.getLinearVelocity();
-		
-		float speed = linearVelocity.len();
-		float maxSpeed = 1f;
-		
-		if (speed > maxSpeed) {
-			float factor = maxSpeed / speed;
-			linearVelocity.mul(factor);
-			body.setLinearVelocity(linearVelocity);
+
+		if (characterController.isWalking()) {
+
+			characterController.getWalkingDirection(direction);
+
+			force.set(direction[0], direction[1]);
+			force.mul(10f);
+
+			body.applyForce(force, body.getTransform().getPosition());
+
+			Vector2 linearVelocity = body.getLinearVelocity();
+
+			float speed = Math.abs(linearVelocity.x);
+			float maxSpeed = 1f;
+
+			if (speed > maxSpeed) {
+				float factor = maxSpeed / speed;
+				linearVelocity.x *= factor;
+				body.setLinearVelocity(linearVelocity);
+			}
+
+			SpriteComponent spriteComponent = e.getComponent(SpriteComponent.class);
+			Sprite sprite = spriteComponent.getSprite();
+
+			if (linearVelocity.x < 0f) {
+				sprite.setScale(-1f, 1f);
+			} else {
+				sprite.setScale(1f, 1f);
+			}
+
 		}
 
-		SpriteComponent spriteComponent = e.getComponent(SpriteComponent.class);
-		Sprite sprite = spriteComponent.getSprite();
+		if (characterController.jumped()) {
 
-		if (linearVelocity.x < 0f) {
-			sprite.setScale(-1f, 1f);
-		} else {
-			sprite.setScale(1f, 1f);
+			Vector2 linearVelocity = body.getLinearVelocity();
+
+			// it should be checking if it is over an object to jump...
+			
+			if (Math.abs(linearVelocity.y) < 0.05f) {
+
+				impulse.set(0f, 1f);
+				// impulse.mul(10f);
+
+				body.applyLinearImpulse(impulse, body.getTransform().getPosition());
+			}
+
 		}
-		
+
 	}
 
 }
