@@ -752,7 +752,8 @@
        d="M 0.088725,18 19.9838,18"
        id="path3529-0"
        inkscape:label="StaticBody"
-       sodipodi:nodetypes="cc" />
+       sodipodi:nodetypes="cc"
+       collisionMask="1" />
   </g>
   <g
      inkscape:groupmode="layer"
