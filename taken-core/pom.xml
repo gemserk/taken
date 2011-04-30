@@ -1,0 +1,57 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+	<groupId>com.gemserk.games.taken</groupId>
+	<artifactId>taken</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>com.gemserk.games.taken</groupId>
+	<artifactId>taken-core</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>Taken - Core Module</name>
+	<description>Taken - Core Module</description>
+
+	<properties>
+		<animation4j.version>0.0.10</animation4j.version>
+		<artemis.version>0.0.1-GEMSERK-SNAPSHOT</artemis.version>
+		<commons.gdx.version>0.0.1-SNAPSHOT</commons.gdx.version>
+	</properties>
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>com.badlogic.gdx</groupId>
+			<artifactId>gdx</artifactId>
+			<version>${libgdxversion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.gemserk.animation4j</groupId>
+			<artifactId>animation4j-core</artifactId>
+			<version>${animation4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.gamadu.artemis</groupId>
+			<artifactId>artemis</artifactId>
+			<version>${artemis.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.gemserk.commons.gdx</groupId>
+			<artifactId>commons-gdx-core</artifactId>
+			<version>${commons.gdx.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.gemserk.commons.gdx</groupId>
+			<artifactId>commons-gdx-artemis</artifactId>
+			<version>${commons.gdx.version}</version>
+		</dependency>
+
+	</dependencies>
+
+</project>
