@@ -1,18 +1,24 @@
 package com.gemserk.games.taken;
 
+import java.util.ArrayList;
+
 import com.artemis.Entity;
-import com.artemis.EntitySystem;
-import com.artemis.utils.ImmutableBag;
+import com.artemis.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.Shape.Type;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 
-public class PhysicsSystem extends EntitySystem implements ActivableSystem {
+public class PhysicsSystem extends EntityProcessingSystem implements ActivableSystem {
 	
 	ActivableSystem activableSystem = new ActivableSystemImpl();
 
@@ -28,12 +34,12 @@ public class PhysicsSystem extends EntitySystem implements ActivableSystem {
 			
 			if (entityA != null) {
 				PhysicsComponent physicsComponent = entityA.getComponent(PhysicsComponent.class);
-				physicsComponent.getContact().removeBox2dContact();
+				physicsComponent.getContact().removeContact(bodyB);
 			}
 
 			if (entityB != null) {
 				PhysicsComponent physicsComponent = entityB.getComponent(PhysicsComponent.class);
-				physicsComponent.getContact().removeBox2dContact();
+				physicsComponent.getContact().removeContact(bodyA);
 			}
 			
 		}
@@ -49,12 +55,12 @@ public class PhysicsSystem extends EntitySystem implements ActivableSystem {
 			
 			if (entityA != null) {
 				PhysicsComponent physicsComponent = entityA.getComponent(PhysicsComponent.class);
-				physicsComponent.getContact().setBox2dContact(contact, entityB);
+				physicsComponent.getContact().addContact(contact, bodyB);
 			}
 
 			if (entityB != null) {
 				PhysicsComponent physicsComponent = entityB.getComponent(PhysicsComponent.class);
-				physicsComponent.getContact().setBox2dContact(contact, entityA);
+				physicsComponent.getContact().addContact(contact, bodyA);
 			}
 
 		}
@@ -78,8 +84,49 @@ public class PhysicsSystem extends EntitySystem implements ActivableSystem {
 	}
 
 	@Override
-	protected void processEntities(ImmutableBag<Entity> entities) {
+	protected void process(Entity e) {
+		
+		// synchronize sizes between spatial and physics components.
+		
+		PhysicsComponent physicsComponent = e.getComponent(PhysicsComponent.class);
+		
+		// if we dont have the original shape, we cannot resize
+		if (physicsComponent.getVertices() == null)
+			return;
+		
+		Body body = physicsComponent.getBody();
 
+		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
+
+		float size = spatialComponent.getSize().x;
+		float bodySize = physicsComponent.getSize();
+
+		if (size != bodySize) {
+
+			ArrayList<Fixture> fixtureList = body.getFixtureList();
+
+			for (int i = 0; i < fixtureList.size(); i++) {
+
+				Fixture fixture = fixtureList.get(i);
+				Shape shape = fixture.getShape();
+
+				if (shape.getType() == Type.Polygon) {
+
+					Vector2[] vertices = physicsComponent.getVertices();
+
+					PolygonShape polygonShape = (PolygonShape) shape;
+					Vector2[] newVertices = new Vector2[vertices.length];
+					Box2dUtils.initArray(newVertices);
+
+					for (int j = 0; j < vertices.length; j++) {
+						newVertices[j].x = vertices[j].x * size;
+						newVertices[j].y = vertices[j].y * size;
+					}
+
+					polygonShape.set(newVertices);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -123,6 +170,8 @@ public class PhysicsSystem extends EntitySystem implements ActivableSystem {
 	public boolean isEnabled() {
 		return activableSystem.isEnabled();
 	}
+
+
 	
 	
 

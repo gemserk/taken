@@ -2,7 +2,9 @@ package com.gemserk.games.taken;
 
 import java.util.ArrayList;
 
+import javax.vecmath.Matrix3f;
 import javax.vecmath.Vector2f;
+import javax.vecmath.Vector3f;
 
 import org.w3c.dom.Element;
 
@@ -17,6 +19,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.artemis.WorldWrapper;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.components.SpriteComponent;
@@ -34,6 +37,8 @@ import com.gemserk.commons.svg.inkscape.SvgDocument;
 import com.gemserk.commons.svg.inkscape.SvgDocumentHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeGroup;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeGroupHandler;
+import com.gemserk.commons.svg.inkscape.SvgInkscapeImage;
+import com.gemserk.commons.svg.inkscape.SvgInkscapeImageHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePath;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePathHandler;
 import com.gemserk.commons.svg.inkscape.SvgParser;
@@ -45,27 +50,31 @@ import com.gemserk.componentsengine.properties.PropertyBuilder;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
+import com.gemserk.resources.dataloaders.DataLoader;
+import com.gemserk.resources.resourceloaders.ResourceLoaderImpl;
 
 public class GameScreen extends ScreenAdapter {
 
 	static class KeyboardCharacterController implements CharacterController {
-		
+
 		private Vector2 direction = new Vector2(0f, 0f);
-		
+
 		private boolean walking = false;
-		
+
 		private boolean jumped = false;
-		
+
 		ButtonMonitor jumpButtonMonitor = new LibgdxButtonMonitor(Keys.W);
-		
+
+		ButtonMonitor shrinkGrowButtonMonitor = new LibgdxButtonMonitor(Keys.S);
+
 		@Override
 		public void update(int delta) {
-			
+
 			walking = false;
 			jumped = false;
-			
-			direction.set(0f,0f);
-			
+
+			direction.set(0f, 0f);
+
 			if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
 				direction.x = 1f;
 				walking = true;
@@ -73,11 +82,12 @@ public class GameScreen extends ScreenAdapter {
 				direction.x = -1f;
 				walking = true;
 			}
-			
+
 			jumpButtonMonitor.update();
-			
+			shrinkGrowButtonMonitor.update();
+
 			jumped = jumpButtonMonitor.isPressed();
-			
+
 		}
 
 		@Override
@@ -94,6 +104,11 @@ public class GameScreen extends ScreenAdapter {
 		@Override
 		public boolean jumped() {
 			return jumped;
+		}
+
+		@Override
+		public boolean shouldSwitchSize() {
+			return shrinkGrowButtonMonitor.isPressed();
 		}
 	}
 
@@ -138,11 +153,11 @@ public class GameScreen extends ScreenAdapter {
 		camera.center(viewportWidth / 2, viewportHeight / 2);
 		camera.zoom(40f);
 
-		float zoom = 20f;
+		float zoom = 40f;
 		float invZoom = 1 / zoom;
-		
+
 		Vector2 cameraPosition = new Vector2(viewportWidth * 0.5f * invZoom, viewportHeight * 0.5f * invZoom);
-		cameraData = new Camera(cameraPosition, 20f, 0f);
+		cameraData = new Camera(cameraPosition.x, cameraPosition.y, zoom, 0f);
 
 		physicsWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, -10f), false);
 
@@ -169,10 +184,12 @@ public class GameScreen extends ScreenAdapter {
 		// hud layer
 		renderLayers.add(new RenderLayer(100, 1000, hudLayerCamera));
 
-		worldWrapper.add(new PhysicsSystem(physicsWorld));
 		worldWrapper.add(new CharacterControllerSystem());
+		worldWrapper.add(new PhysicsSystem(physicsWorld));
+		worldWrapper.add(new AnimationSystem());
 		worldWrapper.add(new SpriteUpdateSystem());
 		worldWrapper.add(new SpriteRendererSystem(renderLayers));
+		worldWrapper.add(new CameraFollowSystem());
 
 		worldWrapper.init();
 
@@ -190,6 +207,81 @@ public class GameScreen extends ScreenAdapter {
 
 		createMainCharacter();
 
+		loadWorld();
+
+		loadPhysicObjects();
+	}
+
+	void loadWorld() {
+		SvgParser svgParser = new SvgParser();
+		svgParser.addHandler(new SvgDocumentHandler() {
+			@Override
+			protected void handle(SvgParser svgParser, SvgDocument svgDocument, Element element) {
+				GameScreen.this.svgDocument = svgDocument;
+			}
+		});
+		svgParser.addHandler(new SvgInkscapeGroupHandler() {
+			@Override
+			protected void handle(SvgParser svgParser, SvgInkscapeGroup svgInkscapeGroup, Element element) {
+
+				if (svgInkscapeGroup.getGroupMode().equals("layer") && !svgInkscapeGroup.getLabel().equalsIgnoreCase("World")) {
+					svgParser.processChildren(false);
+					return;
+				}
+
+			}
+		});
+		svgParser.addHandler(new SvgInkscapeImageHandler() {
+
+			private boolean isFlipped(Matrix3f matrix) {
+				return matrix.getM00() != matrix.getM11();
+			}
+
+			@Override
+			protected void handle(SvgParser svgParser, SvgInkscapeImage svgImage, Element element) {
+
+				if (svgImage.getLabel() == null)
+					return;
+
+				Resource<Texture> texture = resourceManager.get(svgImage.getLabel());
+
+				if (texture == null)
+					return;
+
+				float width = svgImage.getWidth();
+				float height = svgImage.getHeight();
+
+				Matrix3f transform = svgImage.getTransform();
+
+				Vector3f position = new Vector3f(svgImage.getX() + width * 0.5f, svgImage.getY() + height * 0.5f, 0f);
+				transform.transform(position);
+
+				Vector3f direction = new Vector3f(1f, 0f, 0f);
+				transform.transform(direction);
+
+				float angle = 360f - (float) (Math.atan2(direction.y, direction.x) * 180 / Math.PI);
+
+				float sx = 1f;
+				float sy = 1f;
+
+				if (isFlipped(transform)) {
+					sy = -1f;
+				}
+
+				float x = position.x;
+				float y = svgDocument.getHeight() - position.y;
+
+				Sprite sprite = new Sprite(texture.get());
+				sprite.setScale(sx, sy);
+
+				createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
+
+			}
+		});
+		svgParser.parse(Gdx.files.internal("data/scene01.svg").read());
+	}
+
+	void loadPhysicObjects() {
 		SvgParser svgParser = new SvgParser();
 		svgParser.addHandler(new SvgDocumentHandler() {
 			@Override
@@ -232,7 +324,7 @@ public class GameScreen extends ScreenAdapter {
 
 	void createBackground() {
 		Resource<Texture> background = resourceManager.get("Background");
-		
+
 		createStaticSprite(new Sprite(background.get()), 0f, 0f, 512, 512, 0f, -103, 0f, 0f, Color.WHITE);
 		createStaticSprite(new Sprite(background.get()), 512, 0f, 512, 512, 0f, -103, 0f, 0f, Color.WHITE);
 	}
@@ -248,30 +340,63 @@ public class GameScreen extends ScreenAdapter {
 
 	void createMainCharacter() {
 		Resource<Texture> resource = resourceManager.get("Human");
+		Resource<SpriteSheet> walkingAnimationResource = resourceManager.get("Human_Walking");
+		Resource<SpriteSheet> idleAnimationResource = resourceManager.get("Human_Idle");
+		Resource<SpriteSheet> jumpAnimationResource = resourceManager.get("Human_Jump");
+		Resource<SpriteSheet> fallAnimationResource = resourceManager.get("Human_Fall");
+		
 		Sprite sprite = new Sprite(resource.get());
 
 		float x = 2f;
 		float y = 2f;
 
+		float size = 1f;
+
 		float width = 0.15f;
 		float height = 1f;
 
-		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, width, height, true, 1f);
+		// Body body = physicsObjectsFactory.createDynamicRectangle(x, y, width, height, true, 1f);
+		// Body body = physicsObjectsFactory.createDynamicCircle(x, y, height * 0.5f, false, 1f);
+
+		Vector2[] bodyShape = Box2dUtils.createRectangle(width, height);
+		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0.15f);
 
 		Entity entity = world.createEntity();
+		
+		body.setUserData(entity);
 
-		entity.addComponent(new PhysicsComponent(body));
+		PhysicsComponent physicsComponent = new PhysicsComponent(body);
+		physicsComponent.setVertices(bodyShape);
+
+		entity.addComponent(physicsComponent);
 		entity.addComponent(new SpatialComponent( //
 				new Box2dPositionProperty(body), //
-				PropertyBuilder.vector2(1f, 1f), //
+				PropertyBuilder.vector2(size, size), //
 				new Box2dAngleProperty(body)));
+		// PropertyBuilder.property(ValueBuilder.floatValue(0f))));
 		// entity.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(viewportWidth, viewportWidth), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 1, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
+		
+		SpriteSheet[] spriteSheets = new SpriteSheet[] {
+				walkingAnimationResource.get(),
+				idleAnimationResource.get(),
+				jumpAnimationResource.get(),
+				fallAnimationResource.get(),
+		};
+		
+		FrameAnimation[] animations = new FrameAnimation[] {
+				new FrameAnimationImpl(150, 2, true),
+				new FrameAnimationImpl(new int[] {1000, 50}, true),
+				new FrameAnimationImpl(100, 1, false),
+				new FrameAnimationImpl(new int[] {400, 200}, true),
+		};
+		
+		entity.addComponent(new AnimationComponent(spriteSheets, animations));
+
+		entity.addComponent(new CameraFollowComponent(cameraData));
 
 		KeyboardCharacterController characterController = new KeyboardCharacterController();
-		
 		entity.addComponent(new CharacterControllerComponent(characterController));
-		
 		controllers.add(characterController);
 
 		entity.refresh();
@@ -282,15 +407,15 @@ public class GameScreen extends ScreenAdapter {
 
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-		Vector2 cameraPosition = cameraData.position;
-
-		camera.zoom(cameraData.zoom);
-		camera.move(cameraPosition.x, cameraPosition.y);
-		camera.rotate(cameraData.angle);
+		camera.zoom(cameraData.getZoom() * 2f);
+		camera.move(cameraData.getX(), cameraData.getY());
+		camera.rotate(cameraData.getAngle());
 
 		int deltaInMs = (int) (delta * 1000f);
-		
+
 		worldWrapper.update(deltaInMs);
+
+		Synchronizers.synchronize();
 
 		inputDevicesMonitor.update();
 
@@ -300,7 +425,7 @@ public class GameScreen extends ScreenAdapter {
 			box2dCustomDebugRenderer.render();
 
 		}
-		
+
 		for (int i = 0; i < controllers.size(); i++) {
 			Controller controller = controllers.get(i);
 			controller.update(deltaInMs);
@@ -317,14 +442,49 @@ public class GameScreen extends ScreenAdapter {
 	public void show() {
 
 	}
-
+	
 	protected void loadResources() {
 
 		new LibgdxResourceBuilder(resourceManager) {
 			{
 				texture("Background", "data/background-512x512.jpg");
 				texture("Human", "data/character-64x64.png");
+
+				texture("Grass01", "data/grass01.png");
+				texture("Grass02", "data/grass02.png");
+				texture("Grass03", "data/grass03.png");
+				texture("Grass04", "data/grass04.png");
+
+				texture("Tile01", "data/tile01.png");
+				texture("Tile02", "data/tile02.png");
+				texture("Tile03", "data/tile03.png");
+				texture("Tile04", "data/tile04.png");
+				texture("Tile05", "data/tile05.png");
+
+				spriteSheet("Human_Walking", "data/animation2.png", 0, 32, 32, 32, 2);
+				spriteSheet("Human_Idle", "data/animation2.png", 0, 0, 32, 32, 2);
+				spriteSheet("Human_Jump", "data/animation2.png", 0, 64, 32, 32, 1);
+				spriteSheet("Human_Fall", "data/animation2.png", 0, 96, 32, 32, 2);
 			}
+
+			private void spriteSheet(String id, final String file, final int x, final int y, final int w, final int h, final int framesCount) {
+				resourceManager.add(id, new ResourceLoaderImpl<SpriteSheet>(new DataLoader<SpriteSheet>() {
+
+					@Override
+					public SpriteSheet load() {
+						
+						Texture spriteSheet = new Texture(internal(file));
+						
+						Sprite[] frames = new Sprite[framesCount];
+						for (int i = 0; i < frames.length; i++) 
+							frames[i] = new Sprite(spriteSheet, x + i * w, y, w, h);
+						
+						return new SpriteSheet(spriteSheet, frames);
+					}
+					
+				}));
+			}
+			
 		};
 
 	}
