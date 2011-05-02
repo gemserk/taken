@@ -11,7 +11,7 @@ import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 
-public class EnemyWeaponSystem extends EntityProcessingSystem implements ActivableSystem {
+public class WeaponSystem extends EntityProcessingSystem implements ActivableSystem {
 
 	private final ActivableSystem activableSystem = new ActivableSystemImpl();
 
@@ -19,8 +19,8 @@ public class EnemyWeaponSystem extends EntityProcessingSystem implements Activab
 
 	private final ResourceManager<String> resourceManager;
 
-	public EnemyWeaponSystem(GameScreen gameScreen, ResourceManager<String> resourceManager) {
-		super(EnemyWeaponComponent.class);
+	public WeaponSystem(GameScreen gameScreen, ResourceManager<String> resourceManager) {
+		super(WeaponComponent.class);
 		this.gameScreen = gameScreen;
 		this.resourceManager = resourceManager;
 	}
@@ -38,7 +38,9 @@ public class EnemyWeaponSystem extends EntityProcessingSystem implements Activab
 	@Override
 	protected void process(Entity e) {
 
-		ImmutableBag<Entity> targets = world.getGroupManager().getEntities("Player");
+		WeaponComponent weaponComponent = e.getComponent(WeaponComponent.class);
+
+		ImmutableBag<Entity> targets = world.getGroupManager().getEntities(weaponComponent.getTargetGroup());
 
 		if (targets == null)
 			return;
@@ -46,7 +48,6 @@ public class EnemyWeaponSystem extends EntityProcessingSystem implements Activab
 		if (targets.isEmpty())
 			return;
 
-		EnemyWeaponComponent weaponComponent = e.getComponent(EnemyWeaponComponent.class);
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 
 		weaponComponent.setTime(weaponComponent.getTime() - world.getDelta());
@@ -58,7 +59,7 @@ public class EnemyWeaponSystem extends EntityProcessingSystem implements Activab
 
 		float targetRange = weaponComponent.getTargetRange();
 
-		int bulletAliveTime = 1500;
+		int bulletAliveTime = 2000;
 
 		Entity targetEntity = null;
 
@@ -87,7 +88,7 @@ public class EnemyWeaponSystem extends EntityProcessingSystem implements Activab
 
 		Resource<Sound> laserSound = resourceManager.get("Laser");
 		laserSound.get().play();
-		gameScreen.createEnemyLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y);
+		gameScreen.createLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y, 10f, weaponComponent.getOwnerGroup(), weaponComponent.getTargetGroup());
 
 		weaponComponent.setTime(weaponComponent.getReloadTime());
 

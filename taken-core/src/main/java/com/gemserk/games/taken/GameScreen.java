@@ -218,8 +218,7 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.add(new CharacterControllerSystem(resourceManager));
 		worldWrapper.add(new PhysicsSystem(physicsWorld));
 		worldWrapper.add(new FollowCharacterBehaviorSystem());
-		worldWrapper.add(new EnemyWeaponSystem(this, resourceManager));
-		worldWrapper.add(new FriendlyWeaponSystem(this, resourceManager));
+		worldWrapper.add(new WeaponSystem(this, resourceManager));
 		worldWrapper.add(new MovementSystem());
 		worldWrapper.add(new BulletSystem());
 		worldWrapper.add(new HitDetectionSystem(resourceManager));
@@ -485,48 +484,13 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
-		entity.addComponent(new EnemyWeaponComponent(1500, 3f, 5f));
+		entity.addComponent(new WeaponComponent(1500, 3f, 5f, "Enemy", "Player"));
 
 		entity.addComponent(new HealthComponent(new Container(20f, 20f)));
 
 		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
 
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 1, false), };
-
-		entity.addComponent(new AnimationComponent(spriteSheets, animations));
-
-		entity.refresh();
-	}
-
-	void createEnemyLaser(float x, float y, int time, float dx, float dy) {
-		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("EnemyLaser");
-		Sprite sprite = enemyAnimationResource.get().getFrame(0);
-
-		float size = 1f;
-
-		Entity entity = world.createEntity();
-
-		entity.setGroup("Enemy");
-
-		Color color = new Color();
-
-		Synchronizers.transition(color, Transitions.transitionBuilder(laserStartColor).end(laserEndColor).time(time)//
-				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
-				.build());
-
-		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
-		entity.addComponent(new MovementComponent(new Vector2(dx, dy), 0f));
-		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), color));
-		entity.addComponent(new TimerComponent(time));
-		entity.addComponent(new BulletComponent());
-
-		entity.addComponent(new HitComponent("Player", 2f));
-
-		entity.addComponent(new HealthComponent(new Container(1f, 1f)));
-
-		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
-
-		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 3, false), };
 
 		entity.addComponent(new AnimationComponent(spriteSheets, animations));
 
@@ -648,6 +612,8 @@ public class GameScreen extends ScreenAdapter {
 
 		new LibgdxResourceBuilder(resourceManager) {
 			{
+				setCacheWhenLoad(true);
+				
 				texture("Background", "data/background-512x512.jpg");
 				texture("Human", "data/character-64x64.png");
 
