@@ -52,13 +52,17 @@ public class FriendlyWeaponSystem extends EntityProcessingSystem implements Acti
 		
 		weaponComponent.setTime(weaponComponent.getTime() - world.getDelta());
 
-		if (weaponComponent.isReady()) {
-			
-			SpatialComponent targetSpatialComponent = targetEntity.getComponent(SpatialComponent.class);
-			SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
+		SpatialComponent targetSpatialComponent = targetEntity.getComponent(SpatialComponent.class);
+		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 
-			Vector2 targetPosition = targetSpatialComponent.getPosition();
-			Vector2 position = spatialComponent.getPosition();
+		Vector2 targetPosition = targetSpatialComponent.getPosition();
+		Vector2 position = spatialComponent.getPosition();
+		
+		// and enemy is near
+		float fireRange = 3f;
+		int bulletAliveTime = 2000;
+		
+		if (weaponComponent.isReady() && targetPosition.dst(position) < fireRange) {
 			
 			Vector2 velocity = targetPosition.tmp().sub(position);
 			velocity.nor();
@@ -66,7 +70,7 @@ public class FriendlyWeaponSystem extends EntityProcessingSystem implements Acti
 			
 			Resource<Sound> laserSound = resourceManager.get("Laser");
 			laserSound.get().play();
-			gameScreen.createFriendlyLaser(position.x, position.y, 2000, velocity.x, velocity.y);
+			gameScreen.createFriendlyLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y);
 
 			weaponComponent.setTime(weaponComponent.getReloadTime());
 		}

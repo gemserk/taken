@@ -20,6 +20,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.gemserk.animation4j.interpolator.function.InterpolationFunctions;
+import com.gemserk.animation4j.transitions.Transitions;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.artemis.WorldWrapper;
 import com.gemserk.commons.artemis.components.MovementComponent;
@@ -154,10 +156,14 @@ public class GameScreen extends ScreenAdapter {
 	private Entity mainCharacter;
 
 	private boolean gameOver = true;
-	
+
 	private float score;
 
 	private SpriteBatch spriteBatch;
+
+	private final Color laserEndColor = new Color(1f, 1f, 1f, 0f);
+
+	private final Color laserStartColor = new Color(1f, 1f, 1f, 1f);
 
 	public GameScreen(LibgdxGame game) {
 		this.game = game;
@@ -242,7 +248,7 @@ public class GameScreen extends ScreenAdapter {
 		loadWorld();
 
 		loadPhysicObjects();
-		
+
 		score = 0;
 	}
 
@@ -502,9 +508,15 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.setGroup("Enemy");
 
+		Color color = new Color();
+
+		Synchronizers.transition(color, Transitions.transitionBuilder(laserStartColor).end(laserEndColor).time(time)//
+				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
+				.build());
+
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
 		entity.addComponent(new MovementComponent(new Vector2(dx, dy), 0f));
-		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
+		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), color));
 		entity.addComponent(new TimerComponent(time));
 		entity.addComponent(new BulletComponent());
 
@@ -531,9 +543,15 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.setGroup("Player");
 
+		Color color = new Color();
+
+		Synchronizers.transition(color, Transitions.transitionBuilder(laserStartColor).end(laserEndColor).time(time)//
+				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
+				.build());
+
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
 		entity.addComponent(new MovementComponent(new Vector2(dx, dy), 0f));
-		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
+		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), color));
 		entity.addComponent(new TimerComponent(time));
 
 		entity.addComponent(new BulletComponent());
@@ -564,7 +582,7 @@ public class GameScreen extends ScreenAdapter {
 		camera.rotate(cameraData.getAngle());
 
 		int deltaInMs = (int) (delta * 1000f);
-		
+
 		score += 100 * delta;
 
 		HealthComponent healthComponent = mainCharacter.getComponent(HealthComponent.class);
@@ -578,7 +596,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		worldWrapper.update(deltaInMs);
-		
+
 		Resource<BitmapFont> font = resourceManager.get("Font");
 		BitmapFont bitmapFont = font.get();
 
@@ -637,7 +655,7 @@ public class GameScreen extends ScreenAdapter {
 				texture("Tile03", "data/tile03.png");
 				texture("Tile04", "data/tile04.png");
 				texture("Tile05", "data/tile05.png");
-				
+
 				texture("FontTexture", "data/font.png");
 
 				spriteSheet("Human_Walking", "data/animation2.png", 0, 32, 32, 32, 2);
@@ -676,7 +694,7 @@ public class GameScreen extends ScreenAdapter {
 			}
 
 		};
-		
+
 		Resource<Texture> fontTextureResource = resourceManager.get("FontTexture");
 		resourceManager.add("Font", new CachedResourceLoader<BitmapFont>(new ResourceLoaderImpl<BitmapFont>( //
 				new BitmapFontDataLoader(Gdx.files.internal("data/font.fnt"), new Sprite(fontTextureResource.get())))));
