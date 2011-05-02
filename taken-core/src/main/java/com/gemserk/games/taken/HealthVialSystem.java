@@ -53,7 +53,7 @@ public class HealthVialSystem extends EntityProcessingSystem implements Activabl
 		
 		Vector2 position = spatialComponent.getPosition();
 		
-		if (position.dst(targetPosition) > 0.1f)
+		if (position.dst(targetPosition) > 0.25f)
 			return;
 		
 		HealthComponent healthComponent = e.getComponent(HealthComponent.class);

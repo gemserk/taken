@@ -37,10 +37,6 @@ public class BloodOverlaySystem extends EntityProcessingSystem implements Activa
 		
 		SpatialComponent characterSpatialComponent = character.getComponent(SpatialComponent.class);
 		
-		// character probably dead
-		if (characterSpatialComponent == null)
-			return;
-		
 		spatialComponent.setPosition(characterSpatialComponent.getPosition());
 		spatialComponent.setAngle(characterSpatialComponent.getAngle());
 
@@ -48,9 +44,6 @@ public class BloodOverlaySystem extends EntityProcessingSystem implements Activa
 
 		// sprite sheet depends on movement and health..
 		PhysicsComponent characterPhysicsComponent = character.getComponent(PhysicsComponent.class);
-		
-		if (characterPhysicsComponent == null)
-			return;
 		
 		Vector2 linearVelocity = characterPhysicsComponent.getBody().getLinearVelocity();
 

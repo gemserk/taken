@@ -51,6 +51,8 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 		Vector2 position = spatialComponent.getPosition();
 		
+		Entity mainCharacter = world.getTagManager().getEntity("MainCharacter");
+		
 		for (int i = 0; i < targets.size(); i++) {
 			Entity target = targets.get(i);
 			SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
@@ -71,8 +73,10 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 				
 				world.deleteEntity(e);
 				
-				if (health.isEmpty())
-					world.deleteEntity(target);
+				if (health.isEmpty()) {
+					if (mainCharacter != target)
+						world.deleteEntity(target);
+				}
 				
 				return;
 				

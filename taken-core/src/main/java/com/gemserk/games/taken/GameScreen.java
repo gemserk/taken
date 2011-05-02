@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.gemserk.animation4j.interpolator.function.InterpolationFunctions;
@@ -27,6 +28,7 @@ import com.gemserk.commons.artemis.WorldWrapper;
 import com.gemserk.commons.artemis.components.MovementComponent;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.components.SpriteComponent;
+import com.gemserk.commons.artemis.entities.EntityTemplate;
 import com.gemserk.commons.artemis.systems.MovementSystem;
 import com.gemserk.commons.artemis.systems.RenderLayer;
 import com.gemserk.commons.artemis.systems.SpriteRendererSystem;
@@ -230,7 +232,7 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.add(new CameraFollowSystem());
 		worldWrapper.add(new TimerSystem());
 
-		worldWrapper.add(new EnemySpawnerSystem(this));
+		worldWrapper.add(new SpawnerSystem());
 
 		worldWrapper.init();
 
@@ -246,9 +248,11 @@ public class GameScreen extends ScreenAdapter {
 
 		createRobo();
 
-		createEnemySpawner();
+		createEnemyRobotSpawner();
 		
-		createHealthVial(4f, 2.5f, 15000, 25f);
+		createHealthVialSpawner();
+		
+		// createHealthVial(4f, 2.5f, 15000, 25f);
 
 		loadWorld();
 
@@ -462,10 +466,50 @@ public class GameScreen extends ScreenAdapter {
 		e.refresh();
 	}
 
-	void createEnemySpawner() {
+	void createEnemyRobotSpawner() {
 		Entity entity = world.createEntity();
 
-		entity.addComponent(new SpawnerComponent(4000));
+		entity.addComponent(new SpawnerComponent(4000, new EntityTemplate() {
+			@Override
+			public Entity build() {
+				// TODO Auto-generated function stub
+				
+				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
+				Vector2 position = spatialComponent.getPosition();
+				
+				float x = position.x + MathUtils.random(-5, 5);
+				float y = position.y + MathUtils.random(-5, 5);
+				
+				createEnemy(x, y);
+				
+				return null;
+			}
+		}));
+
+		entity.refresh();
+	}
+	
+	void createHealthVialSpawner() {
+		Entity entity = world.createEntity();
+
+		entity.addComponent(new SpawnerComponent(10000, new EntityTemplate() {
+			@Override
+			public Entity build() {
+				// TODO Auto-generated function stub
+				
+				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
+				Vector2 position = spatialComponent.getPosition();
+				
+				float x = position.x + MathUtils.random(-10, 10);
+				float y = position.y + MathUtils.random(0f, 3f);
+				
+				createHealthVial(x, y, 15000, 25f);
+				
+				Gdx.app.log("Taken", "Health vial spawned at (" + x + ", " + y + ")");
+				
+				return null;
+			}
+		}));
 
 		entity.refresh();
 	}
