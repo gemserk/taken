@@ -447,8 +447,8 @@ public class GameScreen extends ScreenAdapter {
 		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("Robo");
 		Sprite sprite = enemyAnimationResource.get().getFrame(0);
 
-		float x = 3f;
-		float y = 3f;
+		float x = 0f;
+		float y = -5f;
 
 		float size = 1f;
 
@@ -643,7 +643,8 @@ public class GameScreen extends ScreenAdapter {
 				spriteSheet("FriendlyLaser", "data/animation2.png", 64, 64, 32, 32, 3);
 
 				sound("Jump", "data/jump.ogg");
-				sound("Laser", "data/laser.ogg");
+				sound("FriendlyLaserSound", "data/laser.ogg");
+				sound("EnemyLaserSound", "data/enemy_laser.ogg");
 				sound("Explosion", "data/explosion.ogg");
 			}
 

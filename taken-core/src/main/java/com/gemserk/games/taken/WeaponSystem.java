@@ -88,8 +88,16 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 		velocity.nor();
 		velocity.mul(weaponComponent.getBulletSpeed());
 
-		Resource<Sound> laserSound = resourceManager.get("Laser");
+		Resource<Sound> laserSound;
+		
+		if (weaponComponent.getOwnerGroup().equals("Enemy")) {
+			laserSound = resourceManager.get("EnemyLaserSound");
+		} else {
+			laserSound = resourceManager.get("FriendlyLaserSound");
+		}
+		
 		laserSound.get().play();
+		
 		gameScreen.createLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y, damage, weaponComponent.getOwnerGroup(), weaponComponent.getTargetGroup());
 
 		weaponComponent.setTime(weaponComponent.getReloadTime());
