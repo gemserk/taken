@@ -48,6 +48,10 @@ public class BloodOverlaySystem extends EntityProcessingSystem implements Activa
 
 		// sprite sheet depends on movement and health..
 		PhysicsComponent characterPhysicsComponent = character.getComponent(PhysicsComponent.class);
+		
+		if (characterPhysicsComponent == null)
+			return;
+		
 		Vector2 linearVelocity = characterPhysicsComponent.getBody().getLinearVelocity();
 
 		// idle animation?
