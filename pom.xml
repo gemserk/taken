@@ -40,6 +40,7 @@
 	<modules>
 		<module>taken-core</module>
 		<module>taken-desktop</module>
+		<module>taken-android</module>
 	</modules>
 
 	<properties>
@@ -147,3 +148,4 @@
 	</dependencyManagement>
 
 </project>
+

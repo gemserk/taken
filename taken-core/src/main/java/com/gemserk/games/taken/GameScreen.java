@@ -10,6 +10,7 @@ import org.w3c.dom.Element;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Input.Peripheral;
@@ -93,6 +94,7 @@ public class GameScreen extends ScreenAdapter {
 			jumping = false;
 
 			pointer.update();
+			jumpPointer.update();
 
 			if (pointer.touched) {
 
@@ -564,7 +566,7 @@ public class GameScreen extends ScreenAdapter {
 
 		CharacterController characterController = null;
 
-		if (Gdx.input.isPeripheralAvailable(Peripheral.HardwareKeyboard))
+		if (Gdx.app.getType() == ApplicationType.Desktop)
 			characterController = new KeyboardCharacterController();
 		else if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen))
 			characterController = new MultitouchController(new LibgdxPointer(0), new LibgdxPointer(1));
