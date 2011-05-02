@@ -606,7 +606,9 @@ public class GameScreen extends ScreenAdapter {
 			@Override
 			public Entity build() {
 				// TODO Auto-generated function stub
-
+				
+				// limit robot spawner!!
+				
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
 
