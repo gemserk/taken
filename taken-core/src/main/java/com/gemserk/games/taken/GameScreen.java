@@ -150,6 +150,8 @@ public class GameScreen extends ScreenAdapter {
 	private Entity mainCharacter;
 
 	private boolean gameOver = true;
+	
+	private float score;
 
 	public GameScreen(LibgdxGame game) {
 		this.game = game;
@@ -228,17 +230,13 @@ public class GameScreen extends ScreenAdapter {
 
 		createRobo();
 
-		// createEnemy(6f, 3f);
-
 		createEnemySpawner();
-
-		// createEnemyLaser(-1f, 3f, 2000, 1f, 0f);
-
-		// physicsObjectsFactory.createGround(new Vector2(-2, 2), new Vector2(2, 2));
 
 		loadWorld();
 
 		loadPhysicObjects();
+		
+		score = 0;
 	}
 
 	void loadWorld() {
@@ -559,13 +557,15 @@ public class GameScreen extends ScreenAdapter {
 		camera.rotate(cameraData.getAngle());
 
 		int deltaInMs = (int) (delta * 1000f);
+		
+		score += 100 * delta;
 
 		HealthComponent healthComponent = mainCharacter.getComponent(HealthComponent.class);
 		SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 
 		if (healthComponent.getHealth().isEmpty() || (spatialComponent.getPosition().y < -50)) {
 			// set score based on something...!!
-			game.scoreScreen.setScore(100);
+			game.scoreScreen.setScore((int) score);
 			game.setScreen(game.scoreScreen);
 			gameOver = true;
 		}

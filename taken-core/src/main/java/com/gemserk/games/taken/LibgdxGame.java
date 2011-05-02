@@ -47,7 +47,7 @@ public class LibgdxGame extends Game {
 
 		};
 		
-		setScreen(scoreScreen);
+		setScreen(gameScreen);
 
 	}
 
