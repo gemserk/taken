@@ -149,6 +149,8 @@ public class GameScreen extends ScreenAdapter {
 
 	private Entity mainCharacter;
 
+	private boolean gameOver = true;
+
 	public GameScreen(LibgdxGame game) {
 		this.game = game;
 
@@ -164,17 +166,26 @@ public class GameScreen extends ScreenAdapter {
 		Vector2 cameraPosition = new Vector2(viewportWidth * 0.5f * invZoom, viewportHeight * 0.5f * invZoom);
 		cameraData = new Camera(cameraPosition.x, cameraPosition.y, zoom, 0f);
 
+		inputDevicesMonitor = new InputDevicesMonitorImpl<String>();
+
+		resourceManager = new ResourceManagerImpl<String>();
+
+		new LibgdxInputMappingBuilder<String>(inputDevicesMonitor, Gdx.input) {
+			{
+				monitorKey("debug", Keys.D);
+				monitorKey("score", Keys.P);
+			}
+		};
+
+	}
+
+	void restartGame() {
+		// create the scene...
 		physicsWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, -10f), false);
 
 		physicsObjectsFactory = new PhysicsObjectsFactory(physicsWorld);
 
 		box2dCustomDebugRenderer = new Box2DCustomDebugRenderer(camera, physicsWorld);
-
-		inputDevicesMonitor = new InputDevicesMonitorImpl<String>();
-
-		resourceManager = new ResourceManagerImpl<String>();
-
-		// create the scene...
 
 		world = new World();
 
@@ -202,17 +213,10 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.add(new SpriteRendererSystem(renderLayers));
 		worldWrapper.add(new CameraFollowSystem());
 		worldWrapper.add(new TimerSystem());
-		
+
 		worldWrapper.add(new EnemySpawnerSystem(this));
 
 		worldWrapper.init();
-
-		new LibgdxInputMappingBuilder<String>(inputDevicesMonitor, Gdx.input) {
-			{
-				monitorKey("debug", Keys.D);
-				monitorKey("score", Keys.P);
-			}
-		};
 
 		// load scene!!
 
@@ -221,15 +225,15 @@ public class GameScreen extends ScreenAdapter {
 		createBackground();
 
 		createMainCharacter();
-		
+
 		createRobo();
-		
-		createEnemy(6f, 3f);
-		
+
+		// createEnemy(6f, 3f);
+
 		createEnemySpawner();
-		
-//		createEnemyLaser(-1f, 3f, 2000, 1f, 0f);
-		
+
+		// createEnemyLaser(-1f, 3f, 2000, 1f, 0f);
+
 		// physicsObjectsFactory.createGround(new Vector2(-2, 2), new Vector2(2, 2));
 
 		loadWorld();
@@ -369,7 +373,7 @@ public class GameScreen extends ScreenAdapter {
 		Resource<SpriteSheet> idleAnimationResource = resourceManager.get("Human_Idle");
 		Resource<SpriteSheet> jumpAnimationResource = resourceManager.get("Human_Jump");
 		Resource<SpriteSheet> fallAnimationResource = resourceManager.get("Human_Fall");
-		
+
 		Sprite sprite = new Sprite(resource.get());
 
 		float x = 2f;
@@ -387,12 +391,12 @@ public class GameScreen extends ScreenAdapter {
 		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0.15f);
 
 		mainCharacter = world.createEntity();
-		
+
 		body.setUserData(mainCharacter);
 
 		PhysicsComponent physicsComponent = new PhysicsComponent(body);
 		physicsComponent.setVertices(bodyShape);
-		
+
 		mainCharacter.setGroup("Player");
 
 		mainCharacter.addComponent(physicsComponent);
@@ -403,25 +407,15 @@ public class GameScreen extends ScreenAdapter {
 		// PropertyBuilder.property(ValueBuilder.floatValue(0f))));
 		// entity.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(viewportWidth, viewportWidth), 0f));
 		mainCharacter.addComponent(new SpriteComponent(sprite, 1, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
-		
-		SpriteSheet[] spriteSheets = new SpriteSheet[] {
-				walkingAnimationResource.get(),
-				idleAnimationResource.get(),
-				jumpAnimationResource.get(),
-				fallAnimationResource.get(),
-		};
-		
-		FrameAnimation[] animations = new FrameAnimation[] {
-				new FrameAnimationImpl(150, 2, true),
-				new FrameAnimationImpl(new int[] {1000, 50}, true),
-				new FrameAnimationImpl(100, 1, false),
-				new FrameAnimationImpl(new int[] {400, 200}, true),
-		};
-		
+
+		SpriteSheet[] spriteSheets = new SpriteSheet[] { walkingAnimationResource.get(), idleAnimationResource.get(), jumpAnimationResource.get(), fallAnimationResource.get(), };
+
+		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 2, true), new FrameAnimationImpl(new int[] { 1000, 50 }, true), new FrameAnimationImpl(100, 1, false), new FrameAnimationImpl(new int[] { 400, 200 }, true), };
+
 		mainCharacter.addComponent(new AnimationComponent(spriteSheets, animations));
 
 		mainCharacter.addComponent(new CameraFollowComponent(cameraData));
-		
+
 		mainCharacter.addComponent(new HealthComponent(new Container(100f, 100f)));
 
 		KeyboardCharacterController characterController = new KeyboardCharacterController();
@@ -430,7 +424,7 @@ public class GameScreen extends ScreenAdapter {
 
 		mainCharacter.refresh();
 	}
-	
+
 	void createEnemySpawner() {
 		Entity entity = world.createEntity();
 
@@ -438,7 +432,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.refresh();
 	}
-	
+
 	void createRobo() {
 		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("Robo");
 		Sprite sprite = enemyAnimationResource.get().getFrame(0);
@@ -449,27 +443,23 @@ public class GameScreen extends ScreenAdapter {
 		float size = 1f;
 
 		Entity entity = world.createEntity();
-		
-		entity.addComponent(new SpatialComponent(new Vector2(x,y), new Vector2(size, size), 0f));
+
+		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
-		entity.addComponent(new FollowCharacterComponent(new Vector2(x,y), 0f));
-		
+		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
+
 		entity.addComponent(new FriendlyWeaponComponent(500, 6f));
-		
-		SpriteSheet[] spriteSheets = new SpriteSheet[] {
-				enemyAnimationResource.get(),
-		};
-		
-		FrameAnimation[] animations = new FrameAnimation[] {
-				new FrameAnimationImpl(150, 1, false),
-		};
-		
+
+		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
+
+		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 1, false), };
+
 		entity.addComponent(new AnimationComponent(spriteSheets, animations));
 
 		entity.refresh();
 	}
-	
+
 	void createEnemy(float x, float y) {
 		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("Enemy");
 		Sprite sprite = enemyAnimationResource.get().getFrame(0);
@@ -477,30 +467,26 @@ public class GameScreen extends ScreenAdapter {
 		float size = 1f;
 
 		Entity entity = world.createEntity();
-		
+
 		entity.setGroup("Enemy");
-		
-		entity.addComponent(new SpatialComponent(new Vector2(x,y), new Vector2(size, size), 0f));
+
+		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
-		entity.addComponent(new FollowCharacterComponent(new Vector2(x,y), 0f));
+		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
 		entity.addComponent(new EnemyWeaponComponent(1500, 3f));
-		
+
 		entity.addComponent(new HealthComponent(new Container(20f, 20f)));
-		
-		SpriteSheet[] spriteSheets = new SpriteSheet[] {
-				enemyAnimationResource.get(),
-		};
-		
-		FrameAnimation[] animations = new FrameAnimation[] {
-				new FrameAnimationImpl(150, 1, false),
-		};
-		
+
+		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
+
+		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 1, false), };
+
 		entity.addComponent(new AnimationComponent(spriteSheets, animations));
 
 		entity.refresh();
 	}
-	
+
 	void createEnemyLaser(float x, float y, int time, float dx, float dy) {
 		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("EnemyLaser");
 		Sprite sprite = enemyAnimationResource.get().getFrame(0);
@@ -508,32 +494,28 @@ public class GameScreen extends ScreenAdapter {
 		float size = 1f;
 
 		Entity entity = world.createEntity();
-		
+
 		entity.setGroup("Enemy");
-		
-		entity.addComponent(new SpatialComponent(new Vector2(x,y), new Vector2(size, size), 0f));
+
+		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
 		entity.addComponent(new MovementComponent(new Vector2(dx, dy), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new TimerComponent(time));
 		entity.addComponent(new BulletComponent());
-		
+
 		entity.addComponent(new HitComponent("Player", 2f));
-		
+
 		entity.addComponent(new HealthComponent(new Container(1f, 1f)));
-		
-		SpriteSheet[] spriteSheets = new SpriteSheet[] {
-				enemyAnimationResource.get(),
-		};
-		
-		FrameAnimation[] animations = new FrameAnimation[] {
-				new FrameAnimationImpl(150, 3, false),
-		};
-		
+
+		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
+
+		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 3, false), };
+
 		entity.addComponent(new AnimationComponent(spriteSheets, animations));
 
 		entity.refresh();
 	}
-	
+
 	void createFriendlyLaser(float x, float y, int time, float dx, float dy) {
 		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("FriendlyLaser");
 		Sprite sprite = enemyAnimationResource.get().getFrame(0);
@@ -541,28 +523,24 @@ public class GameScreen extends ScreenAdapter {
 		float size = 1f;
 
 		Entity entity = world.createEntity();
-		
+
 		entity.setGroup("Player");
-		
-		entity.addComponent(new SpatialComponent(new Vector2(x,y), new Vector2(size, size), 0f));
+
+		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
 		entity.addComponent(new MovementComponent(new Vector2(dx, dy), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new TimerComponent(time));
-		
+
 		entity.addComponent(new BulletComponent());
-		
+
 		entity.addComponent(new HitComponent("Enemy", 10f));
-		
+
 		entity.addComponent(new HealthComponent(new Container(2f, 2f)));
-		
-		SpriteSheet[] spriteSheets = new SpriteSheet[] {
-				enemyAnimationResource.get(),
-		};
-		
-		FrameAnimation[] animations = new FrameAnimation[] {
-				new FrameAnimationImpl(150, 3, false),
-		};
-		
+
+		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
+
+		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 3, false), };
+
 		entity.addComponent(new AnimationComponent(spriteSheets, animations));
 
 		entity.refresh();
@@ -571,6 +549,9 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void render(float delta) {
 
+		// if (gameOver)
+		// return;
+
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		camera.zoom(cameraData.getZoom() * 2f);
@@ -578,25 +559,16 @@ public class GameScreen extends ScreenAdapter {
 		camera.rotate(cameraData.getAngle());
 
 		int deltaInMs = (int) (delta * 1000f);
-		
+
 		HealthComponent healthComponent = mainCharacter.getComponent(HealthComponent.class);
 		SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
-		
-		if (healthComponent.getHealth().isEmpty()) {
-			
-			// set score based on something...!!
-			
-			game.scoreScreen.setScore(100);
-			game.setScreen(game.scoreScreen);
-		} else if (spatialComponent.getPosition().y < -50) {
 
+		if (healthComponent.getHealth().isEmpty() || (spatialComponent.getPosition().y < -50)) {
+			// set score based on something...!!
 			game.scoreScreen.setScore(100);
 			game.setScreen(game.scoreScreen);
-			
+			gameOver = true;
 		}
-		
-		
-		
 
 		worldWrapper.update(deltaInMs);
 
@@ -623,8 +595,14 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void show() {
 
+		// if game over then ->
+		if (gameOver) {
+			restartGame();
+			gameOver = false;
+		}
+
 	}
-	
+
 	protected void loadResources() {
 
 		new LibgdxResourceBuilder(resourceManager) {
@@ -647,15 +625,15 @@ public class GameScreen extends ScreenAdapter {
 				spriteSheet("Human_Idle", "data/animation2.png", 0, 0, 32, 32, 2);
 				spriteSheet("Human_Jump", "data/animation2.png", 0, 64, 32, 32, 1);
 				spriteSheet("Human_Fall", "data/animation2.png", 0, 96, 32, 32, 2);
-				
+
 				spriteSheet("Robo", "data/animation2.png", 96, 32, 32, 32, 1);
-				
+
 				spriteSheet("Enemy", "data/animation2.png", 64, 32, 32, 32, 1);
-				
+
 				spriteSheet("EnemyLaser", "data/animation2.png", 64, 0, 32, 32, 3);
 				spriteSheet("FriendlyLaser", "data/animation2.png", 64, 64, 32, 32, 3);
-				
-				sound("Jump", "data/jump.ogg"); 
+
+				sound("Jump", "data/jump.ogg");
 				sound("Laser", "data/laser.ogg");
 				sound("Explosion", "data/explosion.ogg");
 			}
@@ -665,19 +643,19 @@ public class GameScreen extends ScreenAdapter {
 
 					@Override
 					public SpriteSheet load() {
-						
+
 						Texture spriteSheet = new Texture(internal(file));
-						
+
 						Sprite[] frames = new Sprite[framesCount];
-						for (int i = 0; i < frames.length; i++) 
+						for (int i = 0; i < frames.length; i++)
 							frames[i] = new Sprite(spriteSheet, x + i * w, y, w, h);
-						
+
 						return new SpriteSheet(spriteSheet, frames);
 					}
-					
+
 				}));
 			}
-			
+
 		};
 
 	}
