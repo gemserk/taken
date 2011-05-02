@@ -66,7 +66,7 @@ public class GameScreen extends ScreenAdapter {
 
 		private boolean jumped = false;
 
-		ButtonMonitor jumpButtonMonitor = new LibgdxButtonMonitor(Keys.W);
+		ButtonMonitor jumpButtonMonitor = new LibgdxButtonMonitor(Keys.DPAD_UP);
 
 		ButtonMonitor shrinkGrowButtonMonitor = new LibgdxButtonMonitor(Keys.S);
 
@@ -111,7 +111,8 @@ public class GameScreen extends ScreenAdapter {
 
 		@Override
 		public boolean shouldSwitchSize() {
-			return shrinkGrowButtonMonitor.isPressed();
+			return false;
+			// return shrinkGrowButtonMonitor.isPressed();
 		}
 	}
 
@@ -582,12 +583,12 @@ public class GameScreen extends ScreenAdapter {
 
 		inputDevicesMonitor.update();
 
-		if (inputDevicesMonitor.getButton("debug").isHolded()) {
-
-			// render debug stuff.
-			box2dCustomDebugRenderer.render();
-
-		}
+//		if (inputDevicesMonitor.getButton("debug").isHolded()) {
+//
+//			// render debug stuff.
+//			box2dCustomDebugRenderer.render();
+//
+//		}
 
 		for (int i = 0; i < controllers.size(); i++) {
 			Controller controller = controllers.get(i);
