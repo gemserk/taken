@@ -15,7 +15,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
@@ -34,6 +36,7 @@ import com.gemserk.commons.gdx.camera.Libgdx2dCamera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
 import com.gemserk.commons.gdx.controllers.Controller;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
+import com.gemserk.commons.gdx.resources.dataloaders.BitmapFontDataLoader;
 import com.gemserk.commons.svg.inkscape.SvgDocument;
 import com.gemserk.commons.svg.inkscape.SvgDocumentHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeGroup;
@@ -53,6 +56,7 @@ import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
 import com.gemserk.resources.dataloaders.DataLoader;
+import com.gemserk.resources.resourceloaders.CachedResourceLoader;
 import com.gemserk.resources.resourceloaders.ResourceLoaderImpl;
 
 public class GameScreen extends ScreenAdapter {
@@ -153,6 +157,8 @@ public class GameScreen extends ScreenAdapter {
 	
 	private float score;
 
+	private SpriteBatch spriteBatch;
+
 	public GameScreen(LibgdxGame game) {
 		this.game = game;
 
@@ -179,6 +185,7 @@ public class GameScreen extends ScreenAdapter {
 			}
 		};
 
+		spriteBatch = new SpriteBatch();
 	}
 
 	void restartGame() {
@@ -571,6 +578,16 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		worldWrapper.update(deltaInMs);
+		
+		Resource<BitmapFont> font = resourceManager.get("Font");
+		BitmapFont bitmapFont = font.get();
+
+		spriteBatch.begin();
+		String scoreLabel = "score: " + (int) score;
+		spriteBatch.setColor(Color.WHITE);
+		bitmapFont.setScale(0.7f);
+		bitmapFont.draw(spriteBatch, scoreLabel, 10, Gdx.graphics.getHeight() - 10);
+		spriteBatch.end();
 
 		Synchronizers.synchronize();
 
@@ -620,6 +637,8 @@ public class GameScreen extends ScreenAdapter {
 				texture("Tile03", "data/tile03.png");
 				texture("Tile04", "data/tile04.png");
 				texture("Tile05", "data/tile05.png");
+				
+				texture("FontTexture", "data/font.png");
 
 				spriteSheet("Human_Walking", "data/animation2.png", 0, 32, 32, 32, 2);
 				spriteSheet("Human_Idle", "data/animation2.png", 0, 0, 32, 32, 2);
@@ -657,6 +676,10 @@ public class GameScreen extends ScreenAdapter {
 			}
 
 		};
+		
+		Resource<Texture> fontTextureResource = resourceManager.get("FontTexture");
+		resourceManager.add("Font", new CachedResourceLoader<BitmapFont>(new ResourceLoaderImpl<BitmapFont>( //
+				new BitmapFontDataLoader(Gdx.files.internal("data/font.fnt"), new Sprite(fontTextureResource.get())))));
 
 	}
 
