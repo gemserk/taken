@@ -56,6 +56,7 @@ import com.gemserk.componentsengine.input.LibgdxButtonMonitor;
 import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
 import com.gemserk.componentsengine.properties.PropertyBuilder;
 import com.gemserk.componentsengine.utils.Container;
+import com.gemserk.games.taken.PowerUp.Type;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
@@ -224,6 +225,10 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.add(new MovementSystem());
 		worldWrapper.add(new BulletSystem());
 		worldWrapper.add(new HealthVialSystem(resourceManager));
+		
+		worldWrapper.add(new GrabSystem(resourceManager));
+		worldWrapper.add(new PowerUpSystem());
+		
 		worldWrapper.add(new AnimationSystem());
 		worldWrapper.add(new BloodOverlaySystem());
 		worldWrapper.add(new HitDetectionSystem(resourceManager));
@@ -251,6 +256,8 @@ public class GameScreen extends ScreenAdapter {
 		createEnemyRobotSpawner();
 		
 		createHealthVialSpawner();
+		
+		createWeaponSpeedPowerUp(2f, 4.5f, 20000, new PowerUp(Type.WeaponSpeedModifier, 3f, 15000));
 		
 		// createHealthVial(4f, 2.5f, 15000, 25f);
 
@@ -524,6 +531,8 @@ public class GameScreen extends ScreenAdapter {
 		float size = 1f;
 
 		Entity entity = world.createEntity();
+		
+		entity.setTag("Robo");
 
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
@@ -537,6 +546,7 @@ public class GameScreen extends ScreenAdapter {
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 1, false), };
 
 		entity.addComponent(new AnimationComponent(spriteSheets, animations));
+		entity.addComponent(new PowerUpComponent());
 
 		entity.refresh();
 	}
@@ -643,6 +653,39 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.refresh();
 	}
+	
+	void createWeaponSpeedPowerUp(float x, float y, int aliveTime, PowerUp powerUp) {
+		Resource<SpriteSheet> animation = resourceManager.get("Powerup01");
+
+		Sprite sprite = animation.get().getFrame(0);
+
+		float size = 1f;
+
+		Entity entity = world.createEntity();
+
+		Color color = new Color();
+		
+		int spawnTime = 1000;
+
+		Synchronizers.transition(color, Transitions.transitionBuilder(laserEndColor).end(laserStartColor).time(spawnTime)//
+				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
+				.build());
+
+		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
+		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));
+		entity.addComponent(new TimerComponent(aliveTime));
+
+		SpriteSheet[] spriteSheets = new SpriteSheet[] { animation.get(), };
+
+		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(750, 2, true), };
+
+		entity.addComponent(new AnimationComponent(spriteSheets, animations));
+		
+		entity.addComponent(new GrabComponent());
+		entity.addComponent(new PowerUpComponent(powerUp));
+		
+		entity.refresh();
+	}
 
 	@Override
 	public void render(float delta) {
@@ -745,6 +788,7 @@ public class GameScreen extends ScreenAdapter {
 				spriteSheet("SideBloodOverlay", "data/animation2.png", 0, 5 * 32, 32, 32, 3);
 				
 				spriteSheet("HealthVial", "data/animation2.png", 5 * 32, 0, 32, 32, 2);
+				spriteSheet("Powerup01", "data/animation2.png", 5 * 32, 2 * 32, 32, 32, 2);
 
 				sound("Jump", "data/jump.ogg");
 				sound("FriendlyLaserSound", "data/laser.ogg");
