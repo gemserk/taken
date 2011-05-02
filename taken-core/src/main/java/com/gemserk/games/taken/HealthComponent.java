@@ -5,14 +5,14 @@ import com.gemserk.componentsengine.utils.Container;
 
 public class HealthComponent extends Component {
 
-	private final Container container;
+	private final Container health;
 	
-	public Container getContainer() {
-		return container;
+	public Container getHealth() {
+		return health;
 	}
 
-	public HealthComponent(Container container) {
-		this.container = container;
+	public HealthComponent(Container health) {
+		this.health = health;
 	}
 
 }

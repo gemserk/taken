@@ -13,6 +13,10 @@ import com.gemserk.commons.gdx.SplashScreen;
 import com.gemserk.commons.values.FloatValue;
 
 public class LibgdxGame extends Game {
+	
+	public ScoreScreen scoreScreen;
+
+	public GameScreen gameScreen;
 
 	@Override
 	public void create() {
@@ -25,12 +29,15 @@ public class LibgdxGame extends Game {
 
 		final Texture gemserkLogo = new Texture(Gdx.files.internal("data/logo-gemserk-512x128-white.png"));
 		gemserkLogo.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		scoreScreen = new ScoreScreen(this);
+		gameScreen = new GameScreen(this);
 
-		setScreen(new SplashScreen(gemserkLogo) {
+		SplashScreen splashScreen = new SplashScreen(gemserkLogo) {
 
 			@Override
 			protected void onSplashScreenFinished() {
-				game.setScreen(new GameScreen(game));
+				game.setScreen(gameScreen);
 			}
 
 			@Override
@@ -38,7 +45,9 @@ public class LibgdxGame extends Game {
 				gemserkLogo.dispose();
 			}
 
-		});
+		};
+		
+		setScreen(scoreScreen);
 
 	}
 

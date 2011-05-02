@@ -10,7 +10,6 @@ import org.w3c.dom.Element;
 
 import com.artemis.Entity;
 import com.artemis.World;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -116,7 +115,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 	}
 
-	private Game game;
+	private LibgdxGame game;
 
 	private WorldWrapper worldWrapper;
 
@@ -148,7 +147,9 @@ public class GameScreen extends ScreenAdapter {
 
 	private ArrayList<Controller> controllers = new ArrayList<Controller>();
 
-	public GameScreen(Game game) {
+	private Entity mainCharacter;
+
+	public GameScreen(LibgdxGame game) {
 		this.game = game;
 
 		viewportWidth = Gdx.graphics.getWidth();
@@ -209,6 +210,7 @@ public class GameScreen extends ScreenAdapter {
 		new LibgdxInputMappingBuilder<String>(inputDevicesMonitor, Gdx.input) {
 			{
 				monitorKey("debug", Keys.D);
+				monitorKey("score", Keys.P);
 			}
 		};
 
@@ -335,7 +337,7 @@ public class GameScreen extends ScreenAdapter {
 				for (int i = 0; i < points.length; i++) {
 					Vector2f point = points[i];
 					vertices[i] = new Vector2(point.x, svgDocument.getHeight() - point.y);
-					System.out.println(vertices[i]);
+					// System.out.println(vertices[i]);
 				}
 
 				physicsObjectsFactory.createGround(new Vector2(), vertices);
@@ -384,23 +386,23 @@ public class GameScreen extends ScreenAdapter {
 		Vector2[] bodyShape = Box2dUtils.createRectangle(width, height);
 		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0.15f);
 
-		Entity entity = world.createEntity();
+		mainCharacter = world.createEntity();
 		
-		body.setUserData(entity);
+		body.setUserData(mainCharacter);
 
 		PhysicsComponent physicsComponent = new PhysicsComponent(body);
 		physicsComponent.setVertices(bodyShape);
 		
-		entity.setGroup("Player");
+		mainCharacter.setGroup("Player");
 
-		entity.addComponent(physicsComponent);
-		entity.addComponent(new SpatialComponent( //
+		mainCharacter.addComponent(physicsComponent);
+		mainCharacter.addComponent(new SpatialComponent( //
 				new Box2dPositionProperty(body), //
 				PropertyBuilder.vector2(size, size), //
 				new Box2dAngleProperty(body)));
 		// PropertyBuilder.property(ValueBuilder.floatValue(0f))));
 		// entity.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(viewportWidth, viewportWidth), 0f));
-		entity.addComponent(new SpriteComponent(sprite, 1, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
+		mainCharacter.addComponent(new SpriteComponent(sprite, 1, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		
 		SpriteSheet[] spriteSheets = new SpriteSheet[] {
 				walkingAnimationResource.get(),
@@ -416,17 +418,17 @@ public class GameScreen extends ScreenAdapter {
 				new FrameAnimationImpl(new int[] {400, 200}, true),
 		};
 		
-		entity.addComponent(new AnimationComponent(spriteSheets, animations));
+		mainCharacter.addComponent(new AnimationComponent(spriteSheets, animations));
 
-		entity.addComponent(new CameraFollowComponent(cameraData));
+		mainCharacter.addComponent(new CameraFollowComponent(cameraData));
 		
-		entity.addComponent(new HealthComponent(new Container(100f, 100f)));
+		mainCharacter.addComponent(new HealthComponent(new Container(100f, 100f)));
 
 		KeyboardCharacterController characterController = new KeyboardCharacterController();
-		entity.addComponent(new CharacterControllerComponent(characterController));
+		mainCharacter.addComponent(new CharacterControllerComponent(characterController));
 		controllers.add(characterController);
 
-		entity.refresh();
+		mainCharacter.refresh();
 	}
 	
 	void createEnemySpawner() {
@@ -576,6 +578,25 @@ public class GameScreen extends ScreenAdapter {
 		camera.rotate(cameraData.getAngle());
 
 		int deltaInMs = (int) (delta * 1000f);
+		
+		HealthComponent healthComponent = mainCharacter.getComponent(HealthComponent.class);
+		SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
+		
+		if (healthComponent.getHealth().isEmpty()) {
+			
+			// set score based on something...!!
+			
+			game.scoreScreen.setScore(100);
+			game.setScreen(game.scoreScreen);
+		} else if (spatialComponent.getPosition().y < -50) {
+
+			game.scoreScreen.setScore(100);
+			game.setScreen(game.scoreScreen);
+			
+		}
+		
+		
+		
 
 		worldWrapper.update(deltaInMs);
 
@@ -583,12 +604,9 @@ public class GameScreen extends ScreenAdapter {
 
 		inputDevicesMonitor.update();
 
-//		if (inputDevicesMonitor.getButton("debug").isHolded()) {
-//
-//			// render debug stuff.
-//			box2dCustomDebugRenderer.render();
-//
-//		}
+		if (inputDevicesMonitor.getButton("score").isPressed()) {
+			game.setScreen(game.scoreScreen);
+		}
 
 		for (int i = 0; i < controllers.size(); i++) {
 			Controller controller = controllers.get(i);

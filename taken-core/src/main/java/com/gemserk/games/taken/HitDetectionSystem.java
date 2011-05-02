@@ -59,7 +59,7 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 			if (position.dst(targetPosition) < 0.3f) {
 				
 				HealthComponent healthComponent = target.getComponent(HealthComponent.class);
-				Container health = healthComponent.getContainer();
+				Container health = healthComponent.getHealth();
 				
 				health.remove(hitComponent.getDamage());
 				
