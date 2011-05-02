@@ -257,7 +257,11 @@ public class GameScreen extends ScreenAdapter {
 		
 		createHealthVialSpawner();
 		
-		createWeaponSpeedPowerUp(2f, 4.5f, 20000, new PowerUp(Type.WeaponSpeedModifier, 3f, 15000));
+		createPowerUpSpawner();
+		
+//		createPowerUp(2f, 4.5f, 20000, new PowerUp(Type.WeaponSpeedModifier, 3f, 15000));
+//		
+//		createPowerUp(-2f, 4.5f, 20000, new PowerUp(Type.MovementSpeedModifier, 2f, 15000));
 		
 		// createHealthVial(4f, 2.5f, 15000, 25f);
 
@@ -402,7 +406,7 @@ public class GameScreen extends ScreenAdapter {
 
 		Sprite sprite = new Sprite(idleAnimationResource.get().getFrame(0));
 
-		float x = 2f;
+		float x = 0f;
 		float y = 2f;
 
 		float size = 1f;
@@ -476,7 +480,7 @@ public class GameScreen extends ScreenAdapter {
 	void createEnemyRobotSpawner() {
 		Entity entity = world.createEntity();
 
-		entity.addComponent(new SpawnerComponent(4000, new EntityTemplate() {
+		entity.addComponent(new SpawnerComponent(3500, new EntityTemplate() {
 			@Override
 			public Entity build() {
 				// TODO Auto-generated function stub
@@ -521,6 +525,36 @@ public class GameScreen extends ScreenAdapter {
 		entity.refresh();
 	}
 
+	
+	void createPowerUpSpawner() {
+		Entity entity = world.createEntity();
+
+		entity.addComponent(new SpawnerComponent(15000, new EntityTemplate() {
+			@Override
+			public Entity build() {
+				// TODO Auto-generated function stub
+				
+				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
+				Vector2 position = spatialComponent.getPosition();
+				
+				float x = position.x + MathUtils.random(-10, 10);
+				float y = position.y + MathUtils.random(0f, 3f);
+				
+				if (MathUtils.randomBoolean()) {
+					createPowerUp(x, y, 25000, new PowerUp(Type.MovementSpeedModifier, 2f, 25000));
+					Gdx.app.log("Taken", "Movement Speed Power Up spawned at (" + x + ", " + y + ")");
+				}
+				else {
+					createPowerUp(x, y, 25000, new PowerUp(Type.WeaponSpeedModifier, 3f, 25000));
+					Gdx.app.log("Taken", "Weapon Speed Power Up spawned at (" + x + ", " + y + ")");
+				}
+				
+				return null;
+			}
+		}));
+
+		entity.refresh();
+	}
 	void createRobo() {
 		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("Robo");
 		Sprite sprite = enemyAnimationResource.get().getFrame(0);
@@ -565,7 +599,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
-		entity.addComponent(new WeaponComponent(1000, 5f, 6f, "Enemy", "Player", 5f));
+		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Enemy", "Player", 5f));
 
 		entity.addComponent(new HealthComponent(new Container(20f, 20f)));
 
@@ -654,8 +688,12 @@ public class GameScreen extends ScreenAdapter {
 		entity.refresh();
 	}
 	
-	void createWeaponSpeedPowerUp(float x, float y, int aliveTime, PowerUp powerUp) {
+	void createPowerUp(float x, float y, int aliveTime, PowerUp powerUp) {
+		
 		Resource<SpriteSheet> animation = resourceManager.get("Powerup01");
+		
+		if (powerUp.getType() == Type.MovementSpeedModifier )
+			animation = resourceManager.get("Powerup02");
 
 		Sprite sprite = animation.get().getFrame(0);
 
@@ -788,7 +826,9 @@ public class GameScreen extends ScreenAdapter {
 				spriteSheet("SideBloodOverlay", "data/animation2.png", 0, 5 * 32, 32, 32, 3);
 				
 				spriteSheet("HealthVial", "data/animation2.png", 5 * 32, 0, 32, 32, 2);
+				
 				spriteSheet("Powerup01", "data/animation2.png", 5 * 32, 2 * 32, 32, 32, 2);
+				spriteSheet("Powerup02", "data/animation2.png", 5 * 32, 3 * 32, 32, 32, 2);
 
 				sound("Jump", "data/jump.ogg");
 				sound("FriendlyLaserSound", "data/laser.ogg");

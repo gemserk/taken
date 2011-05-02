@@ -104,9 +104,9 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 
 		gameScreen.createLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y, damage, weaponComponent.getOwnerGroup(), weaponComponent.getTargetGroup());
 
-		PowerUpComponent powerUpComponent = e.getComponent(PowerUpComponent.class);
-
 		int reloadTime = weaponComponent.getReloadTime();
+
+		PowerUpComponent powerUpComponent = e.getComponent(PowerUpComponent.class);
 
 		if (powerUpComponent != null) {
 

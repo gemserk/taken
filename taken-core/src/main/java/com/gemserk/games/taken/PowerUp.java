@@ -6,6 +6,7 @@ public class PowerUp extends Component {
 	
 	public static enum Type {
 		WeaponSpeedModifier,
+		MovementSpeedModifier,
 	};
 	
 	private Type type;
