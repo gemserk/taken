@@ -634,7 +634,7 @@ public class GameScreen extends ScreenAdapter {
 				Vector2 position = spatialComponent.getPosition();
 
 				float x = position.x + MathUtils.random(-10, 10);
-				float y = 2f + MathUtils.random(0f, 3f);
+				float y = 2.5f + MathUtils.random(0f, 2.5f);
 
 				createHealthVial(x, y, 15000, 25f);
 
@@ -659,7 +659,7 @@ public class GameScreen extends ScreenAdapter {
 				Vector2 position = spatialComponent.getPosition();
 
 				float x = position.x + MathUtils.random(-10, 10);
-				float y = position.y + MathUtils.random(0f, 3f);
+				float y = 2.5f + MathUtils.random(0f, 2.5f);
 
 				if (MathUtils.randomBoolean()) {
 					createPowerUp(x, y, 25000, new PowerUp(Type.MovementSpeedModifier, 2f, 25000));
