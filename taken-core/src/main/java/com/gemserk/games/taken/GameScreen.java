@@ -221,8 +221,9 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.add(new WeaponSystem(this, resourceManager));
 		worldWrapper.add(new MovementSystem());
 		worldWrapper.add(new BulletSystem());
-		worldWrapper.add(new HitDetectionSystem(resourceManager));
 		worldWrapper.add(new AnimationSystem());
+		worldWrapper.add(new BloodOverlaySystem());
+		worldWrapper.add(new HitDetectionSystem(resourceManager));
 		worldWrapper.add(new SpriteUpdateSystem());
 		worldWrapper.add(new SpriteRendererSystem(renderLayers));
 		worldWrapper.add(new CameraFollowSystem());
@@ -239,6 +240,8 @@ public class GameScreen extends ScreenAdapter {
 		createBackground();
 
 		createMainCharacter();
+		
+		createCharacterBloodOverlay();
 
 		createRobo();
 
@@ -435,6 +438,26 @@ public class GameScreen extends ScreenAdapter {
 		mainCharacter.refresh();
 	}
 
+	void createCharacterBloodOverlay() {
+		Resource<SpriteSheet> frontBloodAnimationResource = resourceManager.get("FrontBloodOverlay");
+		Resource<SpriteSheet> sideBloodAnimationResource = resourceManager.get("SideBloodOverlay");
+
+		Sprite sprite = new Sprite(frontBloodAnimationResource.get().getFrame(0));
+
+		float size = 1f;
+
+		Entity e = world.createEntity();
+
+		e.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(size, size), 0));
+		e.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
+
+		SpriteSheet[] spriteSheets = new SpriteSheet[] { frontBloodAnimationResource.get(), sideBloodAnimationResource.get()};
+
+		e.addComponent(new BloodOverlayComponent(mainCharacter, spriteSheets));
+
+		e.refresh();
+	}
+
 	void createEnemySpawner() {
 		Entity entity = world.createEntity();
 
@@ -499,12 +522,12 @@ public class GameScreen extends ScreenAdapter {
 
 	void createLaser(float x, float y, int time, float dx, float dy, float damage, String ownerGroup, String targetGroup) {
 		Resource<SpriteSheet> laserAnimationResource;
-		
-		if (ownerGroup.equals("Player")) 
+
+		if (ownerGroup.equals("Player"))
 			laserAnimationResource = resourceManager.get("FriendlyLaser");
-		else 
+		else
 			laserAnimationResource = resourceManager.get("EnemyLaser");
-		
+
 		Sprite sprite = laserAnimationResource.get().getFrame(0);
 
 		float size = 1f;
@@ -613,7 +636,7 @@ public class GameScreen extends ScreenAdapter {
 		new LibgdxResourceBuilder(resourceManager) {
 			{
 				setCacheWhenLoad(true);
-				
+
 				texture("Background", "data/background-512x512.jpg");
 				texture("Human", "data/character-64x64.png");
 
@@ -641,6 +664,9 @@ public class GameScreen extends ScreenAdapter {
 
 				spriteSheet("EnemyLaser", "data/animation2.png", 64, 0, 32, 32, 3);
 				spriteSheet("FriendlyLaser", "data/animation2.png", 64, 64, 32, 32, 3);
+
+				spriteSheet("FrontBloodOverlay", "data/animation2.png", 0, 4 * 32, 32, 32, 3);
+				spriteSheet("SideBloodOverlay", "data/animation2.png", 0, 5 * 32, 32, 32, 3);
 
 				sound("Jump", "data/jump.ogg");
 				sound("FriendlyLaserSound", "data/laser.ogg");

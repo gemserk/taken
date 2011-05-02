@@ -2,6 +2,9 @@ package com.gemserk.games.taken;
 
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
@@ -34,7 +37,24 @@ public class AnimationSystem extends EntityProcessingSystem implements Activable
 		frameAnimationImpl.update(world.getDelta());
 		
 		SpriteSheet spriteSheet = animationComponent.getSpriteSheets();
-		spriteComponent.setSprite(spriteSheet.getFrame(frameAnimationImpl.getCurrentFrame()));
+		
+		Sprite currentSprite = spriteSheet.getFrame(frameAnimationImpl.getCurrentFrame());
+		spriteComponent.setSprite(currentSprite);
+		
+		PhysicsComponent physicsComponent = e.getComponent(PhysicsComponent.class);
+		
+		if (physicsComponent == null)
+			return;
+		
+		Body body = physicsComponent.getBody();
+
+		Vector2 linearVelocity = body.getLinearVelocity();
+		
+		if (linearVelocity.x < 0f) {
+			currentSprite.setScale(-1f, 1f);
+		} else {
+			currentSprite.setScale(1f, 1f);
+		}
 
 	}
 
