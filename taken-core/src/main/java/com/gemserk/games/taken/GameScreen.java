@@ -460,7 +460,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
 
-		entity.addComponent(new FriendlyWeaponComponent(500, 6f));
+		entity.addComponent(new FriendlyWeaponComponent(500, 6f, 3f));
 
 		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
 
@@ -485,7 +485,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
-		entity.addComponent(new EnemyWeaponComponent(1500, 3f));
+		entity.addComponent(new EnemyWeaponComponent(1500, 3f, 5f));
 
 		entity.addComponent(new HealthComponent(new Container(20f, 20f)));
 

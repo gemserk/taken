@@ -38,42 +38,58 @@ public class FriendlyWeaponSystem extends EntityProcessingSystem implements Acti
 	@Override
 	protected void process(Entity e) {
 
-		ImmutableBag<Entity> playerEntities = world.getGroupManager().getEntities("Enemy");
+		ImmutableBag<Entity> targets = world.getGroupManager().getEntities("Enemy");
 
-		if (playerEntities == null)
+		if (targets == null)
 			return;
 
-		if (playerEntities.isEmpty())
+		if (targets.isEmpty())
 			return;
-
-		Entity targetEntity = playerEntities.get(0);
 
 		FriendlyWeaponComponent weaponComponent = e.getComponent(FriendlyWeaponComponent.class);
-		
-		weaponComponent.setTime(weaponComponent.getTime() - world.getDelta());
-
-		SpatialComponent targetSpatialComponent = targetEntity.getComponent(SpatialComponent.class);
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 
-		Vector2 targetPosition = targetSpatialComponent.getPosition();
-		Vector2 position = spatialComponent.getPosition();
-		
-		// and enemy is near
-		float fireRange = 3f;
-		int bulletAliveTime = 2000;
-		
-		if (weaponComponent.isReady() && targetPosition.dst(position) < fireRange) {
-			
-			Vector2 velocity = targetPosition.tmp().sub(position);
-			velocity.nor();
-			velocity.mul(weaponComponent.getBulletSpeed());
-			
-			Resource<Sound> laserSound = resourceManager.get("Laser");
-			laserSound.get().play();
-			gameScreen.createFriendlyLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y);
+		weaponComponent.setTime(weaponComponent.getTime() - world.getDelta());
 
-			weaponComponent.setTime(weaponComponent.getReloadTime());
+		if (!weaponComponent.isReady())
+			return;
+
+		Vector2 position = spatialComponent.getPosition();
+
+		float targetRange = weaponComponent.getTargetRange();
+
+		int bulletAliveTime = 2000;
+
+		Entity targetEntity = null;
+
+		for (int i = 0; i < targets.size(); i++) {
+			Entity target = targets.get(i);
+			SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
+			Vector2 targetPosition = targetSpatialComponent.getPosition();
+
+			if (targetPosition.dst(position) < targetRange) {
+				targetEntity = target;
+				break;
+			}
 		}
+
+		if (targetEntity == null)
+			return;
+
+		SpatialComponent targetSpatialComponent = targetEntity.getComponent(SpatialComponent.class);
+		Vector2 targetPosition = targetSpatialComponent.getPosition();
+
+		// and enemy is near
+
+		Vector2 velocity = targetPosition.tmp().sub(position);
+		velocity.nor();
+		velocity.mul(weaponComponent.getBulletSpeed());
+
+		Resource<Sound> laserSound = resourceManager.get("Laser");
+		laserSound.get().play();
+		gameScreen.createFriendlyLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y);
+
+		weaponComponent.setTime(weaponComponent.getReloadTime());
 
 	}
 

@@ -10,6 +10,8 @@ public class EnemyWeaponComponent extends Component {
 
 	private final float bulletSpeed;
 
+	private final float targetRange;
+
 	public boolean isReady() {
 		return time < 0;
 	}
@@ -30,10 +32,15 @@ public class EnemyWeaponComponent extends Component {
 		return bulletSpeed;
 	}
 	
-	public EnemyWeaponComponent(int reloadTime, float bulletSpeed) {
+	public float getTargetRange() {
+		return targetRange;
+	}
+	
+	public EnemyWeaponComponent(int reloadTime, float bulletSpeed, float targetRange) {
 		this.reloadTime = reloadTime;
 		this.time = reloadTime;
 		this.bulletSpeed = bulletSpeed;
+		this.targetRange = targetRange;
 	}
 	
 }
