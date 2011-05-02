@@ -10,6 +10,4 @@ public interface CharacterController extends Controller {
 
 	boolean jumped();
 	
-	boolean shouldSwitchSize();
-
 }

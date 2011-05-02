@@ -5,9 +5,6 @@ import com.artemis.EntityProcessingSystem;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.gemserk.animation4j.transitions.Transitions;
-import com.gemserk.animation4j.transitions.sync.Synchronizers;
-import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.resources.Resource;
@@ -52,20 +49,6 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 		Body body = physicsComponent.getBody();
 
 		Contact contact = physicsComponent.getContact();
-
-		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
-
-		if (characterController.shouldSwitchSize()) {
-
-			Vector2 size = spatialComponent.getSize();
-
-			if (size.x == 1f) {
-				Synchronizers.transition(size, Transitions.transitionBuilder(size).time(500).end(new Vector2(5f, 5f)).build());
-			} else if (size.x == 5f) {
-				Synchronizers.transition(size, Transitions.transitionBuilder(size).time(500).end(new Vector2(1f, 1f)).build());
-			}
-
-		}
 
 		if (characterController.isWalking()) {
 
@@ -119,7 +102,7 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 		
 		float dot = Math.abs(normal.dot(horizontal));
 		
-		if (characterController.jumped() && contact.isInContact() && dot < 0.4f) {
+		if (characterController.jumped() && contact.isInContact() && dot < 0.4f && Math.abs(linearVelocity.y) < 0.01f ) {
 			// it should be checking if it is over an object to jump...
 
 			// if (Math.abs(linearVelocity.y) < 0.05f) {

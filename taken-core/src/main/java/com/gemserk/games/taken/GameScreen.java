@@ -12,6 +12,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Input.Peripheral;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
@@ -39,6 +40,7 @@ import com.gemserk.commons.gdx.camera.Camera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCamera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
 import com.gemserk.commons.gdx.controllers.Controller;
+import com.gemserk.commons.gdx.input.LibgdxPointer;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
 import com.gemserk.commons.gdx.resources.dataloaders.BitmapFontDataLoader;
 import com.gemserk.commons.svg.inkscape.SvgDocument;
@@ -66,6 +68,125 @@ import com.gemserk.resources.resourceloaders.ResourceLoaderImpl;
 
 public class GameScreen extends ScreenAdapter {
 
+	static class MultitouchController implements CharacterController {
+
+		private final LibgdxPointer pointer;
+
+		private final LibgdxPointer jumpPointer;
+
+		private final Vector2 direction = new Vector2();
+
+		private boolean walking;
+
+		private boolean jumping;
+
+		public MultitouchController(LibgdxPointer pointer, LibgdxPointer jumpPointer) {
+			this.pointer = pointer;
+			this.jumpPointer = jumpPointer;
+		}
+
+		@Override
+		public void update(int delta) {
+
+			walking = false;
+
+			jumping = false;
+
+			pointer.update();
+
+			if (pointer.touched) {
+
+				direction.set(pointer.getPosition()).sub(pointer.getPressedPosition());
+				direction.nor();
+
+				walking = true;
+			}
+
+			if (jumpPointer.wasPressed) {
+				jumping = true;
+			}
+		}
+
+		@Override
+		public boolean jumped() {
+			return jumping;
+		}
+
+		@Override
+		public boolean isWalking() {
+			return walking;
+		}
+
+		@Override
+		public void getWalkingDirection(float[] d) {
+			d[0] = direction.x;
+			d[1] = 0;
+		}
+	}
+
+	static class SingleTouchController implements CharacterController {
+
+		private final LibgdxPointer pointer;
+
+		private final Vector2 previousPosition = new Vector2();
+		
+		private final Vector2 direction = new Vector2();
+
+		private boolean walking;
+
+		private boolean jumping;
+
+		public SingleTouchController(LibgdxPointer pointer) {
+			this.pointer = pointer;
+		}
+
+		@Override
+		public void update(int delta) {
+
+			walking = false;
+
+			jumping = false;
+
+			pointer.update();
+			
+			if (pointer.wasPressed) {
+				previousPosition.set(pointer.getPosition());
+			}
+
+			if (!pointer.touched)
+				return;
+
+			direction.set(pointer.getPosition()).sub(pointer.getPressedPosition());
+			direction.nor();
+
+			walking = true;
+
+			if (pointer.getPosition().tmp().sub(previousPosition).y > 10) {
+				jumping = true;
+				// previousPosition.set(pointer.getPosition());
+			}
+			
+			previousPosition.set(pointer.getPosition());
+
+		}
+
+		@Override
+		public boolean jumped() {
+			return jumping;
+		}
+
+		@Override
+		public boolean isWalking() {
+			return walking;
+		}
+
+		@Override
+		public void getWalkingDirection(float[] d) {
+			d[0] = direction.x;
+			d[1] = 0;
+		}
+	}
+
 	static class KeyboardCharacterController implements CharacterController {
 
 		private Vector2 direction = new Vector2(0f, 0f);
@@ -75,8 +196,6 @@ public class GameScreen extends ScreenAdapter {
 		private boolean jumped = false;
 
 		ButtonMonitor jumpButtonMonitor = new LibgdxButtonMonitor(Keys.DPAD_UP);
-
-		ButtonMonitor shrinkGrowButtonMonitor = new LibgdxButtonMonitor(Keys.S);
 
 		@Override
 		public void update(int delta) {
@@ -95,8 +214,6 @@ public class GameScreen extends ScreenAdapter {
 			}
 
 			jumpButtonMonitor.update();
-			shrinkGrowButtonMonitor.update();
-
 			jumped = jumpButtonMonitor.isPressed();
 
 		}
@@ -117,11 +234,6 @@ public class GameScreen extends ScreenAdapter {
 			return jumped;
 		}
 
-		@Override
-		public boolean shouldSwitchSize() {
-			return false;
-			// return shrinkGrowButtonMonitor.isPressed();
-		}
 	}
 
 	private LibgdxGame game;
@@ -225,10 +337,10 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.add(new MovementSystem());
 		worldWrapper.add(new BulletSystem());
 		worldWrapper.add(new HealthVialSystem(resourceManager));
-		
+
 		worldWrapper.add(new GrabSystem(resourceManager));
 		worldWrapper.add(new PowerUpSystem());
-		
+
 		worldWrapper.add(new AnimationSystem());
 		worldWrapper.add(new BloodOverlaySystem());
 		worldWrapper.add(new HitDetectionSystem(resourceManager));
@@ -248,21 +360,21 @@ public class GameScreen extends ScreenAdapter {
 		createBackground();
 
 		createMainCharacter();
-		
+
 		createCharacterBloodOverlay();
 
 		createRobo();
 
 		createEnemyRobotSpawner();
-		
+
 		createHealthVialSpawner();
-		
+
 		createPowerUpSpawner();
-		
-//		createPowerUp(2f, 4.5f, 20000, new PowerUp(Type.WeaponSpeedModifier, 3f, 15000));
-//		
-//		createPowerUp(-2f, 4.5f, 20000, new PowerUp(Type.MovementSpeedModifier, 2f, 15000));
-		
+
+		// createPowerUp(2f, 4.5f, 20000, new PowerUp(Type.WeaponSpeedModifier, 3f, 15000));
+		//
+		// createPowerUp(-2f, 4.5f, 20000, new PowerUp(Type.MovementSpeedModifier, 2f, 15000));
+
 		// createHealthVial(4f, 2.5f, 15000, 25f);
 
 		loadWorld();
@@ -423,7 +535,7 @@ public class GameScreen extends ScreenAdapter {
 		mainCharacter = world.createEntity();
 
 		mainCharacter.setTag("MainCharacter");
-		
+
 		body.setUserData(mainCharacter);
 
 		PhysicsComponent physicsComponent = new PhysicsComponent(body);
@@ -450,7 +562,15 @@ public class GameScreen extends ScreenAdapter {
 
 		mainCharacter.addComponent(new HealthComponent(new Container(50f, 50f)));
 
-		KeyboardCharacterController characterController = new KeyboardCharacterController();
+		CharacterController characterController = null;
+
+		if (Gdx.input.isPeripheralAvailable(Peripheral.HardwareKeyboard))
+			characterController = new KeyboardCharacterController();
+		else if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen))
+			characterController = new MultitouchController(new LibgdxPointer(0), new LibgdxPointer(1));
+		else
+			characterController = new SingleTouchController(new LibgdxPointer(0));
+
 		mainCharacter.addComponent(new CharacterControllerComponent(characterController));
 		controllers.add(characterController);
 
@@ -470,7 +590,7 @@ public class GameScreen extends ScreenAdapter {
 		e.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(size, size), 0));
 		e.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
-		SpriteSheet[] spriteSheets = new SpriteSheet[] { frontBloodAnimationResource.get(), sideBloodAnimationResource.get()};
+		SpriteSheet[] spriteSheets = new SpriteSheet[] { frontBloodAnimationResource.get(), sideBloodAnimationResource.get() };
 
 		e.addComponent(new BloodOverlayComponent(mainCharacter, spriteSheets));
 
@@ -484,22 +604,22 @@ public class GameScreen extends ScreenAdapter {
 			@Override
 			public Entity build() {
 				// TODO Auto-generated function stub
-				
+
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
-				
+
 				float x = position.x + MathUtils.random(-5, 5);
 				float y = position.y + MathUtils.random(-5, 5);
-				
+
 				createEnemy(x, y);
-				
+
 				return null;
 			}
 		}));
 
 		entity.refresh();
 	}
-	
+
 	void createHealthVialSpawner() {
 		Entity entity = world.createEntity();
 
@@ -507,17 +627,17 @@ public class GameScreen extends ScreenAdapter {
 			@Override
 			public Entity build() {
 				// TODO Auto-generated function stub
-				
+
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
-				
+
 				float x = position.x + MathUtils.random(-10, 10);
-				float y = position.y + MathUtils.random(0f, 3f);
-				
+				float y = 2f + MathUtils.random(0f, 3f);
+
 				createHealthVial(x, y, 15000, 25f);
-				
+
 				Gdx.app.log("Taken", "Health vial spawned at (" + x + ", " + y + ")");
-				
+
 				return null;
 			}
 		}));
@@ -525,7 +645,6 @@ public class GameScreen extends ScreenAdapter {
 		entity.refresh();
 	}
 
-	
 	void createPowerUpSpawner() {
 		Entity entity = world.createEntity();
 
@@ -533,28 +652,28 @@ public class GameScreen extends ScreenAdapter {
 			@Override
 			public Entity build() {
 				// TODO Auto-generated function stub
-				
+
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
-				
+
 				float x = position.x + MathUtils.random(-10, 10);
 				float y = position.y + MathUtils.random(0f, 3f);
-				
+
 				if (MathUtils.randomBoolean()) {
 					createPowerUp(x, y, 25000, new PowerUp(Type.MovementSpeedModifier, 2f, 25000));
 					Gdx.app.log("Taken", "Movement Speed Power Up spawned at (" + x + ", " + y + ")");
-				}
-				else {
+				} else {
 					createPowerUp(x, y, 25000, new PowerUp(Type.WeaponSpeedModifier, 3f, 25000));
 					Gdx.app.log("Taken", "Weapon Speed Power Up spawned at (" + x + ", " + y + ")");
 				}
-				
+
 				return null;
 			}
 		}));
 
 		entity.refresh();
 	}
+
 	void createRobo() {
 		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("Robo");
 		Sprite sprite = enemyAnimationResource.get().getFrame(0);
@@ -565,7 +684,7 @@ public class GameScreen extends ScreenAdapter {
 		float size = 1f;
 
 		Entity entity = world.createEntity();
-		
+
 		entity.setTag("Robo");
 
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
@@ -653,7 +772,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.refresh();
 	}
-	
+
 	void createHealthVial(float x, float y, int aliveTime, float health) {
 		Resource<SpriteSheet> healthVialAnimationResource = resourceManager.get("HealthVial");
 
@@ -664,7 +783,7 @@ public class GameScreen extends ScreenAdapter {
 		Entity entity = world.createEntity();
 
 		Color color = new Color();
-		
+
 		int spawnTime = 1000;
 
 		Synchronizers.transition(color, Transitions.transitionBuilder(laserEndColor).end(laserStartColor).time(spawnTime)//
@@ -682,17 +801,17 @@ public class GameScreen extends ScreenAdapter {
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(750, 2, true), };
 
 		entity.addComponent(new AnimationComponent(spriteSheets, animations));
-		
+
 		entity.addComponent(new HealthVialComponent());
 
 		entity.refresh();
 	}
-	
+
 	void createPowerUp(float x, float y, int aliveTime, PowerUp powerUp) {
-		
+
 		Resource<SpriteSheet> animation = resourceManager.get("Powerup01");
-		
-		if (powerUp.getType() == Type.MovementSpeedModifier )
+
+		if (powerUp.getType() == Type.MovementSpeedModifier)
 			animation = resourceManager.get("Powerup02");
 
 		Sprite sprite = animation.get().getFrame(0);
@@ -702,7 +821,7 @@ public class GameScreen extends ScreenAdapter {
 		Entity entity = world.createEntity();
 
 		Color color = new Color();
-		
+
 		int spawnTime = 1000;
 
 		Synchronizers.transition(color, Transitions.transitionBuilder(laserEndColor).end(laserStartColor).time(spawnTime)//
@@ -718,10 +837,10 @@ public class GameScreen extends ScreenAdapter {
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(750, 2, true), };
 
 		entity.addComponent(new AnimationComponent(spriteSheets, animations));
-		
+
 		entity.addComponent(new GrabComponent());
 		entity.addComponent(new PowerUpComponent(powerUp));
-		
+
 		entity.refresh();
 	}
 
@@ -824,9 +943,9 @@ public class GameScreen extends ScreenAdapter {
 
 				spriteSheet("FrontBloodOverlay", "data/animation2.png", 0, 4 * 32, 32, 32, 3);
 				spriteSheet("SideBloodOverlay", "data/animation2.png", 0, 5 * 32, 32, 32, 3);
-				
+
 				spriteSheet("HealthVial", "data/animation2.png", 5 * 32, 0, 32, 32, 2);
-				
+
 				spriteSheet("Powerup01", "data/animation2.png", 5 * 32, 2 * 32, 32, 32, 2);
 				spriteSheet("Powerup02", "data/animation2.png", 5 * 32, 3 * 32, 32, 32, 2);
 
@@ -834,7 +953,7 @@ public class GameScreen extends ScreenAdapter {
 				sound("FriendlyLaserSound", "data/laser.ogg");
 				sound("EnemyLaserSound", "data/enemy_laser.ogg");
 				sound("Explosion", "data/explosion.ogg");
-				
+
 				sound("HealthVialSound", "data/healthvial.ogg");
 			}
 
