@@ -2,7 +2,7 @@ package com.gemserk.games.taken;
 
 import com.artemis.Component;
 
-public class FriendlyWeaponComponent extends Component {
+public class WeaponComponent extends Component {
 	
 	private int reloadTime;
 	
@@ -11,6 +11,10 @@ public class FriendlyWeaponComponent extends Component {
 	private final float bulletSpeed;
 
 	private final float targetRange;
+
+	private final String ownerGroup;
+
+	private final String targetGroup;
 	
 	public boolean isReady() {
 		return time < 0;
@@ -36,11 +40,21 @@ public class FriendlyWeaponComponent extends Component {
 		return targetRange;
 	}
 	
-	public FriendlyWeaponComponent(int reloadTime, float bulletSpeed, float targetRange) {
+	public String getOwnerGroup() {
+		return ownerGroup;
+	}
+	
+	public String getTargetGroup() {
+		return targetGroup;
+	}
+	
+	public WeaponComponent(int reloadTime, float bulletSpeed, float targetRange, String ownerGroup, String targetGroup) {
 		this.reloadTime = reloadTime;
 		this.time = reloadTime;
 		this.bulletSpeed = bulletSpeed;
 		this.targetRange = targetRange;
+		this.ownerGroup = ownerGroup;
+		this.targetGroup = targetGroup;
 	}
 	
 }

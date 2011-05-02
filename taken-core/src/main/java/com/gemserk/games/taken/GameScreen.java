@@ -460,7 +460,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
 
-		entity.addComponent(new FriendlyWeaponComponent(500, 6f, 3f));
+		entity.addComponent(new WeaponComponent(500, 6f, 3f, "Player", "Enemy"));
 
 		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
 
@@ -533,15 +533,21 @@ public class GameScreen extends ScreenAdapter {
 		entity.refresh();
 	}
 
-	void createFriendlyLaser(float x, float y, int time, float dx, float dy) {
-		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("FriendlyLaser");
-		Sprite sprite = enemyAnimationResource.get().getFrame(0);
+	void createLaser(float x, float y, int time, float dx, float dy, float damage, String ownerGroup, String targetGroup) {
+		Resource<SpriteSheet> laserAnimationResource;
+		
+		if (ownerGroup.equals("Player")) 
+			laserAnimationResource = resourceManager.get("FriendlyLaser");
+		else 
+			laserAnimationResource = resourceManager.get("EnemyLaser");
+		
+		Sprite sprite = laserAnimationResource.get().getFrame(0);
 
 		float size = 1f;
 
 		Entity entity = world.createEntity();
 
-		entity.setGroup("Player");
+		entity.setGroup(ownerGroup);
 
 		Color color = new Color();
 
@@ -556,11 +562,11 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new BulletComponent());
 
-		entity.addComponent(new HitComponent("Enemy", 10f));
+		entity.addComponent(new HitComponent(targetGroup, damage));
 
 		entity.addComponent(new HealthComponent(new Container(2f, 2f)));
 
-		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
+		SpriteSheet[] spriteSheets = new SpriteSheet[] { laserAnimationResource.get(), };
 
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 3, false), };
 

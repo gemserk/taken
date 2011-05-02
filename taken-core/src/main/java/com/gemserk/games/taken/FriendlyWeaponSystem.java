@@ -20,7 +20,7 @@ public class FriendlyWeaponSystem extends EntityProcessingSystem implements Acti
 	private final ResourceManager<String> resourceManager;
 
 	public FriendlyWeaponSystem(GameScreen gameScreen, ResourceManager<String> resourceManager) {
-		super(FriendlyWeaponComponent.class);
+		super(WeaponComponent.class);
 		this.gameScreen = gameScreen;
 		this.resourceManager = resourceManager;
 	}
@@ -38,7 +38,9 @@ public class FriendlyWeaponSystem extends EntityProcessingSystem implements Acti
 	@Override
 	protected void process(Entity e) {
 
-		ImmutableBag<Entity> targets = world.getGroupManager().getEntities("Enemy");
+		WeaponComponent weaponComponent = e.getComponent(WeaponComponent.class);
+
+		ImmutableBag<Entity> targets = world.getGroupManager().getEntities(weaponComponent.getTargetGroup());
 
 		if (targets == null)
 			return;
@@ -46,7 +48,6 @@ public class FriendlyWeaponSystem extends EntityProcessingSystem implements Acti
 		if (targets.isEmpty())
 			return;
 
-		FriendlyWeaponComponent weaponComponent = e.getComponent(FriendlyWeaponComponent.class);
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 
 		weaponComponent.setTime(weaponComponent.getTime() - world.getDelta());
@@ -87,7 +88,7 @@ public class FriendlyWeaponSystem extends EntityProcessingSystem implements Acti
 
 		Resource<Sound> laserSound = resourceManager.get("Laser");
 		laserSound.get().play();
-		gameScreen.createFriendlyLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y);
+		gameScreen.createLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y, 10f, weaponComponent.getOwnerGroup(), weaponComponent.getTargetGroup());
 
 		weaponComponent.setTime(weaponComponent.getReloadTime());
 
