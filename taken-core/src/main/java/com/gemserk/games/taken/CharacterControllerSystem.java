@@ -2,6 +2,7 @@ package com.gemserk.games.taken;
 
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -11,6 +12,8 @@ import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.resources.Resource;
+import com.gemserk.resources.ResourceManager;
 
 public class CharacterControllerSystem extends EntityProcessingSystem implements ActivableSystem {
 
@@ -22,8 +25,11 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 
 	private final Vector2 impulse = new Vector2();
 
-	public CharacterControllerSystem() {
+	private final ResourceManager<String> resourceManager;
+
+	public CharacterControllerSystem(ResourceManager<String> resourceManager) {
 		super(CharacterControllerComponent.class);
+		this.resourceManager = resourceManager;
 	}
 
 	@Override
@@ -128,8 +134,11 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 			// it should be checking if it is over an object to jump...
 
 			// if (Math.abs(linearVelocity.y) < 0.05f) {
+			
+			Resource<Sound> jumpSound = resourceManager.get("Jump");
+			jumpSound.get().play();
 
-			impulse.set(0f, 1f);
+			impulse.set(0f, 1.1f);
 			// impulse.mul(10f);
 
 			body.applyLinearImpulse(impulse, body.getTransform().getPosition());

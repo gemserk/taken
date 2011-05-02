@@ -27,7 +27,7 @@
 
 		<webstartMain>com.gemserk.games.taken.DesktopApplication</webstartMain>
 
-		<appletGameParameter>ccom.gemserk.games.taken.DesktopApplication</appletGameParameter>
+		<appletGameParameter>com.gemserk.games.taken.DesktopApplication</appletGameParameter>
 		<mainClass>${appletGameParameter}</mainClass>
 		<jnlp.applet.mainClass>com.gemserk.games.taken.DesktopApplication</jnlp.applet.mainClass>
 

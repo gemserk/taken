@@ -39,7 +39,6 @@
 
 	<modules>
 		<module>taken-core</module>
-		<module>taken-android</module>
 		<module>taken-desktop</module>
 	</modules>
 
