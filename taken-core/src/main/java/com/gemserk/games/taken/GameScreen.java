@@ -246,6 +246,8 @@ public class GameScreen extends ScreenAdapter {
 		createRobo();
 
 		createEnemySpawner();
+		
+		createHealthVial(4f, 3f, 5000, 10);
 
 		loadWorld();
 
@@ -560,6 +562,36 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.refresh();
 	}
+	
+	void createHealthVial(float x, float y, int time, float health) {
+		Resource<SpriteSheet> healthVialAnimationResource = resourceManager.get("HealthVial");
+
+		Sprite sprite = healthVialAnimationResource.get().getFrame(0);
+
+		float size = 1f;
+
+		Entity entity = world.createEntity();
+
+		Color color = new Color();
+
+		Synchronizers.transition(color, Transitions.transitionBuilder(laserEndColor).end(laserStartColor).time(time)//
+				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
+				.build());
+
+		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
+		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));
+		entity.addComponent(new TimerComponent(time));
+
+		entity.addComponent(new HealthComponent(new Container(health, health)));
+
+		SpriteSheet[] spriteSheets = new SpriteSheet[] { healthVialAnimationResource.get(), };
+
+		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(750, 2, true), };
+
+		entity.addComponent(new AnimationComponent(spriteSheets, animations));
+
+		entity.refresh();
+	}
 
 	@Override
 	public void render(float delta) {
@@ -659,6 +691,8 @@ public class GameScreen extends ScreenAdapter {
 
 				spriteSheet("FrontBloodOverlay", "data/animation2.png", 0, 4 * 32, 32, 32, 3);
 				spriteSheet("SideBloodOverlay", "data/animation2.png", 0, 5 * 32, 32, 32, 3);
+				
+				spriteSheet("HealthVial", "data/animation2.png", 5 * 32, 0, 32, 32, 2);
 
 				sound("Jump", "data/jump.ogg");
 				sound("FriendlyLaserSound", "data/laser.ogg");
