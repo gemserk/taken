@@ -426,7 +426,7 @@ public class GameScreen extends ScreenAdapter {
 
 		mainCharacter.addComponent(new CameraFollowComponent(cameraData));
 
-		mainCharacter.addComponent(new HealthComponent(new Container(100f, 100f)));
+		mainCharacter.addComponent(new HealthComponent(new Container(50f, 50f)));
 
 		KeyboardCharacterController characterController = new KeyboardCharacterController();
 		mainCharacter.addComponent(new CharacterControllerComponent(characterController));
@@ -459,7 +459,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
 
-		entity.addComponent(new WeaponComponent(500, 6f, 3f, "Player", "Enemy"));
+		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Player", "Enemy", 10f));
 
 		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
 
@@ -484,7 +484,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
-		entity.addComponent(new WeaponComponent(1500, 3f, 5f, "Enemy", "Player"));
+		entity.addComponent(new WeaponComponent(1000, 5f, 6f, "Enemy", "Player", 5f));
 
 		entity.addComponent(new HealthComponent(new Container(20f, 20f)));
 

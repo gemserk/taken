@@ -15,6 +15,8 @@ public class WeaponComponent extends Component {
 	private final String ownerGroup;
 
 	private final String targetGroup;
+
+	private final float damage;
 	
 	public boolean isReady() {
 		return time < 0;
@@ -48,13 +50,18 @@ public class WeaponComponent extends Component {
 		return targetGroup;
 	}
 	
-	public WeaponComponent(int reloadTime, float bulletSpeed, float targetRange, String ownerGroup, String targetGroup) {
+	public float getDamage() {
+		return damage;
+	}
+	
+	public WeaponComponent(int reloadTime, float bulletSpeed, float targetRange, String ownerGroup, String targetGroup, float damage) {
 		this.reloadTime = reloadTime;
 		this.time = reloadTime;
 		this.bulletSpeed = bulletSpeed;
 		this.targetRange = targetRange;
 		this.ownerGroup = ownerGroup;
 		this.targetGroup = targetGroup;
+		this.damage = damage;
 	}
 	
 }

@@ -80,6 +80,8 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 		SpatialComponent targetSpatialComponent = targetEntity.getComponent(SpatialComponent.class);
 		Vector2 targetPosition = targetSpatialComponent.getPosition();
 
+		float damage = weaponComponent.getDamage();
+
 		// and enemy is near
 
 		Vector2 velocity = targetPosition.tmp().sub(position);
@@ -88,7 +90,7 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 
 		Resource<Sound> laserSound = resourceManager.get("Laser");
 		laserSound.get().play();
-		gameScreen.createLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y, 10f, weaponComponent.getOwnerGroup(), weaponComponent.getTargetGroup());
+		gameScreen.createLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y, damage, weaponComponent.getOwnerGroup(), weaponComponent.getTargetGroup());
 
 		weaponComponent.setTime(weaponComponent.getReloadTime());
 
