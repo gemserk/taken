@@ -381,13 +381,12 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void createMainCharacter() {
-		Resource<Texture> resource = resourceManager.get("Human");
 		Resource<SpriteSheet> walkingAnimationResource = resourceManager.get("Human_Walking");
 		Resource<SpriteSheet> idleAnimationResource = resourceManager.get("Human_Idle");
 		Resource<SpriteSheet> jumpAnimationResource = resourceManager.get("Human_Jump");
 		Resource<SpriteSheet> fallAnimationResource = resourceManager.get("Human_Fall");
 
-		Sprite sprite = new Sprite(resource.get());
+		Sprite sprite = new Sprite(idleAnimationResource.get().getFrame(0));
 
 		float x = 2f;
 		float y = 2f;
@@ -638,18 +637,11 @@ public class GameScreen extends ScreenAdapter {
 				setCacheWhenLoad(true);
 
 				texture("Background", "data/background-512x512.jpg");
-				texture("Human", "data/character-64x64.png");
-
-				texture("Grass01", "data/grass01.png");
-				texture("Grass02", "data/grass02.png");
-				texture("Grass03", "data/grass03.png");
-				texture("Grass04", "data/grass04.png");
 
 				texture("Tile01", "data/tile01.png");
 				texture("Tile02", "data/tile02.png");
 				texture("Tile03", "data/tile03.png");
 				texture("Tile04", "data/tile04.png");
-				texture("Tile05", "data/tile05.png");
 
 				texture("FontTexture", "data/font.png");
 
