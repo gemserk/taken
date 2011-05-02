@@ -21,8 +21,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.artemis.WorldWrapper;
+import com.gemserk.commons.artemis.components.MovementComponent;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.components.SpriteComponent;
+import com.gemserk.commons.artemis.systems.MovementSystem;
 import com.gemserk.commons.artemis.systems.RenderLayer;
 import com.gemserk.commons.artemis.systems.SpriteRendererSystem;
 import com.gemserk.commons.artemis.systems.SpriteUpdateSystem;
@@ -186,6 +188,8 @@ public class GameScreen extends ScreenAdapter {
 
 		worldWrapper.add(new CharacterControllerSystem());
 		worldWrapper.add(new PhysicsSystem(physicsWorld));
+		worldWrapper.add(new FollowCharacterBehaviorSystem());
+		worldWrapper.add(new MovementSystem());
 		worldWrapper.add(new AnimationSystem());
 		worldWrapper.add(new SpriteUpdateSystem());
 		worldWrapper.add(new SpriteRendererSystem(renderLayers));
@@ -206,6 +210,10 @@ public class GameScreen extends ScreenAdapter {
 		createBackground();
 
 		createMainCharacter();
+		
+		createRobo();
+		
+		// physicsObjectsFactory.createGround(new Vector2(-2, 2), new Vector2(2, 2));
 
 		loadWorld();
 
@@ -367,6 +375,8 @@ public class GameScreen extends ScreenAdapter {
 
 		PhysicsComponent physicsComponent = new PhysicsComponent(body);
 		physicsComponent.setVertices(bodyShape);
+		
+		entity.setGroup("Player");
 
 		entity.addComponent(physicsComponent);
 		entity.addComponent(new SpatialComponent( //
@@ -398,6 +408,54 @@ public class GameScreen extends ScreenAdapter {
 		KeyboardCharacterController characterController = new KeyboardCharacterController();
 		entity.addComponent(new CharacterControllerComponent(characterController));
 		controllers.add(characterController);
+
+		entity.refresh();
+	}
+	
+	void createRobo() {
+		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("Enemy01");
+		Sprite sprite = enemyAnimationResource.get().getFrame(0);
+
+		float x = 3f;
+		float y = 3f;
+
+		float size = 1f;
+
+		float width = 0.3f;
+		float height = 0.3f;
+
+//		Vector2[] bodyShape = Box2dUtils.createRectangle(width, height);
+//		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0.15f);
+
+		Entity entity = world.createEntity();
+		
+//		body.setUserData(entity);
+
+//		PhysicsComponent physicsComponent = new PhysicsComponent(body);
+//		physicsComponent.setVertices(bodyShape);
+//
+//		entity.addComponent(physicsComponent);
+		
+		entity.addComponent(new SpatialComponent(new Vector2(x,y), new Vector2(size, size), 0f));
+		entity.addComponent(new MovementComponent(new Vector2(), 0f));
+//		entity.addComponent(new SpatialComponent( //
+//				new Box2dPositionProperty(body), //
+//				PropertyBuilder.vector2(size, size), //
+//				new Box2dAngleProperty(body)));
+		// PropertyBuilder.property(ValueBuilder.floatValue(0f))));
+		// entity.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(viewportWidth, viewportWidth), 0f));
+		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
+		entity.addComponent(new FollowCharacterComponent(new Vector2(x,y), 0f));
+		
+		SpriteSheet[] spriteSheets = new SpriteSheet[] {
+				enemyAnimationResource.get(),
+		};
+		
+		FrameAnimation[] animations = new FrameAnimation[] {
+				new FrameAnimationImpl(150, 1, false),
+		};
+		
+		entity.addComponent(new AnimationComponent(spriteSheets, animations));
 
 		entity.refresh();
 	}
@@ -465,6 +523,9 @@ public class GameScreen extends ScreenAdapter {
 				spriteSheet("Human_Idle", "data/animation2.png", 0, 0, 32, 32, 2);
 				spriteSheet("Human_Jump", "data/animation2.png", 0, 64, 32, 32, 1);
 				spriteSheet("Human_Fall", "data/animation2.png", 0, 96, 32, 32, 2);
+				
+				spriteSheet("Enemy01", "data/animation2.png", 96, 32, 32, 32, 1);
+				spriteSheet("Enemy02", "data/animation2.png", 64, 32, 32, 32, 1);
 			}
 
 			private void spriteSheet(String id, final String file, final int x, final int y, final int w, final int h, final int framesCount) {
