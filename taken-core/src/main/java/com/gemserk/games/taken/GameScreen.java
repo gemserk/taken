@@ -221,6 +221,7 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.add(new WeaponSystem(this, resourceManager));
 		worldWrapper.add(new MovementSystem());
 		worldWrapper.add(new BulletSystem());
+		worldWrapper.add(new HealthVialSystem(resourceManager));
 		worldWrapper.add(new AnimationSystem());
 		worldWrapper.add(new BloodOverlaySystem());
 		worldWrapper.add(new HitDetectionSystem(resourceManager));
@@ -247,7 +248,7 @@ public class GameScreen extends ScreenAdapter {
 
 		createEnemySpawner();
 		
-		createHealthVial(4f, 3f, 5000, 10);
+		createHealthVial(4f, 2.5f, 15000, 25f);
 
 		loadWorld();
 
@@ -406,6 +407,8 @@ public class GameScreen extends ScreenAdapter {
 
 		mainCharacter = world.createEntity();
 
+		mainCharacter.setTag("MainCharacter");
+		
 		body.setUserData(mainCharacter);
 
 		PhysicsComponent physicsComponent = new PhysicsComponent(body);
@@ -563,7 +566,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.refresh();
 	}
 	
-	void createHealthVial(float x, float y, int time, float health) {
+	void createHealthVial(float x, float y, int aliveTime, float health) {
 		Resource<SpriteSheet> healthVialAnimationResource = resourceManager.get("HealthVial");
 
 		Sprite sprite = healthVialAnimationResource.get().getFrame(0);
@@ -573,14 +576,16 @@ public class GameScreen extends ScreenAdapter {
 		Entity entity = world.createEntity();
 
 		Color color = new Color();
+		
+		int spawnTime = 1000;
 
-		Synchronizers.transition(color, Transitions.transitionBuilder(laserEndColor).end(laserStartColor).time(time)//
+		Synchronizers.transition(color, Transitions.transitionBuilder(laserEndColor).end(laserStartColor).time(spawnTime)//
 				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
 				.build());
 
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
 		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));
-		entity.addComponent(new TimerComponent(time));
+		entity.addComponent(new TimerComponent(aliveTime));
 
 		entity.addComponent(new HealthComponent(new Container(health, health)));
 
@@ -589,6 +594,8 @@ public class GameScreen extends ScreenAdapter {
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(750, 2, true), };
 
 		entity.addComponent(new AnimationComponent(spriteSheets, animations));
+		
+		entity.addComponent(new HealthVialComponent());
 
 		entity.refresh();
 	}
@@ -637,6 +644,7 @@ public class GameScreen extends ScreenAdapter {
 
 		if (inputDevicesMonitor.getButton("score").isPressed()) {
 			game.setScreen(game.scoreScreen);
+			gameOver = true;
 		}
 
 		for (int i = 0; i < controllers.size(); i++) {
@@ -698,6 +706,8 @@ public class GameScreen extends ScreenAdapter {
 				sound("FriendlyLaserSound", "data/laser.ogg");
 				sound("EnemyLaserSound", "data/enemy_laser.ogg");
 				sound("Explosion", "data/explosion.ogg");
+				
+				sound("HealthVialSound", "data/healthvial.ogg");
 			}
 
 			private void spriteSheet(String id, final String file, final int x, final int y, final int w, final int h, final int framesCount) {
