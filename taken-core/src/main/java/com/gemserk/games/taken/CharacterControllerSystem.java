@@ -2,13 +2,10 @@ package com.gemserk.games.taken;
 
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
-import com.gemserk.resources.Resource;
-import com.gemserk.resources.ResourceManager;
 
 public class CharacterControllerSystem extends EntityProcessingSystem implements ActivableSystem {
 
@@ -18,13 +15,8 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 
 	private final Vector2 force = new Vector2();
 
-	private final Vector2 impulse = new Vector2();
-
-	private final ResourceManager<String> resourceManager;
-
-	public CharacterControllerSystem(ResourceManager<String> resourceManager) {
+	public CharacterControllerSystem() {
 		super(CharacterControllerComponent.class);
-		this.resourceManager = resourceManager;
 	}
 
 	@Override
@@ -96,32 +88,9 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 
 		// in contact with the ground!!... ?
 
-		Vector2 normal = contact.getNormal();
-
-		Vector2 horizontal = new Vector2(1f, 0f);
-
-		float dot = Math.abs(normal.dot(horizontal));
-
 		JumpComponent jumpComponent = e.getComponent(JumpComponent.class);
+		jumpComponent.setJumping(characterController.isJumping());
 
-		if (characterController.isJumping()) {
-
-			if (contact.isInContact() && dot < 0.4f && !jumpComponent.isJumping()) {
-
-				Resource<Sound> jumpSound = resourceManager.get("Jump");
-				jumpSound.get().play();
-
-				jumpComponent.setForce(8f);
-				jumpComponent.setJumping(true);
-
-			} 
-
-			// impulse.set(0f, 1.1f);
-			// body.applyLinearImpulse(impulse, body.getTransform().getPosition());
-
-		} else 
-			jumpComponent.setJumping(false);
-		
 
 	}
 

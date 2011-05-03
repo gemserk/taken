@@ -334,8 +334,8 @@ public class GameScreen extends ScreenAdapter {
 		// hud layer
 		renderLayers.add(new RenderLayer(100, 1000, hudLayerCamera));
 
-		worldWrapper.add(new CharacterControllerSystem(resourceManager));
-		worldWrapper.add(new JumpSystem());
+		worldWrapper.add(new CharacterControllerSystem());
+		worldWrapper.add(new JumpSystem(resourceManager));
 		
 		worldWrapper.add(new PhysicsSystem(physicsWorld));
 		worldWrapper.add(new FollowCharacterBehaviorSystem());
@@ -589,7 +589,7 @@ public class GameScreen extends ScreenAdapter {
 		mainCharacter.addComponent(new CharacterControllerComponent(characterController));
 		controllers.add(characterController);
 		
-		mainCharacter.addComponent(new JumpComponent());
+		mainCharacter.addComponent(new JumpComponent(8f));
 
 		mainCharacter.refresh();
 	}

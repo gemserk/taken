@@ -4,9 +4,11 @@ import com.artemis.Component;
 
 public class JumpComponent extends Component {
 
-	private boolean jumping;
+	private boolean jumping = false;
 
-	private float force;
+	private final float jumpForce;
+
+	private float currentForce;
 
 	public boolean isJumping() {
 		return jumping;
@@ -14,14 +16,24 @@ public class JumpComponent extends Component {
 
 	public void setJumping(boolean jumping) {
 		this.jumping = jumping;
+		if (!jumping)
+			setCurrentForce(0f);
 	}
 
-	public float getForce() {
-		return force;
+	public float getCurrentForce() {
+		return currentForce;
 	}
 
-	public void setForce(float force) {
-		this.force = force;
+	public void setCurrentForce(float force) {
+		this.currentForce = force;
+	}
+	
+	public float getJumpForce() {
+		return jumpForce;
+	}
+	
+	public JumpComponent(float jumpForce) {
+		this.jumpForce = jumpForce;
 	}
 
 }
