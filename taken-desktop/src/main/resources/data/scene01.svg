@@ -1859,6 +1859,69 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 0.5 : 1"
        sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3417"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3517"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3539"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3561"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3561-5"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3561-0"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3561-3"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3610"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3647"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -1867,20 +1930,21 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="32"
-     inkscape:cx="44.7656"
-     inkscape:cy="-1.53023"
+     inkscape:zoom="11.3137"
+     inkscape:cx="16.1254"
+     inkscape:cy="1.95168"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
-     showgrid="true"
-     inkscape:window-width="1440"
-     inkscape:window-height="851"
-     inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:current-layer="layer2"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="775"
+     inkscape:window-x="1440"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:snap-global="true">
+     inkscape:snap-global="true"
+     inkscape:snap-grids="true">
     <sodipodi:guide
        orientation="1,0"
        position="0,0"
@@ -1891,7 +1955,7 @@
        id="guide3117" />
     <sodipodi:guide
        orientation="0,1"
-       position="-6,14"
+       position="5.34375,17.7813"
        id="guide3366" />
     <sodipodi:guide
        orientation="1,0"
@@ -2231,10 +2295,9 @@
        width="2"
        height="2"
        id="image5220-0-3-0-4"
-       x="-16"
+       x="14"
        y="16"
-       inkscape:label="Tile01"
-       transform="scale(-1,1)" />
+       inkscape:label="Tile01" />
     <image
        style="display:inline"
        xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
@@ -4506,6 +4569,42 @@
        y="24"
        inkscape:label="Tile01"
        transform="matrix(0,1,-1,0,0,0)" />
+    <image
+       style="display:inline"
+       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       width="2"
+       height="2"
+       id="image5311-0-4-9-8-9-0-9-1"
+       x="-34"
+       y="14"
+       inkscape:label="Tile02" />
+    <image
+       style="display:inline"
+       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       width="2"
+       height="2"
+       id="image5311-0-4-9-8-9-0-2-3"
+       x="-34"
+       y="16"
+       inkscape:label="Tile02" />
+    <image
+       style="display:inline"
+       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       width="2"
+       height="2"
+       id="image5311-0-4-9-8-9-0-0-5"
+       x="-34"
+       y="18"
+       inkscape:label="Tile02" />
+    <image
+       style="display:inline"
+       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       width="2"
+       height="2"
+       id="image5311-0-4-9-8-9-0-3-9"
+       x="-34"
+       y="20"
+       inkscape:label="Tile02" />
   </g>
   <g
      inkscape:groupmode="layer"

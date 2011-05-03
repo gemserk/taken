@@ -42,6 +42,8 @@ public class ScoreScreen extends ScreenAdapter {
 	private boolean fadingOut = false;
 
 	private InputDevicesMonitorImpl inputDevicesMonitor;
+
+	private Sprite backgroundSprite;
 	
 	public void setScore(int score) {
 		this.score = score;
@@ -54,6 +56,11 @@ public class ScoreScreen extends ScreenAdapter {
 		loadResources();
 		font = resourceManager.get("Font");
 		fadeInColor = new Color(1f, 1f, 1f, 1f);
+		
+		Resource<Texture> backgroundResource = resourceManager.get("Background");
+		backgroundSprite = new Sprite(backgroundResource.get());
+		
+		backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		inputDevicesMonitor = new InputDevicesMonitorImpl<String>();
 		
@@ -86,10 +93,10 @@ public class ScoreScreen extends ScreenAdapter {
 		
 		spriteBatch.begin();
 		
-		spriteBatch.setColor(Color.WHITE);
+		backgroundSprite.setColor(Color.WHITE);
+		backgroundSprite.draw(spriteBatch);
 		
-		Resource<Texture> backgroundResource = resourceManager.get("Background");
-		spriteBatch.draw(backgroundResource.get(), 0, 0);
+		spriteBatch.setColor(Color.WHITE);
 
 		String gameOverString = "GAME OVER";
 		
@@ -102,7 +109,9 @@ public class ScoreScreen extends ScreenAdapter {
 		bitmapFont.draw(spriteBatch, pointsString, width * 0.5f - textBounds.width * 0.5f, height * 0.5f + textBounds.height * 0.5f - textBounds.height);
 
 		spriteBatch.setColor(fadeInColor);
-		spriteBatch.draw(backgroundResource.get(), 0, 0);
+		
+		backgroundSprite.setColor(fadeInColor);
+		backgroundSprite.draw(spriteBatch);
 		
 		spriteBatch.end();
 		

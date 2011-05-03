@@ -346,9 +346,9 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.add(new AnimationSystem());
 		worldWrapper.add(new BloodOverlaySystem());
 		worldWrapper.add(new HitDetectionSystem(resourceManager));
+		worldWrapper.add(new CameraFollowSystem());
 		worldWrapper.add(new SpriteUpdateSystem());
 		worldWrapper.add(new SpriteRendererSystem(renderLayers));
-		worldWrapper.add(new CameraFollowSystem());
 		worldWrapper.add(new TimerSystem());
 
 		worldWrapper.add(new SpawnerSystem());
@@ -418,10 +418,14 @@ public class GameScreen extends ScreenAdapter {
 				if (svgImage.getLabel() == null)
 					return;
 
-				Resource<SpriteSheet> texture = resourceManager.get(svgImage.getLabel());
+				Resource<SpriteSheet> spriteSheet = resourceManager.get(svgImage.getLabel());
+				// Texture texture = spriteSheet.get().getFrame(0).getTexture();
+				
+				Resource<Texture> tileResource = resourceManager.get(svgImage.getLabel());
+				Texture texture = tileResource.get();
 
-				if (texture == null)
-					return;
+//				if (spriteSheet == null)
+//					return;
 
 				float width = svgImage.getWidth();
 				float height = svgImage.getHeight();
@@ -446,7 +450,9 @@ public class GameScreen extends ScreenAdapter {
 				float x = position.x;
 				float y = svgDocument.getHeight() - position.y;
 
-				Sprite sprite = new Sprite(texture.get().getFrame(0));
+//				Sprite sprite = spriteSheet.get().getFrame(0);
+				 Sprite sprite = new Sprite(texture);
+				
 				sprite.setScale(sx, sy);
 
 				createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
@@ -930,11 +936,16 @@ public class GameScreen extends ScreenAdapter {
 				texture("Tiles", "data/tiles.png", false);
 				
 				// add method for sprites (with or without cache)
-
-				spriteSheet("Tile01", "Tiles", 128 * 0, 0, 128, 128, 1);
-				spriteSheet("Tile02", "Tiles", 128 * 1, 0, 128, 128, 1);
-				spriteSheet("Tile03", "Tiles", 128 * 2, 0, 128, 128, 1);
-				spriteSheet("Tile04", "Tiles", 128 * 3, 0, 128, 128, 1);
+				
+				texture("Tile01", "data/tile01.png");
+				texture("Tile02", "data/tile02.png");
+				texture("Tile03", "data/tile03.png");
+				texture("Tile04", "data/tile04.png");
+				
+//				spriteSheet("Tile01", "Tiles", 128 * 0, 0, 128, 128, 1);
+//				spriteSheet("Tile02", "Tiles", 128 * 1, 0, 128, 128, 1);
+//				spriteSheet("Tile03", "Tiles", 128 * 2, 0, 128, 128, 1);
+//				spriteSheet("Tile04", "Tiles", 128 * 3, 0, 128, 128, 1);
 
 				texture("FontTexture", "data/font.png");
 
