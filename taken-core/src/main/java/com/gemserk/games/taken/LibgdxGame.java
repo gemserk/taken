@@ -97,7 +97,7 @@ public class LibgdxGame extends Game {
 
 		};
 		
-		setScreen(splashScreen);
+		setScreen(gameScreen);
 
 	}
 

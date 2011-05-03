@@ -95,28 +95,33 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 		}
 
 		// in contact with the ground!!... ?
-		
+
 		Vector2 normal = contact.getNormal();
-		
-		Vector2 horizontal = new Vector2(1f,0f);
-		
+
+		Vector2 horizontal = new Vector2(1f, 0f);
+
 		float dot = Math.abs(normal.dot(horizontal));
+
+		JumpComponent jumpComponent = e.getComponent(JumpComponent.class);
+
+		if (characterController.isJumping()) {
+
+			if (contact.isInContact() && dot < 0.4f && !jumpComponent.isJumping()) {
+
+				Resource<Sound> jumpSound = resourceManager.get("Jump");
+				jumpSound.get().play();
+
+				jumpComponent.setForce(8f);
+				jumpComponent.setJumping(true);
+
+			} 
+
+			// impulse.set(0f, 1.1f);
+			// body.applyLinearImpulse(impulse, body.getTransform().getPosition());
+
+		} else 
+			jumpComponent.setJumping(false);
 		
-		if (characterController.jumped() && contact.isInContact() && dot < 0.4f) {
-			// it should be checking if it is over an object to jump...
-
-			// if (Math.abs(linearVelocity.y) < 0.05f) {
-			
-			Resource<Sound> jumpSound = resourceManager.get("Jump");
-			jumpSound.get().play();
-
-			impulse.set(0f, 1.1f);
-			// impulse.mul(10f);
-
-			body.applyLinearImpulse(impulse, body.getTransform().getPosition());
-			// }
-
-		}
 
 	}
 

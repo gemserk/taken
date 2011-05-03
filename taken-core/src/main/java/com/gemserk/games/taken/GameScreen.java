@@ -112,7 +112,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		@Override
-		public boolean jumped() {
+		public boolean isJumping() {
 			return jumping;
 		}
 
@@ -175,7 +175,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		@Override
-		public boolean jumped() {
+		public boolean isJumping() {
 			return jumping;
 		}
 
@@ -218,7 +218,7 @@ public class GameScreen extends ScreenAdapter {
 			}
 
 			jumpButtonMonitor.update();
-			jumped = jumpButtonMonitor.isPressed();
+			jumped = jumpButtonMonitor.isHolded();
 
 		}
 
@@ -234,7 +234,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		@Override
-		public boolean jumped() {
+		public boolean isJumping() {
 			return jumped;
 		}
 
@@ -335,6 +335,8 @@ public class GameScreen extends ScreenAdapter {
 		renderLayers.add(new RenderLayer(100, 1000, hudLayerCamera));
 
 		worldWrapper.add(new CharacterControllerSystem(resourceManager));
+		worldWrapper.add(new JumpSystem());
+		
 		worldWrapper.add(new PhysicsSystem(physicsWorld));
 		worldWrapper.add(new FollowCharacterBehaviorSystem());
 		worldWrapper.add(new WeaponSystem(this, resourceManager));
@@ -371,7 +373,7 @@ public class GameScreen extends ScreenAdapter {
 
 		createRobo();
 
-		createEnemyRobotSpawner();
+		// createEnemyRobotSpawner();
 
 		createHealthVialSpawner();
 
@@ -586,6 +588,8 @@ public class GameScreen extends ScreenAdapter {
 
 		mainCharacter.addComponent(new CharacterControllerComponent(characterController));
 		controllers.add(characterController);
+		
+		mainCharacter.addComponent(new JumpComponent());
 
 		mainCharacter.refresh();
 	}
