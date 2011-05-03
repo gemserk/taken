@@ -1,6 +1,7 @@
 package com.gemserk.games.taken;
 
 import com.artemis.Component;
+import com.badlogic.gdx.audio.Sound;
 
 public class JumpComponent extends Component {
 
@@ -9,6 +10,8 @@ public class JumpComponent extends Component {
 	private final float jumpForce;
 
 	private float currentForce;
+
+	private final Sound jumpSound;
 
 	public boolean isJumping() {
 		return jumping;
@@ -32,8 +35,13 @@ public class JumpComponent extends Component {
 		return jumpForce;
 	}
 	
-	public JumpComponent(float jumpForce) {
+	public Sound getJumpSound() {
+		return jumpSound;
+	}
+	
+	public JumpComponent(float jumpForce, Sound jumpSound) {
 		this.jumpForce = jumpForce;
+		this.jumpSound = jumpSound;
 	}
 
 }

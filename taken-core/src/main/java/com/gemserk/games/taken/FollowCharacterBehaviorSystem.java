@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
-import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -35,16 +34,8 @@ public class FollowCharacterBehaviorSystem extends EntityProcessingSystem implem
 	@Override
 	protected void process(Entity e) {
 		
-		ImmutableBag<Entity> playerEntities = world.getGroupManager().getEntities("Player");
+		Entity targetEntity = world.getTagManager().getEntity("MainCharacter");
 		
-		if (playerEntities == null)
-			return;
-		
-		if (playerEntities.isEmpty())
-			return;
-		
-		Entity targetEntity = playerEntities.get(0);
-
 		SpatialComponent targetSpatialComponent = targetEntity.getComponent(SpatialComponent.class);
 		
 		FollowCharacterComponent followCharacterComponent = e.getComponent(FollowCharacterComponent.class);

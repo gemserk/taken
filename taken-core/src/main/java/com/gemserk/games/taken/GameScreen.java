@@ -14,6 +14,7 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Input.Peripheral;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
@@ -106,7 +107,7 @@ public class GameScreen extends ScreenAdapter {
 				walking = true;
 			}
 
-			if (jumpPointer.wasPressed) {
+			if (jumpPointer.touched) {
 				jumping = true;
 			}
 		}
@@ -168,9 +169,8 @@ public class GameScreen extends ScreenAdapter {
 			if (pointer.getPosition().tmp().sub(previousPosition).y > 10) {
 				jumping = true;
 				// previousPosition.set(pointer.getPosition());
-			}
-
-			previousPosition.set(pointer.getPosition());
+			} else
+				previousPosition.set(pointer.getPosition());
 
 		}
 
@@ -335,7 +335,7 @@ public class GameScreen extends ScreenAdapter {
 		renderLayers.add(new RenderLayer(100, 1000, hudLayerCamera));
 
 		worldWrapper.add(new CharacterControllerSystem());
-		worldWrapper.add(new JumpSystem(resourceManager));
+		worldWrapper.add(new JumpSystem());
 		
 		worldWrapper.add(new PhysicsSystem(physicsWorld));
 		worldWrapper.add(new FollowCharacterBehaviorSystem());
@@ -373,7 +373,7 @@ public class GameScreen extends ScreenAdapter {
 
 		createRobo();
 
-		// createEnemyRobotSpawner();
+		 createEnemyRobotSpawner();
 
 		createHealthVialSpawner();
 
@@ -530,6 +530,8 @@ public class GameScreen extends ScreenAdapter {
 		Resource<SpriteSheet> idleAnimationResource = resourceManager.get("Human_Idle");
 		Resource<SpriteSheet> jumpAnimationResource = resourceManager.get("Human_Jump");
 		Resource<SpriteSheet> fallAnimationResource = resourceManager.get("Human_Fall");
+		
+		Resource<Sound> jumpSound = resourceManager.get("JumpSound");
 
 		Sprite sprite = new Sprite(idleAnimationResource.get().getFrame(0));
 
@@ -589,7 +591,7 @@ public class GameScreen extends ScreenAdapter {
 		mainCharacter.addComponent(new CharacterControllerComponent(characterController));
 		controllers.add(characterController);
 		
-		mainCharacter.addComponent(new JumpComponent(8f));
+		mainCharacter.addComponent(new JumpComponent(8f, jumpSound.get()));
 
 		mainCharacter.refresh();
 	}
@@ -985,7 +987,7 @@ public class GameScreen extends ScreenAdapter {
 				spriteSheet("Powerup01", "CharactersSpriteSheet", 5 * 32, 2 * 32, 32, 32, 2);
 				spriteSheet("Powerup02", "CharactersSpriteSheet", 5 * 32, 3 * 32, 32, 32, 2);
 
-				sound("Jump", "data/jump.ogg");
+				sound("JumpSound", "data/jump.ogg");
 				sound("FriendlyLaserSound", "data/laser.ogg");
 				sound("EnemyLaserSound", "data/enemy_laser.ogg");
 				sound("Explosion", "data/explosion.ogg");

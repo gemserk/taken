@@ -15,7 +15,7 @@ import com.gemserk.animation4j.gdx.converters.LibgdxConverters;
 import com.gemserk.commons.values.FloatValue;
 
 public class LibgdxGame extends Game {
-	
+
 	public ScoreScreen scoreScreen;
 
 	public GameScreen gameScreen;
@@ -37,16 +37,16 @@ public class LibgdxGame extends Game {
 
 		final Texture lwjglLogo = new Texture(Gdx.files.internal("data/logo-lwjgl-512x256-inverted.png"));
 		lwjglLogo.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
+
 		final Texture libgdxLogo = new Texture(Gdx.files.internal("data/logo-libgdx-clockwork-512x256.png"));
 		libgdxLogo.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
+
 		int width = Gdx.graphics.getWidth();
 		int height = Gdx.graphics.getHeight();
-		
+
 		int centerX = width / 2;
 		int centerY = height / 2;
-		
+
 		Sprite gemserkLogoSprite = new Sprite(gemserkLogo);
 
 		float aspect = (float) gemserkLogoSprite.getWidth() / (float) gemserkLogoSprite.getHeight();
@@ -55,24 +55,24 @@ public class LibgdxGame extends Game {
 
 		gemserkLogoSprite.setPosition(centerX - newWidth / 2, centerY - newHeight / 2);
 		gemserkLogoSprite.setSize(newWidth, newHeight);
-		
+
 		// if plataforma pc
-		
+
 		Sprite lwjglLogoSprite = new Sprite(lwjglLogo, 0, 0, 512, 185);
-		
+
 		aspect = (float) lwjglLogoSprite.getWidth() / (float) lwjglLogoSprite.getHeight();
-		newWidth = width * 0.4f; // - 50%
+		newWidth = width * 0.3f; // - 50%
 		newHeight = newWidth / aspect;
-		
+
 		lwjglLogoSprite.setPosition(width - newWidth, 10);
 		lwjglLogoSprite.setSize(newWidth, newHeight);
-		
-		Sprite libgdxLogoSprite = new Sprite(libgdxLogo);
-		
+
+		Sprite libgdxLogoSprite = new Sprite(libgdxLogo, 0, 25, 512, 256 - 50);
+
 		aspect = (float) libgdxLogoSprite.getWidth() / (float) libgdxLogoSprite.getHeight();
-		newWidth = width * 0.4f; // - 50%
+		newWidth = width * 0.3f; // - 50%
 		newHeight = newWidth / aspect;
-		
+
 		libgdxLogoSprite.setPosition(0, 10);
 		libgdxLogoSprite.setSize(newWidth, newHeight);
 
@@ -96,8 +96,8 @@ public class LibgdxGame extends Game {
 			}
 
 		};
-		
-		setScreen(gameScreen);
+
+		setScreen(splashScreen);
 
 	}
 
