@@ -131,7 +131,7 @@ public class GameScreen extends ScreenAdapter {
 		private final LibgdxPointer pointer;
 
 		private final Vector2 previousPosition = new Vector2();
-		
+
 		private final Vector2 direction = new Vector2();
 
 		private boolean walking;
@@ -150,7 +150,7 @@ public class GameScreen extends ScreenAdapter {
 			jumping = false;
 
 			pointer.update();
-			
+
 			if (pointer.wasPressed) {
 				previousPosition.set(pointer.getPosition());
 			}
@@ -167,7 +167,7 @@ public class GameScreen extends ScreenAdapter {
 				jumping = true;
 				// previousPosition.set(pointer.getPosition());
 			}
-			
+
 			previousPosition.set(pointer.getPosition());
 
 		}
@@ -387,6 +387,7 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void loadWorld() {
+
 		SvgParser svgParser = new SvgParser();
 		svgParser.addHandler(new SvgDocumentHandler() {
 			@Override
@@ -417,7 +418,7 @@ public class GameScreen extends ScreenAdapter {
 				if (svgImage.getLabel() == null)
 					return;
 
-				Resource<Texture> texture = resourceManager.get(svgImage.getLabel());
+				Resource<SpriteSheet> texture = resourceManager.get(svgImage.getLabel());
 
 				if (texture == null)
 					return;
@@ -445,7 +446,7 @@ public class GameScreen extends ScreenAdapter {
 				float x = position.x;
 				float y = svgDocument.getHeight() - position.y;
 
-				Sprite sprite = new Sprite(texture.get());
+				Sprite sprite = new Sprite(texture.get().getFrame(0));
 				sprite.setScale(sx, sy);
 
 				createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
@@ -606,9 +607,9 @@ public class GameScreen extends ScreenAdapter {
 			@Override
 			public Entity build() {
 				// TODO Auto-generated function stub
-				
+
 				// limit robot spawner!!
-				
+
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
 
@@ -926,32 +927,38 @@ public class GameScreen extends ScreenAdapter {
 
 				texture("Background", "data/background-512x512.jpg");
 
-				texture("Tile01", "data/tile01.png");
-				texture("Tile02", "data/tile02.png");
-				texture("Tile03", "data/tile03.png");
-				texture("Tile04", "data/tile04.png");
+				texture("Tiles", "data/tiles.png", false);
+				
+				// add method for sprites (with or without cache)
+
+				spriteSheet("Tile01", "Tiles", 128 * 0, 0, 128, 128, 1);
+				spriteSheet("Tile02", "Tiles", 128 * 1, 0, 128, 128, 1);
+				spriteSheet("Tile03", "Tiles", 128 * 2, 0, 128, 128, 1);
+				spriteSheet("Tile04", "Tiles", 128 * 3, 0, 128, 128, 1);
 
 				texture("FontTexture", "data/font.png");
 
-				spriteSheet("Human_Walking", "data/animation2.png", 0, 32, 32, 32, 2);
-				spriteSheet("Human_Idle", "data/animation2.png", 0, 0, 32, 32, 2);
-				spriteSheet("Human_Jump", "data/animation2.png", 0, 64, 32, 32, 1);
-				spriteSheet("Human_Fall", "data/animation2.png", 0, 96, 32, 32, 2);
+				texture("CharactersSpriteSheet", "data/animation2.png", false);
 
-				spriteSheet("Robo", "data/animation2.png", 96, 32, 32, 32, 1);
+				spriteSheet("Human_Walking", "CharactersSpriteSheet", 0, 32, 32, 32, 2);
+				spriteSheet("Human_Idle", "CharactersSpriteSheet", 0, 0, 32, 32, 2);
+				spriteSheet("Human_Jump", "CharactersSpriteSheet", 0, 64, 32, 32, 1);
+				spriteSheet("Human_Fall", "CharactersSpriteSheet", 0, 96, 32, 32, 2);
 
-				spriteSheet("Enemy", "data/animation2.png", 64, 32, 32, 32, 1);
+				spriteSheet("Robo", "CharactersSpriteSheet", 96, 32, 32, 32, 1);
 
-				spriteSheet("EnemyLaser", "data/animation2.png", 64, 0, 32, 32, 3);
-				spriteSheet("FriendlyLaser", "data/animation2.png", 64, 64, 32, 32, 3);
+				spriteSheet("Enemy", "CharactersSpriteSheet", 64, 32, 32, 32, 1);
 
-				spriteSheet("FrontBloodOverlay", "data/animation2.png", 0, 4 * 32, 32, 32, 3);
-				spriteSheet("SideBloodOverlay", "data/animation2.png", 0, 5 * 32, 32, 32, 3);
+				spriteSheet("EnemyLaser", "CharactersSpriteSheet", 64, 0, 32, 32, 3);
+				spriteSheet("FriendlyLaser", "CharactersSpriteSheet", 64, 64, 32, 32, 3);
 
-				spriteSheet("HealthVial", "data/animation2.png", 5 * 32, 0, 32, 32, 2);
+				spriteSheet("FrontBloodOverlay", "CharactersSpriteSheet", 0, 4 * 32, 32, 32, 3);
+				spriteSheet("SideBloodOverlay", "CharactersSpriteSheet", 0, 5 * 32, 32, 32, 3);
 
-				spriteSheet("Powerup01", "data/animation2.png", 5 * 32, 2 * 32, 32, 32, 2);
-				spriteSheet("Powerup02", "data/animation2.png", 5 * 32, 3 * 32, 32, 32, 2);
+				spriteSheet("HealthVial", "CharactersSpriteSheet", 5 * 32, 0, 32, 32, 2);
+
+				spriteSheet("Powerup01", "CharactersSpriteSheet", 5 * 32, 2 * 32, 32, 32, 2);
+				spriteSheet("Powerup02", "CharactersSpriteSheet", 5 * 32, 3 * 32, 32, 32, 2);
 
 				sound("Jump", "data/jump.ogg");
 				sound("FriendlyLaserSound", "data/laser.ogg");
@@ -961,19 +968,19 @@ public class GameScreen extends ScreenAdapter {
 				sound("HealthVialSound", "data/healthvial.ogg");
 			}
 
-			private void spriteSheet(String id, final String file, final int x, final int y, final int w, final int h, final int framesCount) {
+			private void spriteSheet(String id, final String spriteSheetId, final int x, final int y, final int w, final int h, final int framesCount) {
 				resourceManager.add(id, new ResourceLoaderImpl<SpriteSheet>(new DataLoader<SpriteSheet>() {
 
 					@Override
 					public SpriteSheet load() {
 
-						Texture spriteSheet = new Texture(internal(file));
+						Resource<Texture> spriteSheet = resourceManager.get(spriteSheetId);
 
 						Sprite[] frames = new Sprite[framesCount];
 						for (int i = 0; i < frames.length; i++)
-							frames[i] = new Sprite(spriteSheet, x + i * w, y, w, h);
+							frames[i] = new Sprite(spriteSheet.get(), x + i * w, y, w, h);
 
-						return new SpriteSheet(spriteSheet, frames);
+						return new SpriteSheet(spriteSheet.get(), frames);
 					}
 
 				}));
