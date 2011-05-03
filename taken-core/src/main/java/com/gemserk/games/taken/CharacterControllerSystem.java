@@ -102,7 +102,7 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 		
 		float dot = Math.abs(normal.dot(horizontal));
 		
-		if (characterController.jumped() && contact.isInContact() && dot < 0.4f && Math.abs(linearVelocity.y) < 0.01f ) {
+		if (characterController.jumped() && contact.isInContact() && dot < 0.4f) {
 			// it should be checking if it is over an object to jump...
 
 			// if (Math.abs(linearVelocity.y) < 0.05f) {

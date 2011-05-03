@@ -363,6 +363,8 @@ public class GameScreen extends ScreenAdapter {
 
 		createBackground();
 
+//		Body body = physicsObjectsFactory.createBox(new Vector2(-2, 2), new Vector2(2, 2));
+
 		createMainCharacter();
 
 		createCharacterBloodOverlay();
@@ -422,12 +424,12 @@ public class GameScreen extends ScreenAdapter {
 
 				Resource<SpriteSheet> spriteSheet = resourceManager.get(svgImage.getLabel());
 				// Texture texture = spriteSheet.get().getFrame(0).getTexture();
-				
+
 				Resource<Texture> tileResource = resourceManager.get(svgImage.getLabel());
 				Texture texture = tileResource.get();
 
-//				if (spriteSheet == null)
-//					return;
+				// if (spriteSheet == null)
+				// return;
 
 				float width = svgImage.getWidth();
 				float height = svgImage.getHeight();
@@ -452,9 +454,9 @@ public class GameScreen extends ScreenAdapter {
 				float x = position.x;
 				float y = svgDocument.getHeight() - position.y;
 
-//				Sprite sprite = spriteSheet.get().getFrame(0);
-				 Sprite sprite = new Sprite(texture);
-				
+				// Sprite sprite = spriteSheet.get().getFrame(0);
+				Sprite sprite = new Sprite(texture);
+
 				sprite.setScale(sx, sy);
 
 				createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
@@ -541,7 +543,7 @@ public class GameScreen extends ScreenAdapter {
 		// Body body = physicsObjectsFactory.createDynamicCircle(x, y, height * 0.5f, false, 1f);
 
 		Vector2[] bodyShape = Box2dUtils.createRectangle(width, height);
-		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0.15f);
+		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0f);
 
 		mainCharacter = world.createEntity();
 
@@ -904,6 +906,12 @@ public class GameScreen extends ScreenAdapter {
 			gameOver = true;
 		}
 
+		if (inputDevicesMonitor.getButton("debug").isHolded()) {
+
+			// render debug stuff.
+			box2dCustomDebugRenderer.render();
+		}
+
 		for (int i = 0; i < controllers.size(); i++) {
 			Controller controller = controllers.get(i);
 			controller.update(deltaInMs);
@@ -936,18 +944,18 @@ public class GameScreen extends ScreenAdapter {
 				texture("Background", "data/background-512x512.jpg");
 
 				texture("Tiles", "data/tiles.png", false);
-				
+
 				// add method for sprites (with or without cache)
-				
+
 				texture("Tile01", "data/tile01.png");
 				texture("Tile02", "data/tile02.png");
 				texture("Tile03", "data/tile03.png");
 				texture("Tile04", "data/tile04.png");
-				
-//				spriteSheet("Tile01", "Tiles", 128 * 0, 0, 128, 128, 1);
-//				spriteSheet("Tile02", "Tiles", 128 * 1, 0, 128, 128, 1);
-//				spriteSheet("Tile03", "Tiles", 128 * 2, 0, 128, 128, 1);
-//				spriteSheet("Tile04", "Tiles", 128 * 3, 0, 128, 128, 1);
+
+				// spriteSheet("Tile01", "Tiles", 128 * 0, 0, 128, 128, 1);
+				// spriteSheet("Tile02", "Tiles", 128 * 1, 0, 128, 128, 1);
+				// spriteSheet("Tile03", "Tiles", 128 * 2, 0, 128, 128, 1);
+				// spriteSheet("Tile04", "Tiles", 128 * 3, 0, 128, 128, 1);
 
 				texture("FontTexture", "data/font.png");
 

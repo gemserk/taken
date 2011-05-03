@@ -51,6 +51,28 @@ public class PhysicsObjectsFactory {
 		return body;
 	}
 	
+	public Body createBox(Vector2 position, Vector2 size) {
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(size.x * 0.5f, size.y * 0.5f);
+
+		// shape.setAsBox(2f, 2f);
+
+		BodyDef groundBodyDef = new BodyDef();
+		groundBodyDef.type = BodyType.StaticBody;
+		groundBodyDef.position.set(position);
+		Body body = world.createBody(groundBodyDef);
+
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = shape;
+		fixtureDef.friction = 0.5f;
+		fixtureDef.density = 1f;
+
+		body.createFixture(fixtureDef);
+		shape.dispose();
+
+		return body;
+	}
+	
 	public Vector2[] createRectangle(float width, float height) {
 		Vector2[] vertices = Box2dUtils.initArray(4);
 		Box2dUtils.createRectangle(width, height, vertices);
