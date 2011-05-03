@@ -1,6 +1,7 @@
 package com.gemserk.games.taken;
 
 import com.artemis.Component;
+import com.gemserk.animation4j.FrameAnimation;
 
 public class AnimationComponent extends Component {
 
