@@ -435,10 +435,10 @@ public class GameScreen extends ScreenAdapter {
 		JumpController jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
 
 		if (Gdx.app.getType() == ApplicationType.Desktop) {
-			 characterController = new KeyboardCharacterController();
-			 jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
-//			characterController = new AreaTouchCharacterController(new Rectangle(0, 0, 100, 100), new Rectangle(100, 0, 100, 100));
-//			jumpController = new AreaTouchJumpController(new Rectangle(Gdx.graphics.getWidth() - 100, 0, 100, 100));
+			characterController = new KeyboardCharacterController(new LibgdxButtonMonitor(Keys.DPAD_LEFT), new LibgdxButtonMonitor(Keys.DPAD_RIGHT));
+			jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
+			// characterController = new AreaTouchCharacterController(new Rectangle(0, 0, 100, 100), new Rectangle(100, 0, 100, 100));
+			// jumpController = new AreaTouchJumpController(new Rectangle(Gdx.graphics.getWidth() - 100, 0, 100, 100));
 		} else if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
 			characterController = new AreaTouchCharacterController(new Rectangle(0, 0, 100, 100), new Rectangle(100, 0, 100, 100));
 			jumpController = new AreaTouchJumpController(new Rectangle(Gdx.graphics.getWidth() - 100, 0, 100, 100));
@@ -777,10 +777,11 @@ public class GameScreen extends ScreenAdapter {
 			controller.update(deltaInMs);
 		}
 
-		ImmediateModeRendererUtils.drawRectangle(0, 0, 100, 100, Color.WHITE);
-		ImmediateModeRendererUtils.drawRectangle(100, 0, 200, 100, Color.WHITE);
-		
-		ImmediateModeRendererUtils.drawRectangle(Gdx.graphics.getWidth() - 100, 0, Gdx.graphics.getWidth(), 100, Color.WHITE);
+		if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
+			ImmediateModeRendererUtils.drawRectangle(0, 0, 100, 100, Color.WHITE);
+			ImmediateModeRendererUtils.drawRectangle(100, 0, 200, 100, Color.WHITE);
+			ImmediateModeRendererUtils.drawRectangle(Gdx.graphics.getWidth() - 100, 0, Gdx.graphics.getWidth(), 100, Color.WHITE);
+		}
 
 	}
 

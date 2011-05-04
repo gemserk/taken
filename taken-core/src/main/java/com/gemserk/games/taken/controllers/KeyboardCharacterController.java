@@ -1,24 +1,37 @@
 package com.gemserk.games.taken.controllers;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
+import com.gemserk.componentsengine.input.ButtonMonitor;
 
 public class KeyboardCharacterController implements CharacterController {
 
 	private float direction = 0f;
-	
+
 	private boolean walking = false;
+
+	private final ButtonMonitor leftKeyButton;
+
+	private final ButtonMonitor rightKeyButton;
+
+	public KeyboardCharacterController(ButtonMonitor leftKeyButton, ButtonMonitor rightKeyButton) {
+		this.leftKeyButton = leftKeyButton;
+		this.rightKeyButton = rightKeyButton;
+	}
 
 	@Override
 	public void update(int delta) {
 
 		walking = false;
 
-		if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
-			direction = 1f;
-			walking = true;
-		} else if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) {
+		leftKeyButton.update();
+		rightKeyButton.update();
+
+		if (leftKeyButton.isHolded()) {
 			direction = -1f;
+			walking = true;
+		}
+
+		if (rightKeyButton.isHolded()) {
+			direction = 1f;
 			walking = true;
 		}
 
