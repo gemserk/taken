@@ -55,15 +55,9 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 
 			if (contact.isInContact()) {
 				Vector2 normal = contact.getNormal();
-
 				float dot = normal.dot(force.tmp().nor());
-				// float dot = Math.abs(normal.dot(verticalAxis));
-				
-				System.out.println(dot);
-				
 				if (dot > 0.5) 
 					force.set(0,0);
-
 			}
 
 			body.applyForce(force, body.getTransform().getPosition());

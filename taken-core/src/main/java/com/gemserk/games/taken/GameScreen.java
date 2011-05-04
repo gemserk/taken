@@ -64,9 +64,9 @@ import com.gemserk.componentsengine.utils.Container;
 import com.gemserk.games.taken.PowerUp.Type;
 import com.gemserk.games.taken.controllers.ButtonMonitorJumpController;
 import com.gemserk.games.taken.controllers.CharacterController;
+import com.gemserk.games.taken.controllers.DragJumpController;
 import com.gemserk.games.taken.controllers.JumpController;
 import com.gemserk.games.taken.controllers.KeyboardCharacterController;
-import com.gemserk.games.taken.controllers.MultiTouchCharacterController;
 import com.gemserk.games.taken.controllers.SingleTouchCharacterController;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
@@ -151,7 +151,7 @@ public class GameScreen extends ScreenAdapter {
 	void restartGame() {
 
 		Gdx.app.log("Taken", "Reloading the level");
-		
+
 		controllers = new ArrayList<Controller>();
 
 		spriteBatch = new SpriteBatch();
@@ -191,7 +191,7 @@ public class GameScreen extends ScreenAdapter {
 
 		worldWrapper.add(new AnimationSystem());
 		worldWrapper.add(new CorrectSpriteDirectionSystem());
-		
+
 		worldWrapper.add(new BloodOverlaySystem());
 		worldWrapper.add(new HitDetectionSystem(resourceManager));
 		worldWrapper.add(new CameraFollowSystem());
@@ -430,15 +430,22 @@ public class GameScreen extends ScreenAdapter {
 		CharacterController characterController = null;
 		JumpController jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
 
-		if (Gdx.app.getType() == ApplicationType.Desktop)
+		if (Gdx.app.getType() == ApplicationType.Desktop) {
 			characterController = new KeyboardCharacterController();
-		else if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen))
-			characterController = new MultiTouchCharacterController(new LibgdxPointer(0), new LibgdxPointer(1));
-		else
+			jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
+		} else if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
 			characterController = new SingleTouchCharacterController(new LibgdxPointer(0));
+			jumpController = new DragJumpController(new LibgdxPointer(0));
+			
+			// add a tap controller for jump, based on a screen area..
+			
+		} else {
+			characterController = new SingleTouchCharacterController(new LibgdxPointer(0));
+			jumpController = new DragJumpController(new LibgdxPointer(0));
+		}
 
 		mainCharacter.addComponent(new CharacterControllerComponent(characterController, jumpController));
-		
+
 		controllers.add(characterController);
 		controllers.add(jumpController);
 
