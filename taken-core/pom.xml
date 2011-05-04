@@ -44,16 +44,6 @@
 			<groupId>com.gemserk.commons.gdx</groupId>
 			<artifactId>commons-gdx-core</artifactId>
 			<version>${commons.gdx.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>guice</artifactId>
-					<groupId>com.google.inject</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>google-collections</artifactId>
-					<groupId>com.google.collections</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
