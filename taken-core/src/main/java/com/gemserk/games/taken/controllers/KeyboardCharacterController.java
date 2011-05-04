@@ -15,8 +15,6 @@ public class KeyboardCharacterController implements CharacterController {
 
 		walking = false;
 
-		direction.set(0f, 0f);
-
 		if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
 			direction.x = 1f;
 			walking = true;
