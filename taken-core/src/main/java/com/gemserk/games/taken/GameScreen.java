@@ -148,11 +148,11 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void restartGame() {
-		
+
 		Gdx.app.log("Taken", "Reloading the level");
-		
+
 		spriteBatch = new SpriteBatch();
-		
+
 		// create the scene...
 		physicsWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, -10f), false);
 
@@ -418,8 +418,12 @@ public class GameScreen extends ScreenAdapter {
 
 		Animation[] spriteSheets = new Animation[] { walkingAnimationResource.get(), idleAnimationResource.get(), jumpAnimationResource.get(), fallAnimationResource.get(), };
 
-		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 2, true), new FrameAnimationImpl(new int[] { 1000, 50 }, true), new FrameAnimationImpl(100, 1, false), new FrameAnimationImpl(new int[] { 400, 200 }, true), };
-
+		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 2, true), //
+				new FrameAnimationImpl(true, 1000, 50), //
+				new FrameAnimationImpl(100, 1, false), //
+				new FrameAnimationImpl(true, 400, 200), //
+		};
+		
 		mainCharacter.addComponent(new AnimationComponent(spriteSheets, animations));
 
 		mainCharacter.addComponent(new CameraFollowComponent(cameraData));
