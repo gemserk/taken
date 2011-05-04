@@ -14,6 +14,7 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Input.Peripheral;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -49,6 +50,7 @@ import com.gemserk.commons.gdx.graphics.ImmediateModeRendererUtils;
 import com.gemserk.commons.gdx.input.LibgdxPointer;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
 import com.gemserk.commons.gdx.resources.dataloaders.BitmapFontDataLoader;
+import com.gemserk.commons.gdx.resources.dataloaders.DisposableDataLoader;
 import com.gemserk.commons.svg.inkscape.SvgDocument;
 import com.gemserk.commons.svg.inkscape.SvgDocumentHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeGroup;
@@ -64,13 +66,13 @@ import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
 import com.gemserk.componentsengine.properties.PropertyBuilder;
 import com.gemserk.componentsengine.utils.Container;
 import com.gemserk.games.taken.PowerUp.Type;
-import com.gemserk.games.taken.controllers.AreaTouchMovementController;
 import com.gemserk.games.taken.controllers.AreaTouchJumpController;
+import com.gemserk.games.taken.controllers.AreaTouchMovementController;
 import com.gemserk.games.taken.controllers.ButtonMonitorJumpController;
-import com.gemserk.games.taken.controllers.MovementController;
+import com.gemserk.games.taken.controllers.ButtonMonitorMovementController;
 import com.gemserk.games.taken.controllers.DragJumpController;
 import com.gemserk.games.taken.controllers.JumpController;
-import com.gemserk.games.taken.controllers.ButtonMonitorMovementController;
+import com.gemserk.games.taken.controllers.MovementController;
 import com.gemserk.games.taken.controllers.TouchMovementController;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
@@ -232,6 +234,11 @@ public class GameScreen extends ScreenAdapter {
 		createPowerUpSpawner();
 
 		score = 0;
+
+		// Music backgroundMusic = resourceManager.getResourceValue("BackgroundMusic");
+		// backgroundMusic.play();
+		// backgroundMusic.setLooping(true);
+
 	}
 
 	void loadWorld() {
@@ -741,8 +748,13 @@ public class GameScreen extends ScreenAdapter {
 		if (healthComponent.getHealth().isEmpty() || (spatialComponent.getPosition().y < -50)) {
 			// set score based on something...!!
 			game.scoreScreen.setScore((int) score);
-			game.setScreen(game.scoreScreen);
+			game.setScreen(game.scoreScreen, true);
 			gameOver = true;
+
+			// Music backgroundMusic = resourceManager.getResourceValue("BackgroundMusic");
+			// if (backgroundMusic.isPlaying())
+			// backgroundMusic.stop();
+
 		}
 
 		worldWrapper.update(deltaInMs);
@@ -827,17 +839,17 @@ public class GameScreen extends ScreenAdapter {
 
 				texture("CharactersSpriteSheet", "data/animation2.png", false);
 
-				animation("Human_Walking", "CharactersSpriteSheet", 0, 32, 32, 32, 2, true, 100, 250);
+				animation("Human_Walking", "CharactersSpriteSheet", 0, 32, 32, 32, 4, true, 100, 250, 100, 250);
 				animation("Human_Idle", "CharactersSpriteSheet", 0, 0, 32, 32, 2, true, 1000, 50);
 				animation("Human_Jump", "CharactersSpriteSheet", 0, 64, 32, 32, 1, false, 100);
 				animation("Human_Fall", "CharactersSpriteSheet", 0, 96, 32, 32, 2, true, 400, 200);
-				animation("Robo", "CharactersSpriteSheet", 96, 32, 32, 32, 1, false, 0);
-				animation("Enemy", "CharactersSpriteSheet", 64, 32, 32, 32, 1, false, 0);
+				animation("Robo", "CharactersSpriteSheet", 4 * 32, 4 * 32, 32, 32, 1, false, 0);
+				animation("Enemy", "CharactersSpriteSheet", 4 * 32, 5 * 32, 32, 32, 1, false, 0);
 				animation("EnemyLaser", "CharactersSpriteSheet", 64, 0, 32, 32, 3, false, 150);
 				animation("FriendlyLaser", "CharactersSpriteSheet", 64, 64, 32, 32, 3, false, 150);
 				animation("FrontBloodOverlay", "CharactersSpriteSheet", 0, 4 * 32, 32, 32, 3, false, 0);
 				animation("SideBloodOverlay", "CharactersSpriteSheet", 0, 5 * 32, 32, 32, 3, false, 0);
-				animation("HealthVial", "CharactersSpriteSheet", 5 * 32, 0, 32, 32, 2, true, 750);
+				animation("HealthVial", "CharactersSpriteSheet", 4 * 32, 1 * 32, 32, 32, 4, true, 750);
 				animation("Powerup01", "CharactersSpriteSheet", 5 * 32, 2 * 32, 32, 32, 2, true, 750);
 				animation("Powerup02", "CharactersSpriteSheet", 5 * 32, 3 * 32, 32, 32, 2, true, 750);
 
@@ -848,6 +860,24 @@ public class GameScreen extends ScreenAdapter {
 
 				sound("HealthVialSound", "data/healthvial.ogg");
 
+				// music("BackgroundMusic", "data/music.ogg");
+
+			}
+
+			public void music(String id, String file) {
+				resourceManager.add(id, new CachedResourceLoader<Music>(new ResourceLoaderImpl<Music>(new DisposableDataLoader<Music>(internal(file)) {
+					@Override
+					public Music load() {
+						return Gdx.audio.newMusic(fileHandle);
+					}
+
+					@Override
+					public void dispose(Music t) {
+						if (t.isPlaying())
+							t.stop();
+						super.dispose(t);
+					}
+				})));
 			}
 
 		};
