@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.gemserk.animation4j.gdx.Animation;
@@ -44,6 +45,7 @@ import com.gemserk.commons.gdx.camera.Camera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCamera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
 import com.gemserk.commons.gdx.controllers.Controller;
+import com.gemserk.commons.gdx.graphics.ImmediateModeRendererUtils;
 import com.gemserk.commons.gdx.input.LibgdxPointer;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
 import com.gemserk.commons.gdx.resources.dataloaders.BitmapFontDataLoader;
@@ -62,11 +64,12 @@ import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
 import com.gemserk.componentsengine.properties.PropertyBuilder;
 import com.gemserk.componentsengine.utils.Container;
 import com.gemserk.games.taken.PowerUp.Type;
+import com.gemserk.games.taken.controllers.AreaTouchCharacterController;
+import com.gemserk.games.taken.controllers.AreaTouchJumpController;
 import com.gemserk.games.taken.controllers.ButtonMonitorJumpController;
 import com.gemserk.games.taken.controllers.CharacterController;
 import com.gemserk.games.taken.controllers.DragJumpController;
 import com.gemserk.games.taken.controllers.JumpController;
-import com.gemserk.games.taken.controllers.KeyboardCharacterController;
 import com.gemserk.games.taken.controllers.TouchCharacterController;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
@@ -431,14 +434,17 @@ public class GameScreen extends ScreenAdapter {
 		JumpController jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
 
 		if (Gdx.app.getType() == ApplicationType.Desktop) {
-			characterController = new KeyboardCharacterController();
-			jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
+			// characterController = new KeyboardCharacterController();
+			// jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
+			characterController = new AreaTouchCharacterController(new Rectangle(0, 0, 100, 100), new Rectangle(100, 0, 100, 100));
+			jumpController = new AreaTouchJumpController(new Rectangle(200, 0, Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight()));
 		} else if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
-			characterController = new TouchCharacterController(new LibgdxPointer(0));
-			jumpController = new DragJumpController(new LibgdxPointer(0));
-			
+			characterController = new AreaTouchCharacterController(new Rectangle(0, 0, 100, 100), new Rectangle(100, 0, 100, 100));
+			jumpController = new AreaTouchJumpController(new Rectangle(200, 0, Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight()));
+			// characterController = new TouchCharacterController(new LibgdxPointer(0));
+			// jumpController = new DragJumpController(new LibgdxPointer(0));
 			// add a tap controller for jump, based on a screen area..
-			
+
 		} else {
 			characterController = new TouchCharacterController(new LibgdxPointer(0));
 			jumpController = new DragJumpController(new LibgdxPointer(0));
@@ -769,6 +775,11 @@ public class GameScreen extends ScreenAdapter {
 			Controller controller = controllers.get(i);
 			controller.update(deltaInMs);
 		}
+
+		ImmediateModeRendererUtils.drawRectangle(0, 0, 100, 100, Color.WHITE);
+		ImmediateModeRendererUtils.drawRectangle(100, 0, 200, 100, Color.WHITE);
+		
+		ImmediateModeRendererUtils.drawRectangle(200, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.WHITE);
 
 	}
 
