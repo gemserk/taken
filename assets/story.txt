@@ -1,0 +1,8 @@
+Story:
+
+Your civilization decided to conquer all habitable planets in your system and they have built some advanced robots which are exploring each planet and capturing alive beings. 
+
+There is a secret group that is not agree with that and you are trying to be part of it. In order to do that, a mission has been assigned to you: you have to free and recover some of those alive beings (some key subjects) from each one of those planets, each time you save some of them the secret group will be supporting you with money and stuff. 
+
+
+As you cannot fight against the robot enemies you have a friendly robot provided by the secret organization which will be protecting you. You can upgrade it from travel to travel by purchasing parts.
