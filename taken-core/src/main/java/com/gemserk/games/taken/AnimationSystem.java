@@ -34,12 +34,12 @@ public class AnimationSystem extends EntityProcessingSystem implements Activable
 		AnimationComponent animationComponent = e.getComponent(AnimationComponent.class);
 		SpriteComponent spriteComponent = e.getComponent(SpriteComponent.class);
 		
-		FrameAnimation frameAnimationImpl = animationComponent.getAnimation();
+		FrameAnimation frameAnimationImpl = animationComponent.getCurrentFrameAnimation();
 		frameAnimationImpl.update(world.getDelta());
 		
-		SpriteSheet spriteSheet = animationComponent.getSpriteSheets();
+		Animation animation = animationComponent.getCurrentAnimation();
 		
-		Sprite currentSprite = spriteSheet.getFrame(frameAnimationImpl.getCurrentFrame());
+		Sprite currentSprite = animation.getFrame(frameAnimationImpl.getCurrentFrame());
 		spriteComponent.setSprite(currentSprite);
 		
 		PhysicsComponent physicsComponent = e.getComponent(PhysicsComponent.class);

@@ -5,27 +5,27 @@ import com.gemserk.animation4j.FrameAnimation;
 
 public class AnimationComponent extends Component {
 
-	private final SpriteSheet[] spriteSheets;
+	private final Animation[] animations;
 	
-	private final FrameAnimation[] animations;
+	private final FrameAnimation[] frameAnimations;
 	
 	private int currentAnimation;
 	
-	public SpriteSheet getSpriteSheets() {
-		return spriteSheets[currentAnimation];
+	public Animation getCurrentAnimation() {
+		return animations[currentAnimation];
 	}
 	
-	public FrameAnimation getAnimation() {
-		return animations[currentAnimation];
+	public FrameAnimation getCurrentFrameAnimation() {
+		return frameAnimations[currentAnimation];
 	}
 	
 	public void setCurrentAnimation(int currentAnimation) {
 		this.currentAnimation = currentAnimation;
 	}
 
-	public AnimationComponent(SpriteSheet[] spriteSheets, FrameAnimation[] animations) {
-		this.spriteSheets = spriteSheets;
-		this.animations = animations;
+	public AnimationComponent(Animation[] spriteSheets, FrameAnimation[] animations) {
+		this.animations = spriteSheets;
+		this.frameAnimations = animations;
 	}
 	
 }

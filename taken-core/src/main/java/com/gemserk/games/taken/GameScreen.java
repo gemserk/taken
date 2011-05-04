@@ -367,10 +367,10 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void createMainCharacter(float x, float y) {
-		Resource<SpriteSheet> walkingAnimationResource = resourceManager.get("Human_Walking");
-		Resource<SpriteSheet> idleAnimationResource = resourceManager.get("Human_Idle");
-		Resource<SpriteSheet> jumpAnimationResource = resourceManager.get("Human_Jump");
-		Resource<SpriteSheet> fallAnimationResource = resourceManager.get("Human_Fall");
+		Resource<Animation> walkingAnimationResource = resourceManager.get("Human_Walking");
+		Resource<Animation> idleAnimationResource = resourceManager.get("Human_Idle");
+		Resource<Animation> jumpAnimationResource = resourceManager.get("Human_Jump");
+		Resource<Animation> fallAnimationResource = resourceManager.get("Human_Fall");
 
 		Resource<Sound> jumpSound = resourceManager.get("JumpSound");
 
@@ -416,7 +416,7 @@ public class GameScreen extends ScreenAdapter {
 		// entity.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(viewportWidth, viewportWidth), 0f));
 		mainCharacter.addComponent(new SpriteComponent(sprite, 1, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
-		SpriteSheet[] spriteSheets = new SpriteSheet[] { walkingAnimationResource.get(), idleAnimationResource.get(), jumpAnimationResource.get(), fallAnimationResource.get(), };
+		Animation[] spriteSheets = new Animation[] { walkingAnimationResource.get(), idleAnimationResource.get(), jumpAnimationResource.get(), fallAnimationResource.get(), };
 
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 2, true), new FrameAnimationImpl(new int[] { 1000, 50 }, true), new FrameAnimationImpl(100, 1, false), new FrameAnimationImpl(new int[] { 400, 200 }, true), };
 
@@ -444,8 +444,8 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void createCharacterBloodOverlay() {
-		Resource<SpriteSheet> frontBloodAnimationResource = resourceManager.get("FrontBloodOverlay");
-		Resource<SpriteSheet> sideBloodAnimationResource = resourceManager.get("SideBloodOverlay");
+		Resource<Animation> frontBloodAnimationResource = resourceManager.get("FrontBloodOverlay");
+		Resource<Animation> sideBloodAnimationResource = resourceManager.get("SideBloodOverlay");
 
 		Sprite sprite = new Sprite(frontBloodAnimationResource.get().getFrame(0));
 
@@ -456,7 +456,7 @@ public class GameScreen extends ScreenAdapter {
 		e.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(size, size), 0));
 		e.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
-		SpriteSheet[] spriteSheets = new SpriteSheet[] { frontBloodAnimationResource.get(), sideBloodAnimationResource.get() };
+		Animation[] spriteSheets = new Animation[] { frontBloodAnimationResource.get(), sideBloodAnimationResource.get() };
 
 		e.addComponent(new BloodOverlayComponent(mainCharacter, spriteSheets));
 
@@ -543,7 +543,7 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void createRobo() {
-		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("Robo");
+		Resource<Animation> enemyAnimationResource = resourceManager.get("Robo");
 		Sprite sprite = enemyAnimationResource.get().getFrame(0);
 
 		float x = 0f;
@@ -562,7 +562,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Player", "Enemy", 10f));
 
-		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
+		Animation[] spriteSheets = new Animation[] { enemyAnimationResource.get(), };
 
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 1, false), };
 
@@ -573,7 +573,7 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void createEnemy(float x, float y) {
-		Resource<SpriteSheet> enemyAnimationResource = resourceManager.get("Enemy");
+		Resource<Animation> enemyAnimationResource = resourceManager.get("Enemy");
 		Sprite sprite = enemyAnimationResource.get().getFrame(0);
 
 		float size = 1f;
@@ -590,7 +590,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new HealthComponent(new Container(20f, 20f)));
 
-		SpriteSheet[] spriteSheets = new SpriteSheet[] { enemyAnimationResource.get(), };
+		Animation[] spriteSheets = new Animation[] { enemyAnimationResource.get(), };
 
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 1, false), };
 
@@ -600,7 +600,7 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void createLaser(float x, float y, int time, float dx, float dy, float damage, String ownerGroup, String targetGroup) {
-		Resource<SpriteSheet> laserAnimationResource;
+		Resource<Animation> laserAnimationResource;
 
 		if (ownerGroup.equals("Player"))
 			laserAnimationResource = resourceManager.get("FriendlyLaser");
@@ -632,7 +632,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new HealthComponent(new Container(2f, 2f)));
 
-		SpriteSheet[] spriteSheets = new SpriteSheet[] { laserAnimationResource.get(), };
+		Animation[] spriteSheets = new Animation[] { laserAnimationResource.get(), };
 
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(150, 3, false), };
 
@@ -642,7 +642,7 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void createHealthVial(float x, float y, int aliveTime, float health) {
-		Resource<SpriteSheet> healthVialAnimationResource = resourceManager.get("HealthVial");
+		Resource<Animation> healthVialAnimationResource = resourceManager.get("HealthVial");
 
 		Sprite sprite = healthVialAnimationResource.get().getFrame(0);
 
@@ -664,7 +664,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new HealthComponent(new Container(health, health)));
 
-		SpriteSheet[] spriteSheets = new SpriteSheet[] { healthVialAnimationResource.get(), };
+		Animation[] spriteSheets = new Animation[] { healthVialAnimationResource.get(), };
 
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(750, 2, true), };
 
@@ -677,7 +677,7 @@ public class GameScreen extends ScreenAdapter {
 
 	void createPowerUp(float x, float y, int aliveTime, PowerUp powerUp) {
 
-		Resource<SpriteSheet> animation = resourceManager.get("Powerup01");
+		Resource<Animation> animation = resourceManager.get("Powerup01");
 
 		if (powerUp.getType() == Type.MovementSpeedModifier)
 			animation = resourceManager.get("Powerup02");
@@ -700,7 +700,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));
 		entity.addComponent(new TimerComponent(aliveTime));
 
-		SpriteSheet[] spriteSheets = new SpriteSheet[] { animation.get(), };
+		Animation[] spriteSheets = new Animation[] { animation.get(), };
 
 		FrameAnimation[] animations = new FrameAnimation[] { new FrameAnimationImpl(750, 2, true), };
 
@@ -819,25 +819,19 @@ public class GameScreen extends ScreenAdapter {
 
 				texture("CharactersSpriteSheet", "data/animation2.png", false);
 
-				spriteSheet("Human_Walking", "CharactersSpriteSheet", 0, 32, 32, 32, 2);
-				spriteSheet("Human_Idle", "CharactersSpriteSheet", 0, 0, 32, 32, 2);
-				spriteSheet("Human_Jump", "CharactersSpriteSheet", 0, 64, 32, 32, 1);
-				spriteSheet("Human_Fall", "CharactersSpriteSheet", 0, 96, 32, 32, 2);
-
-				spriteSheet("Robo", "CharactersSpriteSheet", 96, 32, 32, 32, 1);
-
-				spriteSheet("Enemy", "CharactersSpriteSheet", 64, 32, 32, 32, 1);
-
-				spriteSheet("EnemyLaser", "CharactersSpriteSheet", 64, 0, 32, 32, 3);
-				spriteSheet("FriendlyLaser", "CharactersSpriteSheet", 64, 64, 32, 32, 3);
-
-				spriteSheet("FrontBloodOverlay", "CharactersSpriteSheet", 0, 4 * 32, 32, 32, 3);
-				spriteSheet("SideBloodOverlay", "CharactersSpriteSheet", 0, 5 * 32, 32, 32, 3);
-
-				spriteSheet("HealthVial", "CharactersSpriteSheet", 5 * 32, 0, 32, 32, 2);
-
-				spriteSheet("Powerup01", "CharactersSpriteSheet", 5 * 32, 2 * 32, 32, 32, 2);
-				spriteSheet("Powerup02", "CharactersSpriteSheet", 5 * 32, 3 * 32, 32, 32, 2);
+				animation("Human_Walking", "CharactersSpriteSheet", 0, 32, 32, 32, 2);
+				animation("Human_Idle", "CharactersSpriteSheet", 0, 0, 32, 32, 2);
+				animation("Human_Jump", "CharactersSpriteSheet", 0, 64, 32, 32, 1);
+				animation("Human_Fall", "CharactersSpriteSheet", 0, 96, 32, 32, 2);
+				animation("Robo", "CharactersSpriteSheet", 96, 32, 32, 32, 1);
+				animation("Enemy", "CharactersSpriteSheet", 64, 32, 32, 32, 1);
+				animation("EnemyLaser", "CharactersSpriteSheet", 64, 0, 32, 32, 3);
+				animation("FriendlyLaser", "CharactersSpriteSheet", 64, 64, 32, 32, 3);
+				animation("FrontBloodOverlay", "CharactersSpriteSheet", 0, 4 * 32, 32, 32, 3);
+				animation("SideBloodOverlay", "CharactersSpriteSheet", 0, 5 * 32, 32, 32, 3);
+				animation("HealthVial", "CharactersSpriteSheet", 5 * 32, 0, 32, 32, 2);
+				animation("Powerup01", "CharactersSpriteSheet", 5 * 32, 2 * 32, 32, 32, 2);
+				animation("Powerup02", "CharactersSpriteSheet", 5 * 32, 3 * 32, 32, 32, 2);
 
 				sound("JumpSound", "data/jump.ogg");
 				sound("FriendlyLaserSound", "data/laser.ogg");
@@ -847,19 +841,16 @@ public class GameScreen extends ScreenAdapter {
 				sound("HealthVialSound", "data/healthvial.ogg");
 			}
 
-			private void spriteSheet(String id, final String spriteSheetId, final int x, final int y, final int w, final int h, final int framesCount) {
-				resourceManager.add(id, new ResourceLoaderImpl<SpriteSheet>(new DataLoader<SpriteSheet>() {
+			private void animation(String id, String spriteSheetId, final int x, final int y, final int w, final int h, final int framesCount) {
+				final Texture spriteSheet = resourceManager.getResourceValue(spriteSheetId);
+				resourceManager.add(id, new ResourceLoaderImpl<Animation>(new DataLoader<Animation>() {
 
 					@Override
-					public SpriteSheet load() {
-
-						Resource<Texture> spriteSheet = resourceManager.get(spriteSheetId);
-
+					public Animation load() {
 						Sprite[] frames = new Sprite[framesCount];
 						for (int i = 0; i < frames.length; i++)
-							frames[i] = new Sprite(spriteSheet.get(), x + i * w, y, w, h);
-
-						return new SpriteSheet(spriteSheet.get(), frames);
+							frames[i] = new Sprite(spriteSheet, x + i * w, y, w, h);
+						return new Animation(frames);
 					}
 
 				}));

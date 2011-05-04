@@ -5,14 +5,14 @@ import com.artemis.Entity;
 
 public class BloodOverlayComponent extends Component {
 
-	private final SpriteSheet[] spriteSheets;
+	private final Animation[] animations;
 	
 	private int currentAnimation;
 
 	private final Entity entity;
 	
-	public SpriteSheet getSpriteSheets() {
-		return spriteSheets[currentAnimation];
+	public Animation getSpriteSheets() {
+		return animations[currentAnimation];
 	}
 	
 	public void setCurrentAnimation(int currentAnimation) {
@@ -23,9 +23,9 @@ public class BloodOverlayComponent extends Component {
 		return entity;
 	}
 
-	public BloodOverlayComponent(Entity entity, SpriteSheet[] spriteSheets) {
+	public BloodOverlayComponent(Entity entity, Animation[] spriteSheets) {
 		this.entity = entity;
-		this.spriteSheets = spriteSheets;
+		this.animations = spriteSheets;
 	}
 	
 }
