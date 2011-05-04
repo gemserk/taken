@@ -14,8 +14,6 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 	private final ActivableSystem activableSystem = new ActivableSystemImpl();
 
 	private final float[] direction = new float[] { 0f, 0f };
-	
-	private final Vector2 horizontalAxis = new Vector2(1f, 0f);
 
 	private final Vector2 force = new Vector2();
 
@@ -55,6 +53,19 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 			force.set(direction[0], direction[1]);
 			force.mul(10f);
 
+			if (contact.isInContact()) {
+				Vector2 normal = contact.getNormal();
+
+				float dot = normal.dot(force.tmp().nor());
+				// float dot = Math.abs(normal.dot(verticalAxis));
+				
+				System.out.println(dot);
+				
+				if (dot > 0.5) 
+					force.set(0,0);
+
+			}
+
 			body.applyForce(force, body.getTransform().getPosition());
 
 			Vector2 linearVelocity = body.getLinearVelocity();
@@ -67,13 +78,13 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 				linearVelocity.x *= factor;
 				body.setLinearVelocity(linearVelocity);
 			}
-
+			
 		} else {
 
 			if (contact.isInContact()) {
-				
+
 				// if normal perpendicular al piso me detengo, sino dejo al motor de física
-				
+
 				animationComponent.setCurrentAnimation(1);
 
 				Vector2 linearVelocity = body.getLinearVelocity();
@@ -96,10 +107,9 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 		// in contact with the ground!!... ?
 
 		JumpController jumpController = characterControllerComponent.getJumpController();
-		
+
 		JumpComponent jumpComponent = e.getComponent(JumpComponent.class);
 		jumpComponent.setJumping(jumpController.isJumping());
-
 
 	}
 

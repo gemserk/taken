@@ -190,6 +190,8 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.add(new PowerUpSystem());
 
 		worldWrapper.add(new AnimationSystem());
+		worldWrapper.add(new CorrectSpriteDirectionSystem());
+		
 		worldWrapper.add(new BloodOverlaySystem());
 		worldWrapper.add(new HitDetectionSystem(resourceManager));
 		worldWrapper.add(new CameraFollowSystem());
