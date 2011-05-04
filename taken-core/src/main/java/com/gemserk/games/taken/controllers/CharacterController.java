@@ -1,4 +1,4 @@
-package com.gemserk.games.taken;
+package com.gemserk.games.taken.controllers;
 
 import com.gemserk.commons.gdx.controllers.Controller;
 

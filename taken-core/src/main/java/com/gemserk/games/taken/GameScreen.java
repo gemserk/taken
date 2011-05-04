@@ -57,13 +57,15 @@ import com.gemserk.commons.svg.inkscape.SvgInkscapeImageHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePath;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePathHandler;
 import com.gemserk.commons.svg.inkscape.SvgParser;
-import com.gemserk.componentsengine.input.ButtonMonitor;
 import com.gemserk.componentsengine.input.InputDevicesMonitorImpl;
-import com.gemserk.componentsengine.input.LibgdxButtonMonitor;
 import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
 import com.gemserk.componentsengine.properties.PropertyBuilder;
 import com.gemserk.componentsengine.utils.Container;
 import com.gemserk.games.taken.PowerUp.Type;
+import com.gemserk.games.taken.controllers.CharacterController;
+import com.gemserk.games.taken.controllers.KeyboardCharacterController;
+import com.gemserk.games.taken.controllers.MultiTouchCharacterController;
+import com.gemserk.games.taken.controllers.SingleTouchCharacterController;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
@@ -72,174 +74,6 @@ import com.gemserk.resources.resourceloaders.CachedResourceLoader;
 import com.gemserk.resources.resourceloaders.ResourceLoaderImpl;
 
 public class GameScreen extends ScreenAdapter {
-
-	static class MultitouchController implements CharacterController {
-
-		private final LibgdxPointer pointer;
-
-		private final LibgdxPointer jumpPointer;
-
-		private final Vector2 direction = new Vector2();
-
-		private boolean walking;
-
-		private boolean jumping;
-
-		public MultitouchController(LibgdxPointer pointer, LibgdxPointer jumpPointer) {
-			this.pointer = pointer;
-			this.jumpPointer = jumpPointer;
-		}
-
-		@Override
-		public void update(int delta) {
-
-			walking = false;
-
-			jumping = false;
-
-			pointer.update();
-			jumpPointer.update();
-
-			if (pointer.touched) {
-
-				direction.set(pointer.getPosition()).sub(pointer.getPressedPosition());
-				direction.nor();
-
-				walking = true;
-			}
-
-			if (jumpPointer.touched) {
-				jumping = true;
-			}
-		}
-
-		@Override
-		public boolean isJumping() {
-			return jumping;
-		}
-
-		@Override
-		public boolean isWalking() {
-			return walking;
-		}
-
-		@Override
-		public void getWalkingDirection(float[] d) {
-			d[0] = direction.x;
-			d[1] = 0;
-		}
-	}
-
-	static class SingleTouchController implements CharacterController {
-
-		private final LibgdxPointer pointer;
-
-		private final Vector2 previousPosition = new Vector2();
-
-		private final Vector2 direction = new Vector2();
-
-		private boolean walking;
-
-		private boolean jumping;
-
-		public SingleTouchController(LibgdxPointer pointer) {
-			this.pointer = pointer;
-		}
-
-		@Override
-		public void update(int delta) {
-
-			walking = false;
-
-			jumping = false;
-
-			pointer.update();
-
-			if (pointer.wasPressed) {
-				previousPosition.set(pointer.getPosition());
-			}
-
-			if (!pointer.touched)
-				return;
-
-			direction.set(pointer.getPosition()).sub(pointer.getPressedPosition());
-			direction.nor();
-
-			walking = true;
-
-			if (pointer.getPosition().tmp().sub(previousPosition).y > 10) {
-				jumping = true;
-				// previousPosition.set(pointer.getPosition());
-			} else
-				previousPosition.set(pointer.getPosition());
-
-		}
-
-		@Override
-		public boolean isJumping() {
-			return jumping;
-		}
-
-		@Override
-		public boolean isWalking() {
-			return walking;
-		}
-
-		@Override
-		public void getWalkingDirection(float[] d) {
-			d[0] = direction.x;
-			d[1] = 0;
-		}
-	}
-
-	static class KeyboardCharacterController implements CharacterController {
-
-		private Vector2 direction = new Vector2(0f, 0f);
-
-		private boolean walking = false;
-
-		private boolean jumped = false;
-
-		ButtonMonitor jumpButtonMonitor = new LibgdxButtonMonitor(Keys.DPAD_UP);
-
-		@Override
-		public void update(int delta) {
-
-			walking = false;
-			jumped = false;
-
-			direction.set(0f, 0f);
-
-			if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
-				direction.x = 1f;
-				walking = true;
-			} else if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) {
-				direction.x = -1f;
-				walking = true;
-			}
-
-			jumpButtonMonitor.update();
-			jumped = jumpButtonMonitor.isHolded();
-
-		}
-
-		@Override
-		public boolean isWalking() {
-			return walking;
-		}
-
-		@Override
-		public void getWalkingDirection(float[] d) {
-			d[0] = direction.x;
-			d[1] = direction.y;
-		}
-
-		@Override
-		public boolean isJumping() {
-			return jumped;
-		}
-
-	}
 
 	private LibgdxGame game;
 
@@ -311,10 +145,14 @@ public class GameScreen extends ScreenAdapter {
 			}
 		};
 
-		spriteBatch = new SpriteBatch();
 	}
 
 	void restartGame() {
+		
+		Gdx.app.log("Taken", "Reloading the level");
+		
+		spriteBatch = new SpriteBatch();
+		
 		// create the scene...
 		physicsWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, -10f), false);
 
@@ -593,9 +431,9 @@ public class GameScreen extends ScreenAdapter {
 		if (Gdx.app.getType() == ApplicationType.Desktop)
 			characterController = new KeyboardCharacterController();
 		else if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen))
-			characterController = new MultitouchController(new LibgdxPointer(0), new LibgdxPointer(1));
+			characterController = new MultiTouchCharacterController(new LibgdxPointer(0), new LibgdxPointer(1));
 		else
-			characterController = new SingleTouchController(new LibgdxPointer(0));
+			characterController = new SingleTouchCharacterController(new LibgdxPointer(0));
 
 		mainCharacter.addComponent(new CharacterControllerComponent(characterController));
 		controllers.add(characterController);
@@ -1037,7 +875,8 @@ public class GameScreen extends ScreenAdapter {
 
 	@Override
 	public void dispose() {
-
+		resourceManager.unloadAll();
+		spriteBatch.dispose();
 	}
 
 }

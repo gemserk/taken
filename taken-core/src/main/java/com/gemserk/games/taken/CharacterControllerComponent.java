@@ -1,6 +1,7 @@
 package com.gemserk.games.taken;
 
 import com.artemis.Component;
+import com.gemserk.games.taken.controllers.CharacterController;
 
 public class CharacterControllerComponent extends Component {
 

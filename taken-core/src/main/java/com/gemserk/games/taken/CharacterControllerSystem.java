@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.games.taken.controllers.CharacterController;
 
 public class CharacterControllerSystem extends EntityProcessingSystem implements ActivableSystem {
 
