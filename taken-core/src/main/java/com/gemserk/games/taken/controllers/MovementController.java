@@ -2,7 +2,7 @@ package com.gemserk.games.taken.controllers;
 
 import com.gemserk.commons.gdx.controllers.Controller;
 
-public interface CharacterController extends Controller {
+public interface MovementController extends Controller {
 
 	boolean isWalking();
 	

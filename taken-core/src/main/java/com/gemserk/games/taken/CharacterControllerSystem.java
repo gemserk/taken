@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
-import com.gemserk.games.taken.controllers.CharacterController;
+import com.gemserk.games.taken.controllers.MovementController;
 import com.gemserk.games.taken.controllers.JumpController;
 
 public class CharacterControllerSystem extends EntityProcessingSystem implements ActivableSystem {
@@ -35,7 +35,7 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 	protected void process(Entity e) {
 
 		CharacterControllerComponent characterControllerComponent = e.getComponent(CharacterControllerComponent.class);
-		CharacterController characterController = characterControllerComponent.getCharacterController();
+		MovementController movementController = characterControllerComponent.getCharacterController();
 
 		AnimationComponent animationComponent = e.getComponent(AnimationComponent.class);
 
@@ -44,11 +44,11 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 
 		Contact contact = physicsComponent.getContact();
 
-		if (characterController.isWalking()) {
+		if (movementController.isWalking()) {
 
 			animationComponent.setCurrentAnimation(0);
 
-			characterController.getWalkingDirection(direction);
+			movementController.getWalkingDirection(direction);
 
 			force.set(direction[0], direction[1]);
 			force.mul(10f);

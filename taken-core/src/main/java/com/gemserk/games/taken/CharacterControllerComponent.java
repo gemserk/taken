@@ -1,25 +1,25 @@
 package com.gemserk.games.taken;
 
 import com.artemis.Component;
-import com.gemserk.games.taken.controllers.CharacterController;
+import com.gemserk.games.taken.controllers.MovementController;
 import com.gemserk.games.taken.controllers.JumpController;
 
 public class CharacterControllerComponent extends Component {
 
-	private final CharacterController characterController;
+	private final MovementController movementController;
 	
 	private final JumpController jumpController;
 	
-	public CharacterController getCharacterController() {
-		return characterController;
+	public MovementController getCharacterController() {
+		return movementController;
 	}
 	
 	public JumpController getJumpController() {
 		return jumpController;
 	}
 
-	public CharacterControllerComponent(CharacterController characterController, JumpController jumpController) {
-		this.characterController = characterController;
+	public CharacterControllerComponent(MovementController movementController, JumpController jumpController) {
+		this.movementController = movementController;
 		this.jumpController = jumpController;
 	}
 	

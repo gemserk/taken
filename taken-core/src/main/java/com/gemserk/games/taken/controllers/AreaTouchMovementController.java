@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.gemserk.commons.gdx.math.MathUtils2;
 
-public class AreaTouchCharacterController implements CharacterController {
+public class AreaTouchMovementController implements MovementController {
 
 	private final Rectangle moveLeftArea;
 	
@@ -14,7 +14,7 @@ public class AreaTouchCharacterController implements CharacterController {
 
 	private boolean walking;
 
-	public AreaTouchCharacterController(Rectangle moveLeftArea, Rectangle moveRightArea) {
+	public AreaTouchMovementController(Rectangle moveLeftArea, Rectangle moveRightArea) {
 		this.moveLeftArea = moveLeftArea;
 		this.moveRightArea = moveRightArea;
 	}
