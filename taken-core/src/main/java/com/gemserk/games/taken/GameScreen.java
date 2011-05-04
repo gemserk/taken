@@ -837,7 +837,7 @@ public class GameScreen extends ScreenAdapter {
 
 				texture("FontTexture", "data/font.png");
 
-				texture("CharactersSpriteSheet", "data/animation2.png", false);
+				texture("CharactersSpriteSheet", "data/spritesheet.png", false);
 
 				animation("Human_Walking", "CharactersSpriteSheet", 0, 32, 32, 32, 4, true, 100, 250, 100, 250);
 				animation("Human_Idle", "CharactersSpriteSheet", 0, 0, 32, 32, 2, true, 1000, 50);
