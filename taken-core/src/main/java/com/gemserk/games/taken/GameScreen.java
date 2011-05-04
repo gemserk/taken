@@ -67,7 +67,7 @@ import com.gemserk.games.taken.controllers.CharacterController;
 import com.gemserk.games.taken.controllers.DragJumpController;
 import com.gemserk.games.taken.controllers.JumpController;
 import com.gemserk.games.taken.controllers.KeyboardCharacterController;
-import com.gemserk.games.taken.controllers.SingleTouchCharacterController;
+import com.gemserk.games.taken.controllers.TouchCharacterController;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
@@ -434,13 +434,13 @@ public class GameScreen extends ScreenAdapter {
 			characterController = new KeyboardCharacterController();
 			jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
 		} else if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
-			characterController = new SingleTouchCharacterController(new LibgdxPointer(0));
+			characterController = new TouchCharacterController(new LibgdxPointer(0));
 			jumpController = new DragJumpController(new LibgdxPointer(0));
 			
 			// add a tap controller for jump, based on a screen area..
 			
 		} else {
-			characterController = new SingleTouchCharacterController(new LibgdxPointer(0));
+			characterController = new TouchCharacterController(new LibgdxPointer(0));
 			jumpController = new DragJumpController(new LibgdxPointer(0));
 		}
 

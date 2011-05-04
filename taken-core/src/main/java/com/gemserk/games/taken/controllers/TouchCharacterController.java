@@ -3,7 +3,7 @@ package com.gemserk.games.taken.controllers;
 import com.badlogic.gdx.math.Vector2;
 import com.gemserk.commons.gdx.input.LibgdxPointer;
 
-public class SingleTouchCharacterController implements CharacterController {
+public class TouchCharacterController implements CharacterController {
 
 	private final LibgdxPointer pointer;
 
@@ -11,7 +11,7 @@ public class SingleTouchCharacterController implements CharacterController {
 
 	private boolean walking;
 
-	public SingleTouchCharacterController(LibgdxPointer pointer) {
+	public TouchCharacterController(LibgdxPointer pointer) {
 		this.pointer = pointer;
 	}
 
