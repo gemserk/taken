@@ -219,13 +219,7 @@ public class GameScreen extends ScreenAdapter {
 
 		loadPhysicObjects();
 
-		// Body body = physicsObjectsFactory.createBox(new Vector2(-2, 2), new Vector2(2, 2));
-
-		// createMainCharacter();
-
 		createCharacterBloodOverlay();
-
-		createRobo();
 
 		createEnemyRobotSpawner();
 
@@ -276,8 +270,6 @@ public class GameScreen extends ScreenAdapter {
 				// Resource<SpriteSheet> spriteSheet = resourceManager.get(svgImage.getLabel());
 				// Texture texture = spriteSheet.get().getFrame(0).getTexture();
 
-				Resource<Texture> tileResource = resourceManager.get(svgImage.getLabel());
-
 				float width = svgImage.getWidth();
 				float height = svgImage.getHeight();
 
@@ -300,27 +292,18 @@ public class GameScreen extends ScreenAdapter {
 
 				float x = position.x;
 				float y = svgDocument.getHeight() - position.y;
+				
+				Resource<Texture> tileResource = resourceManager.get(svgImage.getLabel());
 
 				if (tileResource != null) {
 					Texture texture = tileResource.get();
-					// Sprite sprite = spriteSheet.get().getFrame(0);
 					Sprite sprite = new Sprite(texture);
-
 					sprite.setScale(sx, sy);
-
 					createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
-				} else {
-
-					String start = element.getAttribute("start");
-
-					if (start == null)
-						return;
-
-					if ("".equals(start))
-						return;
-
+				} else if (element.hasAttribute("start")) {
 					createMainCharacter(x, y);
-
+				} else if (element.hasAttribute("robotStart")) {
+					createRobo(x, y);
 				}
 
 			}
@@ -567,12 +550,9 @@ public class GameScreen extends ScreenAdapter {
 		entity.refresh();
 	}
 
-	void createRobo() {
+	void createRobo(float x, float y) {
 		Resource<Animation> enemyAnimationResource = resourceManager.get("Robo");
 		Sprite sprite = enemyAnimationResource.get().getFrame(0);
-
-		float x = 0f;
-		float y = -5f;
 
 		float size = 1f;
 

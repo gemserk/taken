@@ -2391,6 +2391,27 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 0.5 : 1"
        sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3439"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3474"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3496"
+       inkscape:persp3d-origin="0.5 : 0.333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -2399,11 +2420,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.6274"
-     inkscape:cx="7.56236"
-     inkscape:cy="0.271055"
+     inkscape:zoom="90.5096"
+     inkscape:cx="-4.34487"
+     inkscape:cy="5.64505"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer2"
      showgrid="true"
      inkscape:window-width="1440"
      inkscape:window-height="851"
@@ -3845,6 +3866,15 @@
        y="-18.854"
        inkscape:label="Tile09"
        transform="matrix(-0.999993,0.003629,-0.003629,-0.999993,0,0)" />
+    <image
+       style="display:inline"
+       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/robot.png"
+       width="1"
+       height="1"
+       id="image3429-1"
+       x="-6"
+       y="12"
+       robotStart="" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -3879,7 +3909,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="Tools"
-     style="display:none">
+     style="display:inline">
     <path
        style="fill:none;stroke:#fc0000;stroke-width:0.103061;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        d="M 23.5814,2.94578 21.1065,2.94581"
@@ -4238,6 +4268,14 @@
        d="M 35.3125,10.3124 34.9766,5.01556 30.7422,6.04686 30.7071,10.3085"
        id="path3295-5"
        sodipodi:nodetypes="cccc" />
+    <image
+       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/robot.png"
+       width="1"
+       height="1"
+       id="image3429"
+       x="27"
+       y="11"
+       robotStart="" />
   </g>
   <g
      inkscape:groupmode="layer"
