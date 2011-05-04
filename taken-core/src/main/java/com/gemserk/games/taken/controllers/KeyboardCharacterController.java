@@ -3,8 +3,6 @@ package com.gemserk.games.taken.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
-import com.gemserk.componentsengine.input.ButtonMonitor;
-import com.gemserk.componentsengine.input.LibgdxButtonMonitor;
 
 public class KeyboardCharacterController implements CharacterController {
 
@@ -12,15 +10,10 @@ public class KeyboardCharacterController implements CharacterController {
 
 	private boolean walking = false;
 
-	private boolean jumped = false;
-
-	ButtonMonitor jumpButtonMonitor = new LibgdxButtonMonitor(Keys.DPAD_UP);
-
 	@Override
 	public void update(int delta) {
 
 		walking = false;
-		jumped = false;
 
 		direction.set(0f, 0f);
 
@@ -31,9 +24,6 @@ public class KeyboardCharacterController implements CharacterController {
 			direction.x = -1f;
 			walking = true;
 		}
-
-		jumpButtonMonitor.update();
-		jumped = jumpButtonMonitor.isHolded();
 
 	}
 
@@ -46,11 +36,6 @@ public class KeyboardCharacterController implements CharacterController {
 	public void getWalkingDirection(float[] d) {
 		d[0] = direction.x;
 		d[1] = direction.y;
-	}
-
-	@Override
-	public boolean isJumping() {
-		return jumped;
 	}
 
 }

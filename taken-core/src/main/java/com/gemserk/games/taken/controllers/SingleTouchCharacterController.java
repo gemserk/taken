@@ -48,10 +48,10 @@ public class SingleTouchCharacterController implements CharacterController {
 
 	}
 
-	@Override
-	public boolean isJumping() {
-		return jumping;
-	}
+//	@Override
+//	public boolean isJumping() {
+//		return jumping;
+//	}
 
 	@Override
 	public boolean isWalking() {

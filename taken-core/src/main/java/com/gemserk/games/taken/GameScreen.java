@@ -57,11 +57,14 @@ import com.gemserk.commons.svg.inkscape.SvgInkscapePath;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePathHandler;
 import com.gemserk.commons.svg.inkscape.SvgParser;
 import com.gemserk.componentsengine.input.InputDevicesMonitorImpl;
+import com.gemserk.componentsengine.input.LibgdxButtonMonitor;
 import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
 import com.gemserk.componentsengine.properties.PropertyBuilder;
 import com.gemserk.componentsengine.utils.Container;
 import com.gemserk.games.taken.PowerUp.Type;
+import com.gemserk.games.taken.controllers.ButtonMonitorJumpController;
 import com.gemserk.games.taken.controllers.CharacterController;
+import com.gemserk.games.taken.controllers.JumpController;
 import com.gemserk.games.taken.controllers.KeyboardCharacterController;
 import com.gemserk.games.taken.controllers.MultiTouchCharacterController;
 import com.gemserk.games.taken.controllers.SingleTouchCharacterController;
@@ -103,7 +106,7 @@ public class GameScreen extends ScreenAdapter {
 
 	private World world;
 
-	private ArrayList<Controller> controllers = new ArrayList<Controller>();
+	private ArrayList<Controller> controllers;
 
 	private Entity mainCharacter;
 
@@ -148,6 +151,8 @@ public class GameScreen extends ScreenAdapter {
 	void restartGame() {
 
 		Gdx.app.log("Taken", "Reloading the level");
+		
+		controllers = new ArrayList<Controller>();
 
 		spriteBatch = new SpriteBatch();
 
@@ -421,6 +426,7 @@ public class GameScreen extends ScreenAdapter {
 		mainCharacter.addComponent(new HealthComponent(new Container(50f, 50f)));
 
 		CharacterController characterController = null;
+		JumpController jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
 
 		if (Gdx.app.getType() == ApplicationType.Desktop)
 			characterController = new KeyboardCharacterController();
@@ -429,8 +435,10 @@ public class GameScreen extends ScreenAdapter {
 		else
 			characterController = new SingleTouchCharacterController(new LibgdxPointer(0));
 
-		mainCharacter.addComponent(new CharacterControllerComponent(characterController));
+		mainCharacter.addComponent(new CharacterControllerComponent(characterController, jumpController));
+		
 		controllers.add(characterController);
+		controllers.add(jumpController);
 
 		mainCharacter.addComponent(new JumpComponent(8f, jumpSound.get()));
 

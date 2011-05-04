@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.controllers.CharacterController;
+import com.gemserk.games.taken.controllers.JumpController;
 
 public class CharacterControllerSystem extends EntityProcessingSystem implements ActivableSystem {
 
@@ -35,8 +36,8 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 	@Override
 	protected void process(Entity e) {
 
-		CharacterControllerComponent component = e.getComponent(CharacterControllerComponent.class);
-		CharacterController characterController = component.getCharacterController();
+		CharacterControllerComponent characterControllerComponent = e.getComponent(CharacterControllerComponent.class);
+		CharacterController characterController = characterControllerComponent.getCharacterController();
 
 		AnimationComponent animationComponent = e.getComponent(AnimationComponent.class);
 
@@ -44,21 +45,6 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 		Body body = physicsComponent.getBody();
 
 		Contact contact = physicsComponent.getContact();
-		
-//		for (int i = 0; i < contact.getContactCount(); i++) {
-//			
-//			if (!contact.isInContact(i))
-//				continue;
-//			
-//			Vector2 normal = contact.getNormal(i);
-//			System.out.println("normal= " + normal);
-//			float crs = normal.crs(horizontalAxis);
-//			System.out.println("cross: " + crs);
-//			Vector2 tmp = normal.tmp();
-//			tmp.rotate(90);
-//			tmp.nor();
-//			System.out.println(tmp);
-//		}
 
 		if (characterController.isWalking()) {
 
@@ -85,6 +71,9 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 		} else {
 
 			if (contact.isInContact()) {
+				
+				// if normal perpendicular al piso me detengo, sino dejo al motor de física
+				
 				animationComponent.setCurrentAnimation(1);
 
 				Vector2 linearVelocity = body.getLinearVelocity();
@@ -106,8 +95,10 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 
 		// in contact with the ground!!... ?
 
+		JumpController jumpController = characterControllerComponent.getJumpController();
+		
 		JumpComponent jumpComponent = e.getComponent(JumpComponent.class);
-		jumpComponent.setJumping(characterController.isJumping());
+		jumpComponent.setJumping(jumpController.isJumping());
 
 
 	}
