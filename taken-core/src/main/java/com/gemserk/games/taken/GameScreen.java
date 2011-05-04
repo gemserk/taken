@@ -24,7 +24,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.gemserk.animation4j.FrameAnimationImpl;
+import com.gemserk.animation4j.gdx.Animation;
 import com.gemserk.animation4j.interpolator.function.InterpolationFunctions;
 import com.gemserk.animation4j.transitions.Transitions;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
@@ -68,7 +68,6 @@ import com.gemserk.games.taken.controllers.SingleTouchCharacterController;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
-import com.gemserk.resources.dataloaders.DataLoader;
 import com.gemserk.resources.resourceloaders.CachedResourceLoader;
 import com.gemserk.resources.resourceloaders.ResourceLoaderImpl;
 
@@ -461,7 +460,7 @@ public class GameScreen extends ScreenAdapter {
 	void createEnemyRobotSpawner() {
 		Entity entity = world.createEntity();
 
-		entity.addComponent(new SpawnerComponent(3500, new EntityTemplate() {
+		entity.addComponent(new SpawnerComponent(4500, new EntityTemplate() {
 			@Override
 			public Entity build() {
 				// TODO Auto-generated function stub
@@ -495,7 +494,7 @@ public class GameScreen extends ScreenAdapter {
 				Vector2 position = spatialComponent.getPosition();
 
 				float x = position.x + MathUtils.random(-10, 10);
-				float y = 2.5f + MathUtils.random(0f, 2.5f);
+				float y = 0f + MathUtils.random(0f, 2.5f);
 
 				createHealthVial(x, y, 15000, 25f);
 
@@ -520,7 +519,7 @@ public class GameScreen extends ScreenAdapter {
 				Vector2 position = spatialComponent.getPosition();
 
 				float x = position.x + MathUtils.random(-10, 10);
-				float y = 2.5f + MathUtils.random(0f, 2.5f);
+				float y = 0f + MathUtils.random(1f, 3f);
 
 				if (MathUtils.randomBoolean()) {
 					createPowerUp(x, y, 25000, new PowerUp(Type.MovementSpeedModifier, 2f, 25000));
@@ -794,11 +793,6 @@ public class GameScreen extends ScreenAdapter {
 				texture("Tile08", "data/tile08.png");
 				texture("Tile09", "data/tile09.png");
 
-				// spriteSheet("Tile01", "Tiles", 128 * 0, 0, 128, 128, 1);
-				// spriteSheet("Tile02", "Tiles", 128 * 1, 0, 128, 128, 1);
-				// spriteSheet("Tile03", "Tiles", 128 * 2, 0, 128, 128, 1);
-				// spriteSheet("Tile04", "Tiles", 128 * 3, 0, 128, 128, 1);
-
 				texture("FontTexture", "data/font.png");
 
 				texture("CharactersSpriteSheet", "data/animation2.png", false);
@@ -823,35 +817,7 @@ public class GameScreen extends ScreenAdapter {
 				sound("Explosion", "data/explosion.ogg");
 
 				sound("HealthVialSound", "data/healthvial.ogg");
-			}
 
-			private void animation(String id, String spriteSheetId, final int x, final int y, final int w, final int h, final int framesCount, //
-					final boolean loop, final int time, final int... times) {
-				final Texture spriteSheet = resourceManager.getResourceValue(spriteSheetId);
-				resourceManager.add(id, new ResourceLoaderImpl<Animation>(new DataLoader<Animation>() {
-
-					@Override
-					public Animation load() {
-						Sprite[] frames = new Sprite[framesCount];
-						for (int i = 0; i < frames.length; i++) {
-							frames[i] = new Sprite(spriteSheet, x + i * w, y, w, h);
-						}
-
-						int[] newTimes = new int[framesCount - 1];
-						int lastTime = time;
-
-						for (int i = 0; i < framesCount - 1; i++) {
-							if (i < times.length) {
-								newTimes[i] = times[i];
-								lastTime = times[i];
-							} else
-								newTimes[i] = lastTime;
-						}
-
-						return new Animation(frames, new FrameAnimationImpl(loop, time, newTimes));
-					}
-
-				}));
 			}
 
 		};

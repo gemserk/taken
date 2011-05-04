@@ -5,6 +5,7 @@ import com.artemis.EntityProcessingSystem;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.gemserk.animation4j.gdx.Animation;
 import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
@@ -36,10 +37,6 @@ public class AnimationSystem extends EntityProcessingSystem implements Activable
 		Animation animation = animationComponent.getCurrentAnimation();
 		animation.update(world.getDelta());
 
-		// FrameAnimation frameAnimation = animationComponent.getCurrentFrameAnimation();
-		// frameAnimation.update(world.getDelta());
-		
-		// Sprite currentSprite = animation.getFrame(frameAnimation.getCurrentFrame());
 		Sprite currentSprite = animation.getCurrentFrame();
 		spriteComponent.setSprite(currentSprite);
 

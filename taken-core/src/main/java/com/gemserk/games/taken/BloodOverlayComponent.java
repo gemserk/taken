@@ -2,6 +2,7 @@ package com.gemserk.games.taken;
 
 import com.artemis.Component;
 import com.artemis.Entity;
+import com.gemserk.animation4j.gdx.Animation;
 
 public class BloodOverlayComponent extends Component {
 
