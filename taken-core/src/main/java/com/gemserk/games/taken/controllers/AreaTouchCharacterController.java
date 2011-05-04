@@ -23,22 +23,29 @@ public class AreaTouchCharacterController implements CharacterController {
 	public void update(int delta) {
 		walking = false;
 		
-		if (Gdx.input.isTouched()) {
-			
-			float x = Gdx.input.getX();
-			float y = Gdx.graphics.getHeight() - Gdx.input.getY();
-			
-			if (MathUtils2.inside(moveLeftArea, x, y)) {
-				direction = -1f;
-				walking = true;
-			}
+		// try five touches? 
+		for (int i = 0; i < 5; i++) {
+			if (Gdx.input.isTouched(i)) {
+				
+				float x = Gdx.input.getX(i);
+				float y = Gdx.graphics.getHeight() - Gdx.input.getY(i);
+				
+				if (MathUtils2.inside(moveLeftArea, x, y)) {
+					direction = -1f;
+					walking = true;
+					return;
+				}
 
-			if (MathUtils2.inside(moveRightArea, x, y)) {
-				direction = 1f;
-				walking = true;
-			}
+				if (MathUtils2.inside(moveRightArea, x, y)) {
+					direction = 1f;
+					walking = true;
+					return;
+				}
 
+			}
 		}
+		
+
 	}
 
 	@Override

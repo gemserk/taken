@@ -9,7 +9,7 @@ public class AreaTouchJumpController implements JumpController {
 	private final Rectangle jumpArea;
 
 	private boolean jumping;
-	
+
 	public AreaTouchJumpController(Rectangle jumpArea) {
 		this.jumpArea = jumpArea;
 	}
@@ -17,16 +17,22 @@ public class AreaTouchJumpController implements JumpController {
 	@Override
 	public void update(int delta) {
 		jumping = false;
-		
-		if (Gdx.input.isTouched()) {
-			
-			float x = Gdx.input.getX();
-			float y = Gdx.graphics.getHeight() - Gdx.input.getY();
-			
-			if (MathUtils2.inside(jumpArea, x, y)) 
-				jumping = true;
 
+		// try five touches? 
+		for (int i = 0; i < 5; i++) {
+			if (Gdx.input.isTouched(i)) {
+				
+				float x = Gdx.input.getX(i);
+				float y = Gdx.graphics.getHeight() - Gdx.input.getY(i);
+				
+				if (MathUtils2.inside(jumpArea, x, y)) {
+					jumping = true;
+					return;
+				}
+				
+			}
 		}
+		
 	}
 
 	@Override

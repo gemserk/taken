@@ -70,6 +70,7 @@ import com.gemserk.games.taken.controllers.ButtonMonitorJumpController;
 import com.gemserk.games.taken.controllers.CharacterController;
 import com.gemserk.games.taken.controllers.DragJumpController;
 import com.gemserk.games.taken.controllers.JumpController;
+import com.gemserk.games.taken.controllers.KeyboardCharacterController;
 import com.gemserk.games.taken.controllers.TouchCharacterController;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
@@ -434,13 +435,13 @@ public class GameScreen extends ScreenAdapter {
 		JumpController jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
 
 		if (Gdx.app.getType() == ApplicationType.Desktop) {
-			// characterController = new KeyboardCharacterController();
-			// jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
-			characterController = new AreaTouchCharacterController(new Rectangle(0, 0, 100, 100), new Rectangle(100, 0, 100, 100));
-			jumpController = new AreaTouchJumpController(new Rectangle(200, 0, Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight()));
+			 characterController = new KeyboardCharacterController();
+			 jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
+//			characterController = new AreaTouchCharacterController(new Rectangle(0, 0, 100, 100), new Rectangle(100, 0, 100, 100));
+//			jumpController = new AreaTouchJumpController(new Rectangle(Gdx.graphics.getWidth() - 100, 0, 100, 100));
 		} else if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
 			characterController = new AreaTouchCharacterController(new Rectangle(0, 0, 100, 100), new Rectangle(100, 0, 100, 100));
-			jumpController = new AreaTouchJumpController(new Rectangle(200, 0, Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight()));
+			jumpController = new AreaTouchJumpController(new Rectangle(Gdx.graphics.getWidth() - 100, 0, 100, 100));
 			// characterController = new TouchCharacterController(new LibgdxPointer(0));
 			// jumpController = new DragJumpController(new LibgdxPointer(0));
 			// add a tap controller for jump, based on a screen area..
@@ -779,7 +780,7 @@ public class GameScreen extends ScreenAdapter {
 		ImmediateModeRendererUtils.drawRectangle(0, 0, 100, 100, Color.WHITE);
 		ImmediateModeRendererUtils.drawRectangle(100, 0, 200, 100, Color.WHITE);
 		
-		ImmediateModeRendererUtils.drawRectangle(200, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Color.WHITE);
+		ImmediateModeRendererUtils.drawRectangle(Gdx.graphics.getWidth() - 100, 0, Gdx.graphics.getWidth(), 100, Color.WHITE);
 
 	}
 
