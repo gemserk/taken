@@ -70,27 +70,20 @@ public class SplashScreen extends ScreenAdapter {
 		}).handleChangesOf(splashAnimation);
 
 		splashAnimation.start(1);
-
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
-
 		spriteBatch.begin();
-
 		for (int i = 0; i < sprites.size(); i++) {
 			Sprite sprite = sprites.get(i);
 			sprite.setColor(color);
 			sprite.draw(spriteBatch);
 		}
-		
 		spriteBatch.end();
-
 		splashAnimation.update(delta * 1000);
-		
 		animationHandlerManager.checkAnimationChanges();
-		
 	}
 
 	protected void onSplashScreenFinished() {
@@ -99,9 +92,15 @@ public class SplashScreen extends ScreenAdapter {
 
 	@Override
 	public void show() {
-
+		super.show();
 	}
-
+	
+	@Override
+	public void hide() {
+		super.hide();
+//		dispose();
+	}
+	
 	@Override
 	public void dispose() {
 		this.spriteBatch.dispose();

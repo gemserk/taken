@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -26,8 +27,6 @@ public class LibgdxGame extends Game {
 		Converters.register(Vector2.class, LibgdxConverters.vector2());
 		Converters.register(Color.class, LibgdxConverters.color());
 		Converters.register(FloatValue.class, CommonConverters.floatValue());
-
-		final Game game = this;
 
 		scoreScreen = new ScoreScreen(this);
 		gameScreen = new GameScreen(this);
@@ -85,20 +84,29 @@ public class LibgdxGame extends Game {
 
 			@Override
 			protected void onSplashScreenFinished() {
-				game.setScreen(gameScreen);
+				LibgdxGame.this.setScreen(gameScreen, true);
 			}
 
 			@Override
 			public void dispose() {
+				super.dispose();
 				gemserkLogo.dispose();
 				lwjglLogo.dispose();
 				libgdxLogo.dispose();
+				Gdx.app.log("Taken", "SplashScreen resources disposed");
 			}
 
 		};
 
 		setScreen(splashScreen);
 
+	}
+	
+	public void setScreen(Screen screen, boolean disposeCurrent) {
+		Screen currentScreen = super.getScreen();
+		setScreen(screen);
+		if (disposeCurrent)
+			currentScreen.dispose();
 	}
 
 }

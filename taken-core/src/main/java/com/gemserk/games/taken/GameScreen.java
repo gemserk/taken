@@ -517,17 +517,14 @@ public class GameScreen extends ScreenAdapter {
 
 	void createBackground() {
 		Resource<Texture> background = resourceManager.get("Background");
-
 		createStaticSprite(new Sprite(background.get()), 0f, 0f, 512, 512, 0f, -103, 0f, 0f, Color.WHITE);
 		createStaticSprite(new Sprite(background.get()), 512, 0f, 512, 512, 0f, -103, 0f, 0f, Color.WHITE);
 	}
 
 	void createStaticSprite(Sprite sprite, float x, float y, float width, float height, float angle, int layer, float centerx, float centery, Color color) {
 		Entity entity = world.createEntity();
-
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(width, height), angle));
 		entity.addComponent(new SpriteComponent(sprite, layer, new Vector2(centerx, centery), new Color(color)));
-
 		entity.refresh();
 	}
 
