@@ -337,7 +337,7 @@ public class GameScreen extends ScreenAdapter {
 
 		worldWrapper.add(new CharacterControllerSystem());
 		worldWrapper.add(new JumpSystem());
-		
+
 		worldWrapper.add(new PhysicsSystem(physicsWorld));
 		worldWrapper.add(new FollowCharacterBehaviorSystem());
 		worldWrapper.add(new WeaponSystem(this, resourceManager));
@@ -366,29 +366,23 @@ public class GameScreen extends ScreenAdapter {
 
 		createBackground();
 
-//		Body body = physicsObjectsFactory.createBox(new Vector2(-2, 2), new Vector2(2, 2));
+		loadWorld();
 
-		createMainCharacter();
+		loadPhysicObjects();
+
+		// Body body = physicsObjectsFactory.createBox(new Vector2(-2, 2), new Vector2(2, 2));
+
+		// createMainCharacter();
 
 		createCharacterBloodOverlay();
 
 		createRobo();
 
-		 createEnemyRobotSpawner();
+		createEnemyRobotSpawner();
 
 		createHealthVialSpawner();
 
 		createPowerUpSpawner();
-
-		// createPowerUp(2f, 4.5f, 20000, new PowerUp(Type.WeaponSpeedModifier, 3f, 15000));
-		//
-		// createPowerUp(-2f, 4.5f, 20000, new PowerUp(Type.MovementSpeedModifier, 2f, 15000));
-
-		// createHealthVial(4f, 2.5f, 15000, 25f);
-
-		loadWorld();
-
-		loadPhysicObjects();
 
 		score = 0;
 	}
@@ -425,14 +419,10 @@ public class GameScreen extends ScreenAdapter {
 				if (svgImage.getLabel() == null)
 					return;
 
-				Resource<SpriteSheet> spriteSheet = resourceManager.get(svgImage.getLabel());
+				// Resource<SpriteSheet> spriteSheet = resourceManager.get(svgImage.getLabel());
 				// Texture texture = spriteSheet.get().getFrame(0).getTexture();
 
 				Resource<Texture> tileResource = resourceManager.get(svgImage.getLabel());
-				Texture texture = tileResource.get();
-
-				// if (spriteSheet == null)
-				// return;
 
 				float width = svgImage.getWidth();
 				float height = svgImage.getHeight();
@@ -457,12 +447,27 @@ public class GameScreen extends ScreenAdapter {
 				float x = position.x;
 				float y = svgDocument.getHeight() - position.y;
 
-				// Sprite sprite = spriteSheet.get().getFrame(0);
-				Sprite sprite = new Sprite(texture);
+				if (tileResource != null) {
+					Texture texture = tileResource.get();
+					// Sprite sprite = spriteSheet.get().getFrame(0);
+					Sprite sprite = new Sprite(texture);
 
-				sprite.setScale(sx, sy);
+					sprite.setScale(sx, sy);
 
-				createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
+					createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
+				} else {
+
+					String start = element.getAttribute("start");
+
+					if (start == null)
+						return;
+
+					if ("".equals(start))
+						return;
+
+					createMainCharacter(x, y);
+
+				}
 
 			}
 		});
@@ -526,18 +531,15 @@ public class GameScreen extends ScreenAdapter {
 		entity.refresh();
 	}
 
-	void createMainCharacter() {
+	void createMainCharacter(float x, float y) {
 		Resource<SpriteSheet> walkingAnimationResource = resourceManager.get("Human_Walking");
 		Resource<SpriteSheet> idleAnimationResource = resourceManager.get("Human_Idle");
 		Resource<SpriteSheet> jumpAnimationResource = resourceManager.get("Human_Jump");
 		Resource<SpriteSheet> fallAnimationResource = resourceManager.get("Human_Fall");
-		
+
 		Resource<Sound> jumpSound = resourceManager.get("JumpSound");
 
 		Sprite sprite = new Sprite(idleAnimationResource.get().getFrame(0));
-
-		float x = 0f;
-		float y = 2f;
 
 		float size = 1f;
 
@@ -547,8 +549,17 @@ public class GameScreen extends ScreenAdapter {
 		// Body body = physicsObjectsFactory.createDynamicRectangle(x, y, width, height, true, 1f);
 		// Body body = physicsObjectsFactory.createDynamicCircle(x, y, height * 0.5f, false, 1f);
 
+		// Vector2[] bodyShape = new Vector2[] {
+		// new Vector2(0f, -0.5f),
+		// // new Vector2(0.075f, 0.5f),
+		// new Vector2(0f, 0.5f),
+		// // new Vector2(-0.075f, 0.5f),
+		// };
+
+		// Box2dUtils.initArray(bodyShape);
+
 		Vector2[] bodyShape = Box2dUtils.createRectangle(width, height);
-		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0f);
+		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0f, 0.15f);
 
 		mainCharacter = world.createEntity();
 
@@ -591,7 +602,7 @@ public class GameScreen extends ScreenAdapter {
 
 		mainCharacter.addComponent(new CharacterControllerComponent(characterController));
 		controllers.add(characterController);
-		
+
 		mainCharacter.addComponent(new JumpComponent(8f, jumpSound.get()));
 
 		mainCharacter.refresh();
@@ -958,6 +969,11 @@ public class GameScreen extends ScreenAdapter {
 				texture("Tile02", "data/tile02.png");
 				texture("Tile03", "data/tile03.png");
 				texture("Tile04", "data/tile04.png");
+				texture("Tile05", "data/tile05.png");
+				texture("Tile06", "data/tile06.png");
+				texture("Tile07", "data/tile07.png");
+				texture("Tile08", "data/tile08.png");
+				texture("Tile09", "data/tile09.png");
 
 				// spriteSheet("Tile01", "Tiles", 128 * 0, 0, 128, 128, 1);
 				// spriteSheet("Tile02", "Tiles", 128 * 1, 0, 128, 128, 1);

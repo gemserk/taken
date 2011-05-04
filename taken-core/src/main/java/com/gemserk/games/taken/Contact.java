@@ -66,9 +66,21 @@ public class Contact {
 		}
 		return false;
 	}
+	
+	public boolean isInContact(int i) {
+		return contacts[i].inContact;
+	}
 
 	public Vector2 getNormal() {
 		return contacts[0].normal;
+	}
+	
+	public Vector2 getNormal(int contact) {
+		return contacts[contact].normal;
+	}
+	
+	public int getContactCount() {
+		return contacts.length;
 	}
 
 	public Entity getEntity() {

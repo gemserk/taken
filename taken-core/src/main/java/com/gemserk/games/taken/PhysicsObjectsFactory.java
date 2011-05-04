@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gemserk.commons.gdx.box2d.Box2dUtils;
@@ -80,7 +81,7 @@ public class PhysicsObjectsFactory {
 		return vertices;
 	}
 	
-	public Body createPolygonBody(float x, float y, Vector2[] vertices, boolean fixedRotation, float friction, float density, float restitution) { 
+	public Body createPolygonBody(float x, float y, Vector2[] vertices, boolean fixedRotation, float friction, float density, float restitution, float mass) { 
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
@@ -97,8 +98,12 @@ public class PhysicsObjectsFactory {
 		fixtureDef.density = density;
 		fixtureDef.friction = friction;
 		fixtureDef.restitution =restitution;
-
+		
 		body.createFixture(fixtureDef);
+		
+		MassData massData = body.getMassData();
+		massData.mass = mass;
+		body.setMassData(massData);
 		
 		shape.dispose();
 		

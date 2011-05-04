@@ -12,6 +12,8 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 	private final ActivableSystem activableSystem = new ActivableSystemImpl();
 
 	private final float[] direction = new float[] { 0f, 0f };
+	
+	private final Vector2 horizontalAxis = new Vector2(1f, 0f);
 
 	private final Vector2 force = new Vector2();
 
@@ -41,6 +43,21 @@ public class CharacterControllerSystem extends EntityProcessingSystem implements
 		Body body = physicsComponent.getBody();
 
 		Contact contact = physicsComponent.getContact();
+		
+//		for (int i = 0; i < contact.getContactCount(); i++) {
+//			
+//			if (!contact.isInContact(i))
+//				continue;
+//			
+//			Vector2 normal = contact.getNormal(i);
+//			System.out.println("normal= " + normal);
+//			float crs = normal.crs(horizontalAxis);
+//			System.out.println("cross: " + crs);
+//			Vector2 tmp = normal.tmp();
+//			tmp.rotate(90);
+//			tmp.nor();
+//			System.out.println(tmp);
+//		}
 
 		if (characterController.isWalking()) {
 
