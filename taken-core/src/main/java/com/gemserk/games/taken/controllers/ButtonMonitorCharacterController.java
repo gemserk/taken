@@ -2,7 +2,7 @@ package com.gemserk.games.taken.controllers;
 
 import com.gemserk.componentsengine.input.ButtonMonitor;
 
-public class KeyboardCharacterController implements CharacterController {
+public class ButtonMonitorCharacterController implements CharacterController {
 
 	private float direction = 0f;
 
@@ -12,7 +12,7 @@ public class KeyboardCharacterController implements CharacterController {
 
 	private final ButtonMonitor rightKeyButton;
 
-	public KeyboardCharacterController(ButtonMonitor leftKeyButton, ButtonMonitor rightKeyButton) {
+	public ButtonMonitorCharacterController(ButtonMonitor leftKeyButton, ButtonMonitor rightKeyButton) {
 		this.leftKeyButton = leftKeyButton;
 		this.rightKeyButton = rightKeyButton;
 	}

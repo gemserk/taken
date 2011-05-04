@@ -70,7 +70,7 @@ import com.gemserk.games.taken.controllers.ButtonMonitorJumpController;
 import com.gemserk.games.taken.controllers.CharacterController;
 import com.gemserk.games.taken.controllers.DragJumpController;
 import com.gemserk.games.taken.controllers.JumpController;
-import com.gemserk.games.taken.controllers.KeyboardCharacterController;
+import com.gemserk.games.taken.controllers.ButtonMonitorCharacterController;
 import com.gemserk.games.taken.controllers.TouchCharacterController;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
@@ -435,7 +435,7 @@ public class GameScreen extends ScreenAdapter {
 		JumpController jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
 
 		if (Gdx.app.getType() == ApplicationType.Desktop) {
-			characterController = new KeyboardCharacterController(new LibgdxButtonMonitor(Keys.DPAD_LEFT), new LibgdxButtonMonitor(Keys.DPAD_RIGHT));
+			characterController = new ButtonMonitorCharacterController(new LibgdxButtonMonitor(Keys.DPAD_LEFT), new LibgdxButtonMonitor(Keys.DPAD_RIGHT));
 			jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
 			// characterController = new AreaTouchCharacterController(new Rectangle(0, 0, 100, 100), new Rectangle(100, 0, 100, 100));
 			// jumpController = new AreaTouchJumpController(new Rectangle(Gdx.graphics.getWidth() - 100, 0, 100, 100));
