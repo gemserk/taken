@@ -808,12 +808,12 @@ public class GameScreen extends ScreenAdapter {
 				animation("Powerup01", "CharactersSpriteSheet", 5 * 32, 2 * 32, 32, 32, 2, true, 750);
 				animation("Powerup02", "CharactersSpriteSheet", 5 * 32, 3 * 32, 32, 32, 2, true, 750);
 
-				sound("JumpSound", "data/jump.ogg");
-				sound("FriendlyLaserSound", "data/laser.ogg");
-				sound("EnemyLaserSound", "data/enemy_laser.ogg");
-				sound("Explosion", "data/explosion.ogg");
+				sound("JumpSound", "data/sounds/jump.ogg");
+				sound("FriendlyLaserSound", "data/sounds/laser.ogg");
+				sound("EnemyLaserSound", "data/sounds/enemy_laser.ogg");
+				sound("Explosion", "data/sounds/explosion.ogg");
 
-				sound("HealthVialSound", "data/healthvial.ogg");
+				sound("HealthVialSound", "data/sounds/healthvial.ogg");
 
 				font("Font", "data/fonts/font.png", "data/fonts/font.fnt");
 
