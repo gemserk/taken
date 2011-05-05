@@ -15,7 +15,6 @@ import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
 import com.gemserk.commons.gdx.resources.dataloaders.BitmapFontDataLoader;
 import com.gemserk.componentsengine.input.InputDevicesMonitorImpl;
 import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
-import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
 import com.gemserk.resources.resourceloaders.CachedResourceLoader;
@@ -31,19 +30,19 @@ public class ScoreScreen extends ScreenAdapter {
 
 	private final LibgdxResourceBuilder libgdxResourceBuilder;
 
+	private static final Color endColor = new Color(1f, 1f, 1f, 0f);
+
+	private static final Color startColor = new Color(1f, 1f, 1f, 1f);
+
+	private boolean fadingOut = false;
+
+	private Sprite backgroundSprite;
+
 	private SpriteBatch spriteBatch;
 
 	private int score = 0;
 
 	private Color fadeInColor;
-
-	private Color endColor = new Color(1f, 1f, 1f, 0f);
-
-	private Color startColor = new Color(1f, 1f, 1f, 1f);
-
-	private boolean fadingOut = false;
-
-	private Sprite backgroundSprite;
 
 	public void setScore(int score) {
 		this.score = score;
@@ -68,7 +67,7 @@ public class ScoreScreen extends ScreenAdapter {
 		fadeInColor = new Color(1f, 1f, 1f, 1f);
 
 		backgroundSprite = resourceManager.getResourceValue("Background");
-		backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		// backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 		Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(startColor).end(endColor).time(2000).build());
 		fadingOut = false;
@@ -83,12 +82,16 @@ public class ScoreScreen extends ScreenAdapter {
 
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-		Resource<BitmapFont> fontResource = resourceManager.get("Font");
-		BitmapFont bitmapFont = fontResource.get();
+		BitmapFont bitmapFont = resourceManager.getResourceValue("Font");
 
 		spriteBatch.begin();
 
 		backgroundSprite.setColor(Color.WHITE);
+
+		backgroundSprite.setPosition(0, 0);
+		backgroundSprite.draw(spriteBatch);
+
+		backgroundSprite.setPosition(backgroundSprite.getWidth(), 0);
 		backgroundSprite.draw(spriteBatch);
 
 		spriteBatch.setColor(Color.WHITE);
@@ -106,6 +109,11 @@ public class ScoreScreen extends ScreenAdapter {
 		spriteBatch.setColor(fadeInColor);
 
 		backgroundSprite.setColor(fadeInColor);
+
+		backgroundSprite.setPosition(0, 0);
+		backgroundSprite.draw(spriteBatch);
+
+		backgroundSprite.setPosition(backgroundSprite.getWidth(), 0);
 		backgroundSprite.draw(spriteBatch);
 
 		spriteBatch.end();
@@ -130,9 +138,9 @@ public class ScoreScreen extends ScreenAdapter {
 			libgdxResourceBuilder.sprite("Background", "BackgroundTexture");
 		}
 
-		Resource<Texture> fontTextureResource = resourceManager.get("FontTexture");
+		Texture fontTexture = resourceManager.getResourceValue("FontTexture");
 		resourceManager.add("Font", new CachedResourceLoader<BitmapFont>(new ResourceLoaderImpl<BitmapFont>( //
-				new BitmapFontDataLoader(Gdx.files.internal("data/font.fnt"), new Sprite(fontTextureResource.get())))));
+				new BitmapFontDataLoader(Gdx.files.internal("data/font.fnt"), new Sprite(fontTexture)))));
 	}
 
 	@Override
