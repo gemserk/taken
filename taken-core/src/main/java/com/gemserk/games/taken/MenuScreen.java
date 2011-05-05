@@ -27,6 +27,7 @@ import com.gemserk.commons.gdx.camera.Camera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCamera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
+import com.gemserk.commons.svg.inkscape.SvgInkscapeImage;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
@@ -97,8 +98,29 @@ public class MenuScreen extends ScreenAdapter {
 		worldWrapper.init();
 
 		createBackground();
-		createMainCharacter(5f, 5f);
-		createRobo(6f, 6f);
+		
+		new WorldLoader(){
+			
+			@Override
+			protected void handleCharacterStartPoint(float x, float y) {
+				createMainCharacter(x, y);
+			}
+			
+			@Override
+			protected void handleRobotStartPoint(float x, float y) {
+				createRobo(x, y);
+			}
+			
+			protected void handleStaticObject(SvgInkscapeImage svgImage, float width, float height, float angle, float sx, float sy, float x, float y) {
+				Texture texture = resourceManager.getResourceValue(svgImage.getLabel());
+				if (texture == null)
+					return;
+				Sprite sprite = new Sprite(texture);
+				sprite.setScale(sx, sy);
+				createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
+			};
+			
+		}.loadWorld(Gdx.files.internal("data/scenes/menu-scene.svg").read());
 	}
 
 	void createBackground() {
@@ -194,8 +216,6 @@ public class MenuScreen extends ScreenAdapter {
 				texture("Background", "data/background-512x512.jpg");
 
 				texture("Tiles", "data/tiles.png", false);
-
-				// add method for sprites (with or without cache)
 
 				texture("Tile01", "data/tile01.png");
 				texture("Tile02", "data/tile02.png");

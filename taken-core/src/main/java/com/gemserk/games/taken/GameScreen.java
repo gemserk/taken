@@ -2,9 +2,7 @@ package com.gemserk.games.taken;
 
 import java.util.ArrayList;
 
-import javax.vecmath.Matrix3f;
 import javax.vecmath.Vector2f;
-import javax.vecmath.Vector3f;
 
 import org.w3c.dom.Element;
 
@@ -53,7 +51,6 @@ import com.gemserk.commons.svg.inkscape.SvgDocumentHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeGroup;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeGroupHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeImage;
-import com.gemserk.commons.svg.inkscape.SvgInkscapeImageHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePath;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePathHandler;
 import com.gemserk.commons.svg.inkscape.SvgParser;
@@ -144,6 +141,7 @@ public class GameScreen extends ScreenAdapter {
 			{
 				monitorKey("debug", Keys.D);
 				monitorKey("score", Keys.P);
+				monitorKey("menu", Keys.Q);
 			}
 		};
 
@@ -231,79 +229,27 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void loadWorld() {
+		new WorldLoader() {
 
-		SvgParser svgParser = new SvgParser();
-		svgParser.addHandler(new SvgDocumentHandler() {
-			@Override
-			protected void handle(SvgParser svgParser, SvgDocument svgDocument, Element element) {
-				GameScreen.this.svgDocument = svgDocument;
-			}
-		});
-		svgParser.addHandler(new SvgInkscapeGroupHandler() {
-			@Override
-			protected void handle(SvgParser svgParser, SvgInkscapeGroup svgInkscapeGroup, Element element) {
+			protected void handleCharacterStartPoint(float x, float y) {
+				createMainCharacter(x, y);
+			};
 
-				if (svgInkscapeGroup.getGroupMode().equals("layer") && !svgInkscapeGroup.getLabel().equalsIgnoreCase("World")) {
-					svgParser.processChildren(false);
-					return;
-				}
-
-			}
-		});
-		svgParser.addHandler(new SvgInkscapeImageHandler() {
-
-			private boolean isFlipped(Matrix3f matrix) {
-				return matrix.getM00() != matrix.getM11();
+			protected void handleRobotStartPoint(float x, float y) {
+				createRobo(x, y);
 			}
 
-			@Override
-			protected void handle(SvgParser svgParser, SvgInkscapeImage svgImage, Element element) {
-
-				if (svgImage.getLabel() == null)
-					return;
-
-				// Resource<SpriteSheet> spriteSheet = resourceManager.get(svgImage.getLabel());
-				// Texture texture = spriteSheet.get().getFrame(0).getTexture();
-
-				float width = svgImage.getWidth();
-				float height = svgImage.getHeight();
-
-				Matrix3f transform = svgImage.getTransform();
-
-				Vector3f position = new Vector3f(svgImage.getX() + width * 0.5f, svgImage.getY() + height * 0.5f, 0f);
-				transform.transform(position);
-
-				Vector3f direction = new Vector3f(1f, 0f, 0f);
-				transform.transform(direction);
-
-				float angle = 360f - (float) (Math.atan2(direction.y, direction.x) * 180 / Math.PI);
-
-				float sx = 1f;
-				float sy = 1f;
-
-				if (isFlipped(transform)) {
-					sy = -1f;
-				}
-
-				float x = position.x;
-				float y = svgDocument.getHeight() - position.y;
-
+			protected void handleStaticObject(SvgInkscapeImage svgImage, float width, float height, float angle, float sx, float sy, float x, float y) {
 				Resource<Texture> tileResource = resourceManager.get(svgImage.getLabel());
-
-				if (tileResource != null) {
-					Texture texture = tileResource.get();
-					Sprite sprite = new Sprite(texture);
-					sprite.setScale(sx, sy);
-					createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
-				} else if (element.hasAttribute("start")) {
-					createMainCharacter(x, y);
-				} else if (element.hasAttribute("robotStart")) {
-					createRobo(x, y);
-				}
-
+				if (tileResource == null)
+					return;
+				Texture texture = tileResource.get();
+				Sprite sprite = new Sprite(texture);
+				sprite.setScale(sx, sy);
+				createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
 			}
-		});
-		svgParser.parse(Gdx.files.internal("data/scenes/scene01.svg").read());
+
+		}.loadWorld(Gdx.files.internal("data/scenes/scene01.svg").read());
 	}
 
 	void loadPhysicObjects() {
@@ -751,6 +697,12 @@ public class GameScreen extends ScreenAdapter {
 			ImmediateModeRendererUtils.drawRectangle(100, 0, 200, 100, Color.WHITE);
 			ImmediateModeRendererUtils.drawRectangle(Gdx.graphics.getWidth() - 100, 0, Gdx.graphics.getWidth(), 100, Color.WHITE);
 		}
+		
+		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+//		if (inputDevicesMonitor.getButton("menu").isReleased()) {
+			game.setScreen(game.menuScreen, false);
+			return;
+		}
 
 	}
 
@@ -816,7 +768,6 @@ public class GameScreen extends ScreenAdapter {
 				sound("HealthVialSound", "data/sounds/healthvial.ogg");
 
 				font("Font", "data/fonts/font.png", "data/fonts/font.fnt");
-
 			}
 
 		};
