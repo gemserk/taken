@@ -14,7 +14,6 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Input.Peripheral;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -49,8 +48,6 @@ import com.gemserk.commons.gdx.controllers.Controller;
 import com.gemserk.commons.gdx.graphics.ImmediateModeRendererUtils;
 import com.gemserk.commons.gdx.input.LibgdxPointer;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
-import com.gemserk.commons.gdx.resources.dataloaders.BitmapFontDataLoader;
-import com.gemserk.commons.gdx.resources.dataloaders.DisposableDataLoader;
 import com.gemserk.commons.svg.inkscape.SvgDocument;
 import com.gemserk.commons.svg.inkscape.SvgDocumentHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeGroup;
@@ -77,8 +74,6 @@ import com.gemserk.games.taken.controllers.TouchMovementController;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
-import com.gemserk.resources.resourceloaders.CachedResourceLoader;
-import com.gemserk.resources.resourceloaders.ResourceLoaderImpl;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -292,7 +287,7 @@ public class GameScreen extends ScreenAdapter {
 
 				float x = position.x;
 				float y = svgDocument.getHeight() - position.y;
-				
+
 				Resource<Texture> tileResource = resourceManager.get(svgImage.getLabel());
 
 				if (tileResource != null) {
@@ -730,6 +725,7 @@ public class GameScreen extends ScreenAdapter {
 			game.scoreScreen.setScore((int) score);
 			game.setScreen(game.scoreScreen, true);
 			gameOver = true;
+			return;
 
 			// Music backgroundMusic = resourceManager.getResourceValue("BackgroundMusic");
 			// if (backgroundMusic.isPlaying())
@@ -745,7 +741,7 @@ public class GameScreen extends ScreenAdapter {
 		spriteBatch.begin();
 		String scoreLabel = "score: " + (int) score;
 		spriteBatch.setColor(Color.WHITE);
-		bitmapFont.setScale(0.7f);
+		bitmapFont.setScale(1f);
 		bitmapFont.draw(spriteBatch, scoreLabel, 10, Gdx.graphics.getHeight() - 10);
 		spriteBatch.end();
 
@@ -754,8 +750,9 @@ public class GameScreen extends ScreenAdapter {
 		inputDevicesMonitor.update();
 
 		if (inputDevicesMonitor.getButton("score").isPressed()) {
-			game.setScreen(game.scoreScreen);
+			game.setScreen(game.scoreScreen, true);
 			gameOver = true;
+			return;
 		}
 
 		if (inputDevicesMonitor.getButton("debug").isHolded()) {
@@ -815,8 +812,6 @@ public class GameScreen extends ScreenAdapter {
 				texture("Tile08", "data/tile08.png");
 				texture("Tile09", "data/tile09.png");
 
-				texture("FontTexture", "data/font.png");
-
 				texture("CharactersSpriteSheet", "data/spritesheet.png", false);
 
 				animation("Human_Walking", "CharactersSpriteSheet", 0, 32, 32, 32, 4, true, 100, 250, 100, 250);
@@ -840,31 +835,11 @@ public class GameScreen extends ScreenAdapter {
 
 				sound("HealthVialSound", "data/healthvial.ogg");
 
-				// music("BackgroundMusic", "data/music.ogg");
+				font("Font", "data/fonts/font.png", "data/fonts/font.fnt");
 
-			}
-
-			public void music(String id, String file) {
-				resourceManager.add(id, new CachedResourceLoader<Music>(new ResourceLoaderImpl<Music>(new DisposableDataLoader<Music>(internal(file)) {
-					@Override
-					public Music load() {
-						return Gdx.audio.newMusic(fileHandle);
-					}
-
-					@Override
-					public void dispose(Music t) {
-						if (t.isPlaying())
-							t.stop();
-						super.dispose(t);
-					}
-				})));
 			}
 
 		};
-
-		Resource<Texture> fontTextureResource = resourceManager.get("FontTexture");
-		resourceManager.add("Font", new CachedResourceLoader<BitmapFont>(new ResourceLoaderImpl<BitmapFont>( //
-				new BitmapFontDataLoader(Gdx.files.internal("data/font.fnt"), new Sprite(fontTextureResource.get())))));
 
 	}
 
@@ -872,6 +847,7 @@ public class GameScreen extends ScreenAdapter {
 	public void dispose() {
 		resourceManager.unloadAll();
 		spriteBatch.dispose();
+		physicsWorld.dispose();
 	}
 
 }

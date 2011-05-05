@@ -28,8 +28,10 @@ public class SplashScreen extends ScreenAdapter {
 
 	private SpriteBatch spriteBatch;
 
-	private Color color = Color.BLACK;
+	private Color color = new Color(Color.BLACK);
 
+	// used by refleciton animation synchronizer
+	
 	public void setColor(Color color) {
 		this.color = color;
 	}
@@ -158,8 +160,8 @@ public class SplashScreen extends ScreenAdapter {
 	@Override
 	public void dispose() {
 		resourceManager.unloadAll();
+		spriteBatch.dispose();
 		Gdx.app.log("Taken", "SplashScreen resources disposed");
-		this.spriteBatch.dispose();
 	}
 
 }

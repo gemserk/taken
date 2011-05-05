@@ -3,7 +3,6 @@ package com.gemserk.games.taken;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,13 +11,10 @@ import com.gemserk.animation4j.transitions.Transitions;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.gdx.ScreenAdapter;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
-import com.gemserk.commons.gdx.resources.dataloaders.BitmapFontDataLoader;
 import com.gemserk.componentsengine.input.InputDevicesMonitorImpl;
 import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
-import com.gemserk.resources.resourceloaders.CachedResourceLoader;
-import com.gemserk.resources.resourceloaders.ResourceLoaderImpl;
 
 public class ScoreScreen extends ScreenAdapter {
 
@@ -82,7 +78,7 @@ public class ScoreScreen extends ScreenAdapter {
 
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-		BitmapFont bitmapFont = resourceManager.getResourceValue("Font");
+		BitmapFont bitmapFont = resourceManager.getResourceValue("TextFont");
 
 		spriteBatch.begin();
 
@@ -127,6 +123,7 @@ public class ScoreScreen extends ScreenAdapter {
 
 		if (fadeInColor.equals(startColor) && fadingOut) {
 			game.setScreen(game.gameScreen, true);
+			return;
 		}
 	}
 
@@ -136,11 +133,9 @@ public class ScoreScreen extends ScreenAdapter {
 			libgdxResourceBuilder.texture("BackgroundTexture", "data/background-512x512.jpg");
 			libgdxResourceBuilder.texture("FontTexture", "data/font.png");
 			libgdxResourceBuilder.sprite("Background", "BackgroundTexture");
+			libgdxResourceBuilder.font("TextFont", "data/fonts/text.png", "data/fonts/text.fnt");
 		}
 
-		Texture fontTexture = resourceManager.getResourceValue("FontTexture");
-		resourceManager.add("Font", new CachedResourceLoader<BitmapFont>(new ResourceLoaderImpl<BitmapFont>( //
-				new BitmapFontDataLoader(Gdx.files.internal("data/font.fnt"), new Sprite(fontTexture)))));
 	}
 
 	@Override

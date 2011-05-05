@@ -17,6 +17,8 @@ public class LibgdxGame extends Game {
 
 	public SplashScreen splashScreen;
 
+	public MenuScreen menuScreen;
+
 	@Override
 	public void create() {
 		Converters.register(Vector2.class, LibgdxConverters.vector2());
@@ -26,10 +28,13 @@ public class LibgdxGame extends Game {
 		scoreScreen = new ScoreScreen(this);
 		gameScreen = new GameScreen(this);
 		splashScreen = new SplashScreen(this);
+		menuScreen = new MenuScreen(this);
 
-		setScreen(splashScreen);
+		 setScreen(splashScreen);
+//		setScreen(menuScreen);
+//		setScreen(gameScreen);
 	}
-	
+
 	public void setScreen(Screen screen, boolean disposeCurrent) {
 		Screen currentScreen = super.getScreen();
 		setScreen(screen);
