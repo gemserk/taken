@@ -303,7 +303,7 @@ public class GameScreen extends ScreenAdapter {
 
 			}
 		});
-		svgParser.parse(Gdx.files.internal("data/scene01.svg").read());
+		svgParser.parse(Gdx.files.internal("data/scenes/scene01.svg").read());
 	}
 
 	void loadPhysicObjects() {
@@ -344,7 +344,7 @@ public class GameScreen extends ScreenAdapter {
 
 			}
 		});
-		svgParser.parse(Gdx.files.internal("data/scene01.svg").read());
+		svgParser.parse(Gdx.files.internal("data/scenes/scene01.svg").read());
 	}
 
 	void createBackground() {
@@ -374,18 +374,6 @@ public class GameScreen extends ScreenAdapter {
 
 		float width = 0.15f;
 		float height = 1f;
-
-		// Body body = physicsObjectsFactory.createDynamicRectangle(x, y, width, height, true, 1f);
-		// Body body = physicsObjectsFactory.createDynamicCircle(x, y, height * 0.5f, false, 1f);
-
-		// Vector2[] bodyShape = new Vector2[] {
-		// new Vector2(0f, -0.5f),
-		// // new Vector2(0.075f, 0.5f),
-		// new Vector2(0f, 0.5f),
-		// // new Vector2(-0.075f, 0.5f),
-		// };
-
-		// Box2dUtils.initArray(bodyShape);
 
 		Vector2[] bodyShape = Box2dUtils.createRectangle(width, height);
 		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0f, 0.15f);
@@ -704,9 +692,6 @@ public class GameScreen extends ScreenAdapter {
 	@Override
 	public void render(float delta) {
 
-		// if (gameOver)
-		// return;
-
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		camera.zoom(cameraData.getZoom() * 2f);
@@ -726,11 +711,6 @@ public class GameScreen extends ScreenAdapter {
 			game.setScreen(game.scoreScreen, true);
 			gameOver = true;
 			return;
-
-			// Music backgroundMusic = resourceManager.getResourceValue("BackgroundMusic");
-			// if (backgroundMusic.isPlaying())
-			// backgroundMusic.stop();
-
 		}
 
 		worldWrapper.update(deltaInMs);

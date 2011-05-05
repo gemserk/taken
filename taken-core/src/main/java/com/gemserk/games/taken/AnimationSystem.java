@@ -30,10 +30,8 @@ public class AnimationSystem extends EntityProcessingSystem implements Activable
 	protected void process(Entity e) {
 		AnimationComponent animationComponent = e.getComponent(AnimationComponent.class);
 		SpriteComponent spriteComponent = e.getComponent(SpriteComponent.class);
-
 		Animation animation = animationComponent.getCurrentAnimation();
 		animation.update(world.getDelta());
-
 		Sprite currentSprite = animation.getCurrentFrame();
 		spriteComponent.setSprite(currentSprite);
 	}

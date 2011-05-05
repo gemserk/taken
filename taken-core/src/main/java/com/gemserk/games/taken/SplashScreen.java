@@ -141,7 +141,7 @@ public class SplashScreen extends ScreenAdapter {
 	}
 
 	protected void onSplashScreenFinished() {
-		game.setScreen(game.gameScreen, true);
+		game.setScreen(game.menuScreen, true);
 	}
 
 	private void loadResources() {

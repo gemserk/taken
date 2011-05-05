@@ -30,9 +30,9 @@ public class LibgdxGame extends Game {
 		splashScreen = new SplashScreen(this);
 		menuScreen = new MenuScreen(this);
 
-		 setScreen(splashScreen);
-//		setScreen(menuScreen);
-//		setScreen(gameScreen);
+		setScreen(splashScreen);
+		// setScreen(menuScreen);
+		// setScreen(gameScreen);
 	}
 
 	public void setScreen(Screen screen, boolean disposeCurrent) {
