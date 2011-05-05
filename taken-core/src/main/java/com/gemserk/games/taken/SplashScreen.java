@@ -92,22 +92,36 @@ public class SplashScreen extends ScreenAdapter {
 
 		loadResources();
 
-		locate(resourceManager.<Sprite> getResourceValue("GemserkLogo"), centerX, centerY, width * 0.8f);
-		locate(resourceManager.<Sprite> getResourceValue("LwjglLogo"), width * 0.85f, 30, width * 0.3f);
-		locate(resourceManager.<Sprite> getResourceValue("LibgdxLogo"), width * 0.15f, 30, width * 0.3f);
+		Sprite gemserkLogo = resourceManager.getResourceValue("GemserkLogo");
+		Sprite lwjglLogo = resourceManager.getResourceValue("LwjglLogo");
+		Sprite libgdxLogo = resourceManager.<Sprite> getResourceValue("LibgdxLogo");
 
+		resize(gemserkLogo, width * 0.8f);
+		resize(lwjglLogo, width * 0.3f);
+		resize(libgdxLogo, width * 0.3f);
+
+		centerOn(gemserkLogo, centerX, centerY);
+		centerOn(lwjglLogo, width * 0.85f, lwjglLogo.getHeight() * 0.5f);
+		centerOn(libgdxLogo, width * 0.15f, libgdxLogo.getHeight() * 0.5f);
+
+		this.sprites.add(gemserkLogo);
+		this.sprites.add(lwjglLogo);
+		this.sprites.add(libgdxLogo);
+		
 	}
 
-	private void locate(Sprite sprite, float x, float y, float width) {
+	/**
+	 * Resizes the sprite to the specified width maintaining the aspect ration.
+	 */
+	private void resize(Sprite sprite, float width) {
 		float aspect = (float) sprite.getHeight() / (float) sprite.getWidth();
 		float height = width * aspect;
-
 		sprite.setSize(width, height);
-
+	}
+	
+	private void centerOn(Sprite sprite, float x, float y) {
 		sprite.setOrigin(sprite.getWidth() * 0.5f, sprite.getHeight() * 0.5f);
 		sprite.setPosition(x - sprite.getOriginX(), y - sprite.getOriginY());
-
-		this.sprites.add(sprite);
 	}
 
 	@Override
