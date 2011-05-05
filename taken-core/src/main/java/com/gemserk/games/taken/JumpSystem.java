@@ -54,22 +54,31 @@ public class JumpSystem extends EntityProcessingSystem implements ActivableSyste
 			return;
 
 		Contact contact = physicsComponent.getContact();
-
-		if (!contact.isInContact())
-			return;
-
-		// for cada uno de los contactos
-
-		Vector2 normal = contact.getNormal();
-
-		float dot = Math.abs(normal.dot(horizontalAxis));
 		
-		if (dot > 0.4f) 
-			return;
+		int contactCount = contact.getContactCount();
 		
-		jumpComponent.setCurrentForce(jumpComponent.getJumpForce());
-		jumpComponent.setJumping(true);
-		jumpComponent.getJumpSound().play();
+		for (int i = 0; i < contactCount; i++) {
+			
+			if (!contact.isInContact(i))
+				continue;
+
+			Vector2 normal = contact.getNormal(i);
+
+			float dot = Math.abs(normal.dot(horizontalAxis));
+			
+			if (dot > 0.4f) 
+				continue;
+			
+			jumpComponent.setCurrentForce(jumpComponent.getJumpForce());
+			jumpComponent.setJumping(true);
+			jumpComponent.getJumpSound().play();
+			
+			// applies jump only once per platform...
+			
+			return;
+			
+		}
+
 
 	}
 
