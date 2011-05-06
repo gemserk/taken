@@ -729,23 +729,21 @@ public class GameScreen extends ScreenAdapter {
 			{
 				setCacheWhenLoad(true);
 
-				texture("Background", "data/background-512x512.jpg");
-
-				texture("Tiles", "data/tiles.png", false);
+				texture("Background", "data/images/background-512x512.jpg");
 
 				// add method for sprites (with or without cache)
 
-				texture("Tile01", "data/tile01.png");
-				texture("Tile02", "data/tile02.png");
-				texture("Tile03", "data/tile03.png");
-				texture("Tile04", "data/tile04.png");
-				texture("Tile05", "data/tile05.png");
-				texture("Tile06", "data/tile06.png");
-				texture("Tile07", "data/tile07.png");
-				texture("Tile08", "data/tile08.png");
-				texture("Tile09", "data/tile09.png");
+				texture("Tile01", "data/images/tile01.png");
+				texture("Tile02", "data/images/tile02.png");
+				texture("Tile03", "data/images/tile03.png");
+				texture("Tile04", "data/images/tile04.png");
+				texture("Tile05", "data/images/tile05.png");
+				texture("Tile06", "data/images/tile06.png");
+				texture("Tile07", "data/images/tile07.png");
+				texture("Tile08", "data/images/tile08.png");
+				texture("Tile09", "data/images/tile09.png");
 
-				texture("CharactersSpriteSheet", "data/spritesheet.png", false);
+				texture("CharactersSpriteSheet", "data/images/spritesheet.png", false);
 
 				animation("Human_Walking", "CharactersSpriteSheet", 0, 32, 32, 32, 4, true, 100, 250, 100, 250);
 				animation("Human_Idle", "CharactersSpriteSheet", 0, 0, 32, 32, 2, true, 1000, 50);

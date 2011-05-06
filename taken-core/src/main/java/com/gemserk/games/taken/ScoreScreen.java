@@ -130,10 +130,10 @@ public class ScoreScreen extends ScreenAdapter {
 	protected void loadResources() {
 
 		{
-			libgdxResourceBuilder.texture("BackgroundTexture", "data/background-512x512.jpg");
-			libgdxResourceBuilder.texture("FontTexture", "data/font.png");
+			libgdxResourceBuilder.texture("BackgroundTexture", "data/images/background-512x512.jpg");
 			libgdxResourceBuilder.sprite("Background", "BackgroundTexture");
 			libgdxResourceBuilder.font("TextFont", "data/fonts/text.png", "data/fonts/text.fnt");
+			// libgdxResourceBuilder.texture("FontTexture", "data/fonts/font.png");
 		}
 
 	}

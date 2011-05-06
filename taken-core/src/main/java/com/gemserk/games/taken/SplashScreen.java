@@ -147,9 +147,9 @@ public class SplashScreen extends ScreenAdapter {
 	private void loadResources() {
 		new LibgdxResourceBuilder(resourceManager) {
 			{
-				texture("GemserkLogoTexture", "data/logo-gemserk-512x128-white.png");
-				texture("LwjglLogoTexture", "data/logo-lwjgl-512x256-inverted.png");
-				texture("LibgdxLogoTexture", "data/logo-libgdx-clockwork-512x256.png");
+				texture("GemserkLogoTexture", "data/images/logo-gemserk-512x128-white.png");
+				texture("LwjglLogoTexture", "data/images/logo-lwjgl-512x256-inverted.png");
+				texture("LibgdxLogoTexture", "data/images/logo-libgdx-clockwork-512x256.png");
 				sprite("GemserkLogo", "GemserkLogoTexture");
 				sprite("LwjglLogo", "LwjglLogoTexture", 0, 0, 512, 185);
 				sprite("LibgdxLogo", "LibgdxLogoTexture", 0, 25, 512, 256 - 50);
