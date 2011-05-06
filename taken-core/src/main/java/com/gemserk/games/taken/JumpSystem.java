@@ -43,42 +43,52 @@ public class JumpSystem extends EntityProcessingSystem implements ActivableSyste
 			force.set(0, 1f);
 			force.mul(currentForce);
 
-			jumpComponent.setCurrentForce(currentForce * 0.9f);
+			jumpComponent.setCurrentForce(currentForce * 0.85f);
 
 			body.applyForce(force, body.getTransform().getPosition());
-			
+
+			Vector2 linearVelocity = body.getLinearVelocity();
+
+			float speed = Math.abs(linearVelocity.y);
+			float maxSpeed = 5f;
+
+			if (speed > maxSpeed) {
+				float factor = maxSpeed / speed;
+				linearVelocity.y *= factor;
+				body.setLinearVelocity(linearVelocity);
+			}
+
 			return;
-		} 
-		
+		}
+
 		if (!jumpComponent.isJumping())
 			return;
 
 		Contact contact = physicsComponent.getContact();
-		
+
 		int contactCount = contact.getContactCount();
-		
+
 		for (int i = 0; i < contactCount; i++) {
-			
+
 			if (!contact.isInContact(i))
 				continue;
 
 			Vector2 normal = contact.getNormal(i);
 
 			float dot = Math.abs(normal.dot(horizontalAxis));
-			
-			if (dot > 0.4f) 
+
+			if (dot > 0.4f)
 				continue;
-			
+
 			jumpComponent.setCurrentForce(jumpComponent.getJumpForce());
 			jumpComponent.setJumping(true);
 			jumpComponent.getJumpSound().play();
-			
-			// applies jump only once per platform...
-			
-			return;
-			
-		}
 
+			// applies jump only once per platform...
+
+			return;
+
+		}
 
 	}
 

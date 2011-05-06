@@ -375,7 +375,7 @@ public class GameScreen extends ScreenAdapter {
 		controllers.add(movementController);
 		controllers.add(jumpController);
 
-		mainCharacter.addComponent(new JumpComponent(8f, jumpSound.get()));
+		mainCharacter.addComponent(new JumpComponent(12f, jumpSound.get()));
 
 		mainCharacter.refresh();
 	}
@@ -698,8 +698,8 @@ public class GameScreen extends ScreenAdapter {
 			ImmediateModeRendererUtils.drawRectangle(Gdx.graphics.getWidth() - 100, 0, Gdx.graphics.getWidth(), 100, Color.WHITE);
 		}
 		
-		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-//		if (inputDevicesMonitor.getButton("menu").isReleased()) {
+//		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+		if (inputDevicesMonitor.getButton("menu").isReleased()) {
 			game.setScreen(game.menuScreen, false);
 			return;
 		}
