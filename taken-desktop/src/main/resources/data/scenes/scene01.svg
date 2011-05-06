@@ -2470,7 +2470,7 @@
      inkscape:label="Background"
      style="display:none">
     <image
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/background-512x512.jpg"
+       xlink:href="../images/background-512x512.jpg"
        width="20"
        height="20"
        id="image3012"
@@ -2484,7 +2484,7 @@
      style="display:inline">
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-3"
@@ -2493,7 +2493,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-3"
@@ -2503,7 +2503,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-7"
@@ -2513,7 +2513,7 @@
        transform="scale(1,-1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-3-0"
@@ -2523,7 +2523,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-55"
@@ -2532,7 +2532,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-52"
@@ -2541,7 +2541,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-8"
@@ -2550,7 +2550,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-34"
@@ -2559,7 +2559,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-9-2"
@@ -2568,7 +2568,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-5"
@@ -2577,7 +2577,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-0-8"
@@ -2586,7 +2586,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-3-1"
@@ -2595,7 +2595,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-33"
@@ -2604,7 +2604,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-4-9"
@@ -2613,7 +2613,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-3-7"
@@ -2623,7 +2623,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-9-4"
@@ -2632,7 +2632,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-5-9"
@@ -2642,7 +2642,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-55-67"
@@ -2651,7 +2651,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-02"
@@ -2660,7 +2660,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-0-7"
@@ -2669,7 +2669,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-9"
@@ -2678,7 +2678,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-9-3"
@@ -2687,7 +2687,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-5-5"
@@ -2696,7 +2696,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-7-8-7"
@@ -2706,7 +2706,7 @@
        transform="scale(1,-1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-3-0-2-4"
@@ -2716,7 +2716,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-52-3-1"
@@ -2725,7 +2725,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-5-6"
@@ -2735,7 +2735,7 @@
        transform="matrix(0.965471,-0.260512,0.260512,0.965471,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-33-7"
@@ -2744,7 +2744,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-4-9-8"
@@ -2753,7 +2753,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-8-2"
@@ -2762,7 +2762,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-0-9-9"
@@ -2771,7 +2771,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-3-01-5"
@@ -2780,7 +2780,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-34-7"
@@ -2789,7 +2789,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-4-8-4"
@@ -2798,7 +2798,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-3-5-6"
@@ -2808,7 +2808,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-7-8-4"
@@ -2818,7 +2818,7 @@
        transform="scale(1,-1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-3-0-2-9"
@@ -2828,7 +2828,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-9-2-1"
@@ -2837,7 +2837,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-5-0-2"
@@ -2847,7 +2847,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-55-6-3"
@@ -2856,7 +2856,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-52-3-18"
@@ -2865,7 +2865,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-3-0"
@@ -2874,7 +2874,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-9-5"
@@ -2883,7 +2883,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-3-0-7"
@@ -2892,7 +2892,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-9-5-0"
@@ -2901,7 +2901,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-3-4"
@@ -2910,7 +2910,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-9-8-4"
@@ -2919,7 +2919,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-3-0-7-2"
@@ -2928,7 +2928,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-9-5-0-5"
@@ -2937,7 +2937,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-3-1"
@@ -2946,7 +2946,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-9-0"
@@ -2955,7 +2955,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-9-5-0-6"
@@ -2964,7 +2964,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-3-6-8-6-7"
@@ -2973,7 +2973,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-9-8-4-9-7"
@@ -2982,7 +2982,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-3-0-7-2-6-9"
@@ -2991,7 +2991,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-9-5-0-5-0-3"
@@ -3000,7 +3000,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-5-6-3"
@@ -3010,7 +3010,7 @@
        transform="matrix(0.965471,-0.260512,0.260512,0.965471,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-3-2"
@@ -3022,7 +3022,7 @@
        transform="matrix(0.997875,-0.065164,0.065164,0.997875,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-5-6-3-5"
@@ -3032,7 +3032,7 @@
        transform="matrix(0.965471,-0.260512,0.260512,0.965471,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-3-7-8-5"
@@ -3042,7 +3042,7 @@
        transform="matrix(-0.968182,0.250246,0.250246,0.968182,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-3-7-8-5-5"
@@ -3052,7 +3052,7 @@
        transform="matrix(-0.968182,0.250246,0.250246,0.968182,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-4-5"
@@ -3061,7 +3061,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-4-9-8-9-5"
@@ -3070,7 +3070,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-4-9-8-9-02"
@@ -3079,7 +3079,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-9-2-1-0"
@@ -3088,7 +3088,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-9-2-1-7"
@@ -3097,7 +3097,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-9-5-0-5-0-3-3"
@@ -3106,7 +3106,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-9-5-0-5-0-3-7"
@@ -3115,7 +3115,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-3"
@@ -3124,7 +3124,7 @@
        inkscape:label="Tile06" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile05.png"
+       xlink:href="../images/tile05.png"
        width="2"
        height="2"
        id="image3473-8"
@@ -3133,7 +3133,7 @@
        inkscape:label="Tile05" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-3-1"
@@ -3143,7 +3143,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile07.png"
+       xlink:href="../images/tile07.png"
        width="2"
        height="2"
        id="image3708-8-2"
@@ -3153,7 +3153,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-9-4-7"
@@ -3162,7 +3162,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-6"
@@ -3172,7 +3172,7 @@
        inkscape:label="Tile08" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile05.png"
+       xlink:href="../images/tile05.png"
        width="2"
        height="2"
        id="image3473-8-4"
@@ -3182,7 +3182,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-5-9-8"
@@ -3191,7 +3191,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile07.png"
+       xlink:href="../images/tile07.png"
        width="2"
        height="2"
        id="image3708-8"
@@ -3200,7 +3200,7 @@
        inkscape:label="Tile07" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9"
@@ -3209,7 +3209,7 @@
        inkscape:label="Tile08" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile07.png"
+       xlink:href="../images/tile07.png"
        width="2"
        height="2"
        id="image3708-8-1"
@@ -3221,7 +3221,7 @@
        transform="matrix(0.992065,-0.125729,0.125729,0.992065,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9"
@@ -3230,7 +3230,7 @@
        inkscape:label="Tile08" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4"
@@ -3240,7 +3240,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-8"
@@ -3250,7 +3250,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile09.png"
+       xlink:href="../images/tile09.png"
        width="2"
        height="2"
        id="image3827-3"
@@ -3260,7 +3260,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile09.png"
+       xlink:href="../images/tile09.png"
        width="2"
        height="2"
        id="image3827-4"
@@ -3270,7 +3270,7 @@
        transform="scale(-1,-1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile09.png"
+       xlink:href="../images/tile09.png"
        width="2"
        height="2"
        id="image3827-3-5"
@@ -3280,7 +3280,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-6"
@@ -3290,7 +3290,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-1"
@@ -3300,7 +3300,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-2"
@@ -3310,7 +3310,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-6-8"
@@ -3320,7 +3320,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-1-7"
@@ -3330,7 +3330,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-2-3"
@@ -3340,7 +3340,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-6-6"
@@ -3350,7 +3350,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-1-5"
@@ -3360,7 +3360,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-1-9"
@@ -3370,7 +3370,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-2-6"
@@ -3380,7 +3380,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-6-8-7"
@@ -3390,7 +3390,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-1-7-9"
@@ -3400,7 +3400,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-2-3-0"
@@ -3410,7 +3410,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-6-4"
@@ -3420,7 +3420,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-1-2"
@@ -3430,7 +3430,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-3-7-8-85-8"
@@ -3440,7 +3440,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-7-5-9-3-6"
@@ -3450,7 +3450,7 @@
        transform="scale(1,-1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-7-5-9-3-6-2"
@@ -3460,7 +3460,7 @@
        transform="scale(1,-1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-4-9-8-9-60"
@@ -3469,7 +3469,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-4"
@@ -3478,7 +3478,7 @@
        inkscape:label="Tile06" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-2"
@@ -3487,7 +3487,7 @@
        inkscape:label="Tile06" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-4-1"
@@ -3497,7 +3497,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-2-8"
@@ -3507,7 +3507,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-1"
@@ -3516,7 +3516,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-6"
@@ -3525,7 +3525,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile05.png"
+       xlink:href="../images/tile05.png"
        width="2"
        height="2"
        id="image3473-6"
@@ -3534,7 +3534,7 @@
        inkscape:label="Tile05" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile05.png"
+       xlink:href="../images/tile05.png"
        width="2"
        height="2"
        id="image3473-6-9"
@@ -3544,7 +3544,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-2-8-6"
@@ -3554,7 +3554,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile07.png"
+       xlink:href="../images/tile07.png"
        width="2"
        height="2"
        id="image3708-8-4"
@@ -3564,7 +3564,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-8"
@@ -3574,7 +3574,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-2"
@@ -3583,7 +3583,7 @@
        inkscape:label="Tile08" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/hero.png"
+       xlink:href="../images/hero.png"
        width="1"
        height="1"
        id="image5291-6"
@@ -3592,7 +3592,7 @@
        start="true" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile09.png"
+       xlink:href="../images/tile09.png"
        width="2"
        height="2"
        id="image3827-3-5-3"
@@ -3602,7 +3602,7 @@
        transform="matrix(0,1,1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-4-9-8-9-5-7"
@@ -3611,7 +3611,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-7"
@@ -3620,7 +3620,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-2-8-6-7"
@@ -3630,7 +3630,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-2-8-6-8"
@@ -3639,7 +3639,7 @@
        inkscape:label="Tile06" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile05.png"
+       xlink:href="../images/tile05.png"
        width="2"
        height="2"
        id="image3473-8-41"
@@ -3648,7 +3648,7 @@
        inkscape:label="Tile05" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-8"
@@ -3657,7 +3657,7 @@
        inkscape:label="Tile01" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile05.png"
+       xlink:href="../images/tile05.png"
        width="2"
        height="2"
        id="image3473-8-6"
@@ -3667,7 +3667,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile05.png"
+       xlink:href="../images/tile05.png"
        width="2"
        height="2"
        id="image3473-8-6-5"
@@ -3677,7 +3677,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-5-6-0-6"
@@ -3687,7 +3687,7 @@
        transform="matrix(-0.965471,-0.260512,-0.260512,0.965471,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-33-7-7-2"
@@ -3697,7 +3697,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-4-9-8-3-1"
@@ -3707,7 +3707,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-5-6-3-2-3"
@@ -3717,7 +3717,7 @@
        transform="matrix(-0.965471,-0.260512,-0.260512,0.965471,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-3-2-2-0"
@@ -3729,7 +3729,7 @@
        transform="matrix(-0.997875,-0.065164,-0.065164,0.997875,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-5-6-3-5-4-7"
@@ -3739,7 +3739,7 @@
        transform="matrix(-0.965471,-0.260512,-0.260512,0.965471,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-3-7-8-5-3-7"
@@ -3749,7 +3749,7 @@
        transform="matrix(0.968182,0.250246,-0.250246,0.968182,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-3-7-8-5-5-9-2"
@@ -3759,7 +3759,7 @@
        transform="matrix(0.968182,0.250246,-0.250246,0.968182,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-3-1-6-1"
@@ -3768,7 +3768,7 @@
        inkscape:label="Tile06" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile07.png"
+       xlink:href="../images/tile07.png"
        width="2"
        height="2"
        id="image3708-8-2-4-4"
@@ -3777,7 +3777,7 @@
        inkscape:label="Tile07" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-9-4-7-6-1"
@@ -3787,7 +3787,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile05.png"
+       xlink:href="../images/tile05.png"
        width="2"
        height="2"
        id="image3473-8-4-4-3"
@@ -3796,7 +3796,7 @@
        inkscape:label="Tile05" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-5-9-8-6-6"
@@ -3806,7 +3806,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile07.png"
+       xlink:href="../images/tile07.png"
        width="2"
        height="2"
        id="image3708-8-1-2-3"
@@ -3818,7 +3818,7 @@
        transform="matrix(-0.992065,-0.125729,-0.125729,0.992065,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-9-6"
@@ -3828,7 +3828,7 @@
        transform="matrix(0,1,1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-8-6-6"
@@ -3838,7 +3838,7 @@
        transform="matrix(0,1,1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile09.png"
+       xlink:href="../images/tile09.png"
        width="2"
        height="2"
        id="image3827-4-8-5"
@@ -3848,7 +3848,7 @@
        transform="scale(1,-1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile09.png"
+       xlink:href="../images/tile09.png"
        width="2"
        height="2"
        id="image3827-4-8-5-9"
@@ -3858,7 +3858,7 @@
        transform="scale(-1,-1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile09.png"
+       xlink:href="../images/tile09.png"
        width="2"
        height="2"
        id="image3827-4-8-5-9-4"
@@ -3868,7 +3868,7 @@
        transform="matrix(-0.999993,0.003629,-0.003629,-0.999993,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/robot.png"
+       xlink:href="../images/robot.png"
        width="1"
        height="1"
        id="image3429-1"
@@ -3929,7 +3929,7 @@
          y="3.1004908"
          style="font-size:1px">edge</tspan></text>
     <image
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220"
@@ -3937,7 +3937,7 @@
        y="4"
        inkscape:label="Tile01" />
     <image
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311"
@@ -3945,7 +3945,7 @@
        y="6"
        inkscape:label="Tile02" />
     <image
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402"
@@ -3953,7 +3953,7 @@
        y="8"
        inkscape:label="Tile03" />
     <image
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537"
@@ -3962,7 +3962,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile05.png"
+       xlink:href="../images/tile05.png"
        width="2"
        height="2"
        id="image3473"
@@ -3970,7 +3970,7 @@
        y="4"
        inkscape:label="Tile05" />
     <image
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617"
@@ -3978,7 +3978,7 @@
        y="6"
        inkscape:label="Tile06" />
     <image
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile07.png"
+       xlink:href="../images/tile07.png"
        width="2"
        height="2"
        id="image3708"
@@ -3986,7 +3986,7 @@
        y="8"
        inkscape:label="Tile07" />
     <image
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799"
@@ -3994,7 +3994,7 @@
        y="10"
        inkscape:label="Tile08" />
     <image
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile09.png"
+       xlink:href="../images/tile09.png"
        width="2"
        height="2"
        id="image3827"
@@ -4003,7 +4003,7 @@
        inkscape:label="Tile09" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-2"
@@ -4012,7 +4012,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-2"
@@ -4021,7 +4021,7 @@
        inkscape:label="Tile08" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-6"
@@ -4030,7 +4030,7 @@
        inkscape:label="Tile08"
        transform="matrix(0,-1,1,0,0,0)" />
     <image
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/hero.png"
+       xlink:href="../images/hero.png"
        width="1"
        height="1"
        id="image5291"
@@ -4039,7 +4039,7 @@
        start="true" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-5-6-0"
@@ -4049,7 +4049,7 @@
        transform="matrix(0.965471,-0.260512,0.260512,0.965471,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-33-7-7"
@@ -4058,7 +4058,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-4-9-8-3"
@@ -4067,7 +4067,7 @@
        inkscape:label="Tile02" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-3-0-6"
@@ -4076,7 +4076,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile04.png"
+       xlink:href="../images/tile04.png"
        width="2"
        height="2"
        id="image5537-9-5-5"
@@ -4085,7 +4085,7 @@
        inkscape:label="Tile04" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-5-6-3-2"
@@ -4095,7 +4095,7 @@
        transform="matrix(0.965471,-0.260512,0.260512,0.965471,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-3-2-2"
@@ -4107,7 +4107,7 @@
        transform="matrix(0.997875,-0.065164,0.065164,0.997875,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile01.png"
+       xlink:href="../images/tile01.png"
        width="2"
        height="2"
        id="image5220-0-5-6-3-5-4"
@@ -4117,7 +4117,7 @@
        transform="matrix(0.965471,-0.260512,0.260512,0.965471,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-3-7-8-5-3"
@@ -4127,7 +4127,7 @@
        transform="matrix(-0.968182,0.250246,0.250246,0.968182,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile02.png"
+       xlink:href="../images/tile02.png"
        width="2"
        height="2"
        id="image5311-0-3-7-8-5-5-9"
@@ -4137,7 +4137,7 @@
        transform="matrix(-0.968182,0.250246,0.250246,0.968182,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile06.png"
+       xlink:href="../images/tile06.png"
        width="2"
        height="2"
        id="image3617-3-1-6"
@@ -4147,7 +4147,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile07.png"
+       xlink:href="../images/tile07.png"
        width="2"
        height="2"
        id="image3708-8-2-4"
@@ -4157,7 +4157,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-9-4-7-6"
@@ -4166,7 +4166,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-6-7"
@@ -4176,7 +4176,7 @@
        inkscape:label="Tile08" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile05.png"
+       xlink:href="../images/tile05.png"
        width="2"
        height="2"
        id="image3473-8-4-4"
@@ -4186,7 +4186,7 @@
        transform="scale(-1,1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile03.png"
+       xlink:href="../images/tile03.png"
        width="2"
        height="2"
        id="image5402-5-9-8-6"
@@ -4195,7 +4195,7 @@
        inkscape:label="Tile03" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile07.png"
+       xlink:href="../images/tile07.png"
        width="2"
        height="2"
        id="image3708-8-1-2"
@@ -4207,7 +4207,7 @@
        transform="matrix(0.992065,-0.125729,0.125729,0.992065,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-9"
@@ -4216,7 +4216,7 @@
        inkscape:label="Tile08" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-9"
@@ -4226,7 +4226,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-4-8-6"
@@ -4236,7 +4236,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile09.png"
+       xlink:href="../images/tile09.png"
        width="2"
        height="2"
        id="image3827-3-7"
@@ -4246,7 +4246,7 @@
        transform="matrix(0,1,-1,0,0,0)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile09.png"
+       xlink:href="../images/tile09.png"
        width="2"
        height="2"
        id="image3827-4-8"
@@ -4256,7 +4256,7 @@
        transform="scale(-1,-1)" />
     <image
        style="display:inline"
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/tile08.png"
+       xlink:href="../images/tile08.png"
        width="2"
        height="2"
        id="image3799-9-9-2-7"
@@ -4269,7 +4269,7 @@
        id="path3295-5"
        sodipodi:nodetypes="cccc" />
     <image
-       xlink:href="file:///home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/robot.png"
+       xlink:href="../images/robot.png"
        width="1"
        height="1"
        id="image3429"

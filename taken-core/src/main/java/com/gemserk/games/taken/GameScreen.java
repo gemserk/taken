@@ -699,6 +699,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 		
 //		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+		
 		if (inputDevicesMonitor.getButton("menu").isReleased()) {
 			game.setScreen(game.menuScreen, false);
 			return;
