@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -234,7 +235,8 @@ public class MenuScreen extends ScreenAdapter {
 				animation("Robo", "CharactersSpriteSheet", 4 * 32, 4 * 32, 32, 32, 1, false, 0);
 
 				resource("MenuScene", xmlDocument("data/scenes/menu-scene.svg")//
-						.cached());
+						.cached() //
+						.fileType(FileType.Internal));
 
 			}
 		};
