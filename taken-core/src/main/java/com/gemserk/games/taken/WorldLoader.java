@@ -5,8 +5,10 @@ import java.io.InputStream;
 import javax.vecmath.Matrix3f;
 import javax.vecmath.Vector3f;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.gemserk.commons.svg.inkscape.DocumentParser;
 import com.gemserk.commons.svg.inkscape.SvgDocument;
 import com.gemserk.commons.svg.inkscape.SvgDocumentHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeGroup;
@@ -14,7 +16,6 @@ import com.gemserk.commons.svg.inkscape.SvgInkscapeGroupHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeImage;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeImageHandler;
 import com.gemserk.commons.svg.inkscape.SvgParser;
-import com.gemserk.commons.svg.inkscape.DocumentParser;
 
 public class WorldLoader {
 
@@ -26,8 +27,12 @@ public class WorldLoader {
 		this.layer = layer;
 	}
 
-	void loadWorld(InputStream scene) {
+	public void processWorld(InputStream scene) {
+		Document document = new DocumentParser().parse(scene);
+		processWorld(document);
+	}
 
+	public void processWorld(Document document) {
 		SvgParser svgParser = new SvgParser();
 		svgParser.addHandler(new SvgDocumentHandler() {
 			@Override
@@ -101,7 +106,7 @@ public class WorldLoader {
 			}
 
 		});
-		svgParser.parse(new DocumentParser().parse(scene));
+		svgParser.parse(document);
 	}
 
 	protected void handleCharacterStartPoint(float x, float y) {

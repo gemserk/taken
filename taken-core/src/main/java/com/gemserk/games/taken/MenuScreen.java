@@ -120,7 +120,7 @@ public class MenuScreen extends ScreenAdapter {
 				createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
 			};
 			
-		}.loadWorld(Gdx.files.internal("data/scenes/menu-scene.svg").read());
+		}.processWorld(Gdx.files.internal("data/scenes/menu-scene.svg").read());
 	}
 
 	void createBackground() {

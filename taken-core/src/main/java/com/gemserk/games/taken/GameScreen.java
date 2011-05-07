@@ -251,7 +251,7 @@ public class GameScreen extends ScreenAdapter {
 				createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
 			}
 
-		}.loadWorld(Gdx.files.internal("data/scenes/scene01.svg").read());
+		}.processWorld(Gdx.files.internal("data/scenes/scene01.svg").read());
 
 		// new WorldLoader("Water") {
 		//
