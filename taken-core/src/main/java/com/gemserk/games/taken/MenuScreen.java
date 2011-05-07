@@ -98,7 +98,8 @@ public class MenuScreen extends ScreenAdapter {
 		worldWrapper.addUpdateSystem(new AnimationSystem());
 		worldWrapper.addUpdateSystem(new CameraFollowSystem());
 		worldWrapper.addUpdateSystem(new SpriteUpdateSystem());
-		worldWrapper.addUpdateSystem(new SpriteRendererSystem(renderLayers));
+		
+		worldWrapper.addRenderSystem(new SpriteRendererSystem(renderLayers));
 
 		worldWrapper.init();
 
@@ -178,16 +179,19 @@ public class MenuScreen extends ScreenAdapter {
 	}
 
 	@Override
-	public void render(float delta) {
+	public void internalRender(float delta) {
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		if (spriteBatch == null)
+			return;
+		
+		// RenderSystem sprite batch is not being disposed.
 
 		worldCamera.zoom(cameraData.getZoom() * 2f);
 		worldCamera.move(cameraData.getX(), cameraData.getY());
 		worldCamera.rotate(cameraData.getAngle());
 
-		int deltaInMs = (int) (delta * 1000f);
-
-		worldWrapper.update(deltaInMs);
+		worldWrapper.render();
 
 		// draw the HUD
 		BitmapFont titleFont = resourceManager.getResourceValue("TitleFont");
@@ -195,10 +199,13 @@ public class MenuScreen extends ScreenAdapter {
 		drawCentered(titleFont, "CODENAME: T.A.K.E.N.", Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() - 30f);
 		drawCentered(titleFont, "tap screen to start", Gdx.graphics.getWidth() * 0.5f, 80f);
 		spriteBatch.end();
-
+	}
+	
+	@Override
+	public void internalUpdate(float delta) {
+		worldWrapper.update((int) (delta * 1000f));
 		if (Gdx.input.justTouched())
 			game.setScreen(game.gameScreen, true);
-
 	}
 
 	private void drawCentered(BitmapFont font, String text, float x, float y) {
@@ -244,6 +251,7 @@ public class MenuScreen extends ScreenAdapter {
 	public void dispose() {
 		resourceManager.unloadAll();
 		spriteBatch.dispose();
+		spriteBatch = null;
 		Gdx.app.log("Taken", "MenuScreen resources disposed");
 	}
 
