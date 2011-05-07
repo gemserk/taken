@@ -137,12 +137,12 @@ public class GameScreen extends ScreenAdapter {
 		inputDevicesMonitor = new InputDevicesMonitorImpl<String>();
 
 		resourceManager = new ResourceManagerImpl<String>();
-		
+
 		new LibgdxInputMappingBuilder<String>(inputDevicesMonitor, Gdx.input) {
 			{
 				monitorKey("debug", Keys.D);
 				monitorKey("score", Keys.P);
-				
+
 				if (Gdx.app.getType() == ApplicationType.Android)
 					monitorKey("menu", Keys.MENU);
 				else
@@ -152,14 +152,14 @@ public class GameScreen extends ScreenAdapter {
 					monitorKey("back", Keys.BACK);
 
 				// BACK and MENU keys should show a PAUSE
-				
+
 			}
 		};
 
 	}
 
 	void restartGame() {
-		
+
 		Gdx.input.setCatchBackKey(true);
 
 		Gdx.app.log("Taken", "Reloading the level");
@@ -222,7 +222,7 @@ public class GameScreen extends ScreenAdapter {
 		createBackground();
 
 		loadWorld();
-		
+
 		loadPhysicObjects();
 
 		createCharacterBloodOverlay();
@@ -692,6 +692,11 @@ public class GameScreen extends ScreenAdapter {
 
 		worldWrapper.update(deltaInMs);
 
+		super.render(delta);
+	}
+	
+	@Override
+	public void internalRender(float delta) {
 		Resource<BitmapFont> font = resourceManager.get("Font");
 		BitmapFont bitmapFont = font.get();
 
@@ -701,21 +706,22 @@ public class GameScreen extends ScreenAdapter {
 		bitmapFont.setScale(1f);
 		bitmapFont.draw(spriteBatch, scoreLabel, 10, Gdx.graphics.getHeight() - 10);
 		spriteBatch.end();
+		
+		if (inputDevicesMonitor.getButton("debug").isHolded()) 
+			box2dCustomDebugRenderer.render();
+	}
+
+	@Override
+	public void internalUpdate(float delta) {
+		int deltaInMs = (int) (delta * 1000f);
 
 		Synchronizers.synchronize();
-
 		inputDevicesMonitor.update();
 
 		if (inputDevicesMonitor.getButton("score").isPressed()) {
 			game.setScreen(game.scoreScreen, true);
 			gameOver = true;
 			return;
-		}
-
-		if (inputDevicesMonitor.getButton("debug").isHolded()) {
-
-			// render debug stuff.
-			box2dCustomDebugRenderer.render();
 		}
 
 		for (int i = 0; i < controllers.size(); i++) {
@@ -735,7 +741,6 @@ public class GameScreen extends ScreenAdapter {
 			game.setScreen(game.pauseScreen, false);
 			return;
 		}
-
 	}
 
 	@Override

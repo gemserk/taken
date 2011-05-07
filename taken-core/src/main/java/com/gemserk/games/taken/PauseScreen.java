@@ -3,11 +3,14 @@ package com.gemserk.games.taken;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gemserk.animation4j.transitions.Transitions;
+import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.gdx.ScreenAdapter;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
 import com.gemserk.resources.ResourceManager;
@@ -31,6 +34,8 @@ public class PauseScreen extends ScreenAdapter {
 
 	private boolean shouldReturnToGame;
 
+	private Color overlayColor;
+
 	public PauseScreen(LibgdxGame game, Screen pausedScreen) {
 		this.game = game;
 		this.pausedScreen = pausedScreen;
@@ -48,6 +53,13 @@ public class PauseScreen extends ScreenAdapter {
 
 		overlay = resourceManager.getResourceValue("OverlaySprite");
 		font = resourceManager.getResourceValue("PauseFont");
+		
+		overlayColor = new Color();
+		
+		Synchronizers.transition(overlayColor, Transitions.transitionBuilder(new Color(0f, 0f, 0f, 0f))
+				.end(new Color(0f,0f,0f,0.5f))
+				.time(500)
+				.build());
 
 		shouldReturnToGame = false;
 		Gdx.input.setCatchBackKey(true);
@@ -84,9 +96,9 @@ public class PauseScreen extends ScreenAdapter {
 
 		overlay.setSize(width, height);
 		overlay.setPosition(0, 0);
-		overlay.setColor(0f, 0f, 0f, 0.5f);
+		overlay.setColor(overlayColor);
 		overlay.draw(spriteBatch);
-
+		
 		drawCentered(font, "Paused", width * 0.5f, height * 0.5f);
 
 		spriteBatch.end();
@@ -94,6 +106,7 @@ public class PauseScreen extends ScreenAdapter {
 	
 	@Override
 	public void internalUpdate(float delta) {
+		Synchronizers.synchronize();
 		if (shouldReturnToGame)
 			game.setScreen(pausedScreen, true);
 	}
