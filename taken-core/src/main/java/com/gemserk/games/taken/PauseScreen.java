@@ -63,7 +63,7 @@ public class PauseScreen extends ScreenAdapter {
 
 		overlayColor = new Color();
 
-		Synchronizers.transition(overlayColor, Transitions.transitionBuilder(new Color(0f, 0f, 0f, 0f)).end(new Color(0f, 0f, 0f, 0.5f)).time(500).build());
+		Synchronizers.transition(overlayColor, Transitions.transitionBuilder(new Color(0f, 0f, 0f, 0f)).end(new Color(0f, 0f, 0f, 0.3f)).time(500).build());
 
 		Gdx.input.setCatchBackKey(true);
 	}

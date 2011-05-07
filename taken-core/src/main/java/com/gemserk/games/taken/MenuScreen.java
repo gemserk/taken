@@ -8,6 +8,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
@@ -60,6 +61,8 @@ public class MenuScreen extends ScreenAdapter {
 	private Sprite overlay;
 
 	private Color overlayColor;
+	
+	private boolean shouldExit = false;
 
 	public MenuScreen(LibgdxGame game) {
 		this.game = game;
@@ -229,8 +232,21 @@ public class MenuScreen extends ScreenAdapter {
 	public void internalUpdate(float delta) {
 		Synchronizers.synchronize();
 		worldWrapper.update((int) (delta * 1000f));
-		if (Gdx.input.justTouched())
+		
+		if (overlayColor.a >= 1f) {
+			if (shouldExit)
+				System.exit(0);
 			game.setScreen(game.gameScreen, true);
+		}
+
+		if (Gdx.input.justTouched()) {
+			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build());
+		}
+		
+		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build());
+			shouldExit = true;
+		}
 	}
 
 	private void loadResources() {
