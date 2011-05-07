@@ -128,13 +128,14 @@ public class PauseScreen extends ScreenAdapter {
 			return;
 
 		spriteBatch.begin();
+
+		resumeButton.draw(spriteBatch);
+		menuButton.draw(spriteBatch);
+		
 		overlay.setSize(width, height);
 		overlay.setPosition(0, 0);
 		overlay.setColor(overlayColor);
 		overlay.draw(spriteBatch);
-
-		resumeButton.draw(spriteBatch);
-		menuButton.draw(spriteBatch);
 
 		spriteBatch.end();
 	}
@@ -150,8 +151,10 @@ public class PauseScreen extends ScreenAdapter {
 		if (overlayColor.a == 0f || overlayColor.a == 1f) {
 			game.setScreen(targetScreen, true);
 			// forcing game screen disposing :S
-			if (targetScreen == game.menuScreen)
+			if (targetScreen == game.menuScreen) {
+				game.gameScreen.setGameOver(true);
 				game.gameScreen.dispose();
+			}
 		}
 
 		if (resumeButton.isReleased()) {

@@ -16,6 +16,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.gemserk.animation4j.gdx.Animation;
+import com.gemserk.animation4j.transitions.Transitions;
+import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.artemis.WorldWrapper;
 import com.gemserk.commons.artemis.components.MovementComponent;
 import com.gemserk.commons.artemis.components.SpatialComponent;
@@ -55,6 +57,10 @@ public class MenuScreen extends ScreenAdapter {
 
 	private World world;
 
+	private Sprite overlay;
+
+	private Color overlayColor;
+
 	public MenuScreen(LibgdxGame game) {
 		this.game = game;
 		int viewportWidth = Gdx.graphics.getWidth();
@@ -74,7 +80,7 @@ public class MenuScreen extends ScreenAdapter {
 		resourceManager = new ResourceManagerImpl<String>();
 
 		loadResources();
-
+		
 		Sprite b1 = resourceManager.getResourceValue("BackgroundSprite");
 		b1.setPosition(0, 0);
 		sprites.add(b1);
@@ -128,6 +134,11 @@ public class MenuScreen extends ScreenAdapter {
 			};
 
 		}.processWorld(scene);
+		
+		overlay = resourceManager.getResourceValue("OverlaySprite");
+
+		overlayColor = new Color(0f, 0f, 0f, 1f);
+		Synchronizers.transition(overlayColor, Transitions.transitionBuilder(new Color(0f, 0f, 0f, 1f)).end(new Color(0f, 0f, 0f, 0f)).time(500).build());
 	}
 
 	void createBackground() {
@@ -180,10 +191,14 @@ public class MenuScreen extends ScreenAdapter {
 
 	@Override
 	public void internalRender(float delta) {
-		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
-		
+
 		if (spriteBatch == null)
 			return;
+		
+		int width = Gdx.graphics.getWidth();
+		int height = Gdx.graphics.getHeight();
+		
+		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		// RenderSystem sprite batch is not being disposed.
 
@@ -195,14 +210,24 @@ public class MenuScreen extends ScreenAdapter {
 
 		// draw the HUD
 		BitmapFont titleFont = resourceManager.getResourceValue("TitleFont");
+		
 		spriteBatch.begin();
+		
 		SpriteBatchUtils.drawCentered(spriteBatch, titleFont, "CODENAME: T.A.K.E.N.", Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() - 30f);
 		SpriteBatchUtils.drawCentered(spriteBatch, titleFont, "tap screen to start", Gdx.graphics.getWidth() * 0.5f, 80f);
+		
+		overlay.setSize(width, height);
+		overlay.setPosition(0, 0);
+		overlay.setColor(overlayColor);
+		overlay.draw(spriteBatch);
+		
 		spriteBatch.end();
+		
 	}
 	
 	@Override
 	public void internalUpdate(float delta) {
+		Synchronizers.synchronize();
 		worldWrapper.update((int) (delta * 1000f));
 		if (Gdx.input.justTouched())
 			game.setScreen(game.gameScreen, true);
@@ -237,6 +262,8 @@ public class MenuScreen extends ScreenAdapter {
 						.cached() //
 						.fileType(FileType.Internal));
 
+				texture("OverlayTexture", "data/images/white-rectangle.png");
+				sprite("OverlaySprite", "OverlayTexture");
 			}
 		};
 	}

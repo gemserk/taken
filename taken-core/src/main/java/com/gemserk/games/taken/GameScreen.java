@@ -118,6 +118,10 @@ public class GameScreen extends ScreenAdapter {
 	private final Color laserEndColor = new Color(1f, 1f, 1f, 0f);
 
 	private final Color laserStartColor = new Color(1f, 1f, 1f, 1f);
+	
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
 
 	public GameScreen(LibgdxGame game) {
 		this.game = game;
