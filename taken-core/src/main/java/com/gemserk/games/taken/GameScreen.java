@@ -229,7 +229,7 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	void loadWorld() {
-		new WorldLoader() {
+		new WorldLoader("World") {
 
 			protected void handleCharacterStartPoint(float x, float y) {
 				createMainCharacter(x, y);
@@ -250,6 +250,23 @@ public class GameScreen extends ScreenAdapter {
 			}
 
 		}.loadWorld(Gdx.files.internal("data/scenes/scene01.svg").read());
+
+		// new WorldLoader("Water") {
+		//
+		// protected void handleStaticObject(SvgInkscapeImage svgImage, float width, float height, float angle, float sx, float sy, float x, float y) {
+		// Resource<Texture> tileResource = resourceManager.get(svgImage.getLabel());
+		// if (tileResource == null)
+		// return;
+		// Texture texture = tileResource.get();
+		// Sprite sprite = new Sprite(texture);
+		// sprite.setScale(sx, sy);
+		// Entity entity = createStaticSprite(sprite, x, y, width, height, angle, 10, 0.5f, 0.5f, Color.WHITE);
+		// entity.addComponent(new MovementComponent(new Vector2(0.3f,0f), 0f));
+		// entity.refresh();
+		// }
+		//
+		// }.loadWorld(Gdx.files.internal("data/scenes/scene01.svg").read());
+
 	}
 
 	void loadPhysicObjects() {
@@ -263,12 +280,10 @@ public class GameScreen extends ScreenAdapter {
 		svgParser.addHandler(new SvgInkscapeGroupHandler() {
 			@Override
 			protected void handle(SvgParser svgParser, SvgInkscapeGroup svgInkscapeGroup, Element element) {
-
 				if (svgInkscapeGroup.getGroupMode().equals("layer") && !svgInkscapeGroup.getLabel().equalsIgnoreCase("Physics")) {
 					svgParser.processChildren(false);
 					return;
 				}
-
 			}
 		});
 		svgParser.addHandler(new SvgInkscapePathHandler() {
@@ -299,11 +314,12 @@ public class GameScreen extends ScreenAdapter {
 		createStaticSprite(new Sprite(background.get()), 512, 0f, 512, 512, 0f, -103, 0f, 0f, Color.WHITE);
 	}
 
-	void createStaticSprite(Sprite sprite, float x, float y, float width, float height, float angle, int layer, float centerx, float centery, Color color) {
+	Entity createStaticSprite(Sprite sprite, float x, float y, float width, float height, float angle, int layer, float centerx, float centery, Color color) {
 		Entity entity = world.createEntity();
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(width, height), angle));
 		entity.addComponent(new SpriteComponent(sprite, layer, new Vector2(centerx, centery), new Color(color)));
 		entity.refresh();
+		return entity;
 	}
 
 	void createMainCharacter(float x, float y) {
@@ -651,7 +667,7 @@ public class GameScreen extends ScreenAdapter {
 		HealthComponent healthComponent = mainCharacter.getComponent(HealthComponent.class);
 		SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 
-		if (healthComponent.getHealth().isEmpty() || (spatialComponent.getPosition().y < -50)) {
+		if (healthComponent.getHealth().isEmpty() || (spatialComponent.getPosition().y < -5)) {
 			// set score based on something...!!
 			game.scoreScreen.setScore((int) score);
 			game.setScreen(game.scoreScreen, true);
@@ -697,9 +713,9 @@ public class GameScreen extends ScreenAdapter {
 			ImmediateModeRendererUtils.drawRectangle(100, 0, 200, 100, Color.WHITE);
 			ImmediateModeRendererUtils.drawRectangle(Gdx.graphics.getWidth() - 100, 0, Gdx.graphics.getWidth(), 100, Color.WHITE);
 		}
-		
-//		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-		
+
+		// if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+
 		if (inputDevicesMonitor.getButton("menu").isReleased()) {
 			game.setScreen(game.menuScreen, false);
 			return;
@@ -742,6 +758,12 @@ public class GameScreen extends ScreenAdapter {
 				texture("Tile07", "data/images/tile07.png");
 				texture("Tile08", "data/images/tile08.png");
 				texture("Tile09", "data/images/tile09.png");
+
+				texture("Tile10", "data/images/tile10.png");
+				texture("Tile11", "data/images/tile11.png");
+				texture("Tile12", "data/images/tile12.png");
+				texture("Tile13", "data/images/tile13.png");
+				texture("Tile14", "data/images/tile14.png");
 
 				texture("CharactersSpriteSheet", "data/images/spritesheet.png", false);
 

@@ -99,7 +99,7 @@ public class MenuScreen extends ScreenAdapter {
 
 		createBackground();
 		
-		new WorldLoader(){
+		new WorldLoader("World"){
 			
 			@Override
 			protected void handleCharacterStartPoint(float x, float y) {

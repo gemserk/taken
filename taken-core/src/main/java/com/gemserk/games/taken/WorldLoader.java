@@ -19,7 +19,11 @@ public class WorldLoader {
 
 	private SvgDocument svgDocument;
 
-	private String worldLayer = "World";
+	private String layer;
+	
+	public WorldLoader(String layer) {
+		this.layer = layer;
+	}
 
 	void loadWorld(InputStream scene) {
 
@@ -43,7 +47,7 @@ public class WorldLoader {
 			}
 
 			private boolean isLayer(SvgInkscapeGroup svgInkscapeGroup) {
-				return svgInkscapeGroup.getLabel().equalsIgnoreCase(worldLayer);
+				return svgInkscapeGroup.getLabel().equalsIgnoreCase(layer);
 			}
 
 			private boolean isInkscapeLayer(SvgInkscapeGroup svgInkscapeGroup) {
