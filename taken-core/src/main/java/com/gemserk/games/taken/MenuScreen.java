@@ -65,6 +65,8 @@ public class MenuScreen extends ScreenAdapter {
 	@Override
 	public void show() {
 		super.show();
+		
+		Gdx.input.setCatchBackKey(false);
 
 		this.sprites = new ArrayList<Sprite>();
 		this.spriteBatch = new SpriteBatch();
@@ -203,10 +205,6 @@ public class MenuScreen extends ScreenAdapter {
 		font.setScale(1f);
 		TextBounds bounds = font.getBounds(text);
 		font.draw(spriteBatch, text, x - bounds.width * 0.5f, y - bounds.height * 0.5f);
-	}
-
-	protected void onSplashScreenFinished() {
-		game.setScreen(game.gameScreen, true);
 	}
 
 	private void loadResources() {
