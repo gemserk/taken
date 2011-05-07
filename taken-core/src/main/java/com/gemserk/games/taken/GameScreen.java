@@ -803,7 +803,6 @@ public class GameScreen extends ScreenAdapter {
 				animation("Human_Jump", "CharactersSpriteSheet", 0, 64, 32, 32, 1, false, 100);
 				animation("Human_Fall", "CharactersSpriteSheet", 0, 96, 32, 32, 2, true, 400, 200);
 				animation("Robo", "CharactersSpriteSheet", 4 * 32, 4 * 32, 32, 32, 1, false, 0);
-				animation("Enemy", "CharactersSpriteSheet", 4 * 32, 5 * 32, 32, 32, 1, false, 0);
 				animation("EnemyLaser", "CharactersSpriteSheet", 64, 0, 32, 32, 3, false, 150);
 				animation("FriendlyLaser", "CharactersSpriteSheet", 64, 64, 32, 32, 3, false, 150);
 				animation("FrontBloodOverlay", "CharactersSpriteSheet", 0, 4 * 32, 32, 32, 3, false, 0);
@@ -811,6 +810,14 @@ public class GameScreen extends ScreenAdapter {
 				animation("HealthVial", "CharactersSpriteSheet", 4 * 32, 1 * 32, 32, 32, 4, true, 750);
 				animation("Powerup01", "CharactersSpriteSheet", 5 * 32, 2 * 32, 32, 32, 2, true, 750);
 				animation("Powerup02", "CharactersSpriteSheet", 5 * 32, 3 * 32, 32, 32, 2, true, 750);
+
+				// animation("Enemy", "CharactersSpriteSheet", 0 * 32, 6 * 32, 32, 32, 3, true, 800, 150, 150);
+				resource("Enemy", animation2("CharactersSpriteSheet") //
+						.frame(0, 6 * 32, 32, 32, 800) //
+						.frame(1 * 32, 6 * 32, 32, 32, 150) //
+						.frame(2 * 32, 6 * 32, 32, 32, 150) //
+						.frame(1 * 32, 6 * 32, 32, 32, 150) //
+						.loop(true));
 
 				sound("JumpSound", "data/sounds/jump.ogg");
 				sound("FriendlyLaserSound", "data/sounds/laser.ogg");

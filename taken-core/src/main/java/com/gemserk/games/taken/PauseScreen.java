@@ -101,15 +101,16 @@ public class PauseScreen extends ScreenAdapter {
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		pausedScreen.internalRender(delta);
-		spriteBatch.begin();
 
+		if (spriteBatch == null)
+			return;
+		
+		spriteBatch.begin();
 		overlay.setSize(width, height);
 		overlay.setPosition(0, 0);
 		overlay.setColor(overlayColor);
 		overlay.draw(spriteBatch);
-		
 		drawCentered(font, "Paused", width * 0.5f, height * 0.5f);
-
 		spriteBatch.end();
 	}
 	
@@ -140,6 +141,7 @@ public class PauseScreen extends ScreenAdapter {
 	public void dispose() {
 		resourceManager.unloadAll();
 		spriteBatch.dispose();
+		spriteBatch = null;
 		Gdx.app.log("Taken", "PauseScreen resources disposed");
 	}
 
