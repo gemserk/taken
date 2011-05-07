@@ -2,7 +2,6 @@ package com.gemserk.games.taken;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,7 +19,7 @@ public class PauseScreen extends ScreenAdapter {
 
 	private final LibgdxGame game;
 
-	private final Screen pausedScreen;
+	private final ScreenAdapter pausedScreen;
 
 	private SpriteBatch spriteBatch;
 
@@ -32,11 +31,9 @@ public class PauseScreen extends ScreenAdapter {
 
 	private InputAdapter inputProcessor;
 
-	private boolean shouldReturnToGame;
-
 	private Color overlayColor;
 
-	public PauseScreen(LibgdxGame game, Screen pausedScreen) {
+	public PauseScreen(LibgdxGame game, ScreenAdapter pausedScreen) {
 		this.game = game;
 		this.pausedScreen = pausedScreen;
 	}
@@ -61,18 +58,30 @@ public class PauseScreen extends ScreenAdapter {
 				.time(500)
 				.build());
 
-		shouldReturnToGame = false;
 		Gdx.input.setCatchBackKey(true);
 		inputProcessor = new InputAdapter() {
+			
+			boolean handled = false;
+			
 			public boolean keyTyped(char character) {
-				shouldReturnToGame = true;
+				fadeOut();
 				return super.keyTyped(character);
 			};
 
 			@Override
 			public boolean touchDown(int x, int y, int pointer, int button) {
-				shouldReturnToGame = true;
+				fadeOut();
 				return super.touchDown(x, y, pointer, button);
+			}
+
+			private void fadeOut() {
+				if (!handled ) {
+					Synchronizers.transition(overlayColor, Transitions.transitionBuilder(new Color(0f, 0f, 0f, 0.5f))
+							.end(new Color(0f,0f,0f,0f))
+							.time(300)
+							.build());
+					handled = true;
+				}
 			}
 		};
 		Gdx.input.setInputProcessor(inputProcessor);
@@ -91,7 +100,7 @@ public class PauseScreen extends ScreenAdapter {
 
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		pausedScreen.render(delta);
+		pausedScreen.internalRender(delta);
 		spriteBatch.begin();
 
 		overlay.setSize(width, height);
@@ -107,7 +116,7 @@ public class PauseScreen extends ScreenAdapter {
 	@Override
 	public void internalUpdate(float delta) {
 		Synchronizers.synchronize();
-		if (shouldReturnToGame)
+		if (overlayColor.a == 0f)
 			game.setScreen(pausedScreen, true);
 	}
 

@@ -188,30 +188,30 @@ public class GameScreen extends ScreenAdapter {
 		// hud layer
 		renderLayers.add(new RenderLayer(100, 1000, hudLayerCamera));
 
-		worldWrapper.add(new CharacterControllerSystem());
-		worldWrapper.add(new JumpSystem());
+		worldWrapper.addUpdateSystem(new CharacterControllerSystem());
+		worldWrapper.addUpdateSystem(new JumpSystem());
 
-		worldWrapper.add(new PhysicsSystem(physicsWorld));
-		worldWrapper.add(new FollowCharacterBehaviorSystem());
-		worldWrapper.add(new WeaponSystem(this, resourceManager));
-		worldWrapper.add(new MovementSystem());
-		worldWrapper.add(new BulletSystem());
-		worldWrapper.add(new HealthVialSystem(resourceManager));
+		worldWrapper.addUpdateSystem(new PhysicsSystem(physicsWorld));
+		worldWrapper.addUpdateSystem(new FollowCharacterBehaviorSystem());
+		worldWrapper.addUpdateSystem(new WeaponSystem(this, resourceManager));
+		worldWrapper.addUpdateSystem(new MovementSystem());
+		worldWrapper.addUpdateSystem(new BulletSystem());
+		worldWrapper.addUpdateSystem(new HealthVialSystem(resourceManager));
 
-		worldWrapper.add(new GrabSystem(resourceManager));
-		worldWrapper.add(new PowerUpSystem());
+		worldWrapper.addUpdateSystem(new GrabSystem(resourceManager));
+		worldWrapper.addUpdateSystem(new PowerUpSystem());
 
-		worldWrapper.add(new AnimationSystem());
-		worldWrapper.add(new CorrectSpriteDirectionSystem());
+		worldWrapper.addUpdateSystem(new AnimationSystem());
+		worldWrapper.addUpdateSystem(new CorrectSpriteDirectionSystem());
 
-		worldWrapper.add(new BloodOverlaySystem());
-		worldWrapper.add(new HitDetectionSystem(resourceManager));
-		worldWrapper.add(new CameraFollowSystem());
-		worldWrapper.add(new SpriteUpdateSystem());
-		worldWrapper.add(new SpriteRendererSystem(renderLayers));
-		worldWrapper.add(new TimerSystem());
+		worldWrapper.addUpdateSystem(new BloodOverlaySystem());
+		worldWrapper.addUpdateSystem(new HitDetectionSystem(resourceManager));
+		worldWrapper.addUpdateSystem(new CameraFollowSystem());
+		worldWrapper.addUpdateSystem(new SpriteUpdateSystem());
+		worldWrapper.addRenderSystem(new SpriteRendererSystem(renderLayers));
+		worldWrapper.addUpdateSystem(new TimerSystem());
 
-		worldWrapper.add(new SpawnerSystem());
+		worldWrapper.addUpdateSystem(new SpawnerSystem());
 
 		worldWrapper.init();
 
@@ -666,8 +666,24 @@ public class GameScreen extends ScreenAdapter {
 		entity.refresh();
 	}
 
+	// @Override
+	// public void render(float delta) {
+	//
+	// Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
+	//
+	// camera.zoom(cameraData.getZoom() * 2f);
+	// camera.move(cameraData.getX(), cameraData.getY());
+	// camera.rotate(cameraData.getAngle());
+	//
+	// int deltaInMs = (int) (delta * 1000f);
+	//
+	// worldWrapper.update(deltaInMs);
+	//
+	// super.render(delta);
+	// }
+
 	@Override
-	public void render(float delta) {
+	public void internalRender(float delta) {
 
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 
@@ -675,28 +691,8 @@ public class GameScreen extends ScreenAdapter {
 		camera.move(cameraData.getX(), cameraData.getY());
 		camera.rotate(cameraData.getAngle());
 
-		int deltaInMs = (int) (delta * 1000f);
+		worldWrapper.render();
 
-		score += 100 * delta;
-
-		HealthComponent healthComponent = mainCharacter.getComponent(HealthComponent.class);
-		SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
-
-		if (healthComponent.getHealth().isEmpty() || (spatialComponent.getPosition().y < -5)) {
-			// set score based on something...!!
-			game.scoreScreen.setScore((int) score);
-			game.setScreen(game.scoreScreen, true);
-			gameOver = true;
-			return;
-		}
-
-		worldWrapper.update(deltaInMs);
-
-		super.render(delta);
-	}
-	
-	@Override
-	public void internalRender(float delta) {
 		Resource<BitmapFont> font = resourceManager.get("Font");
 		BitmapFont bitmapFont = font.get();
 
@@ -706,8 +702,8 @@ public class GameScreen extends ScreenAdapter {
 		bitmapFont.setScale(1f);
 		bitmapFont.draw(spriteBatch, scoreLabel, 10, Gdx.graphics.getHeight() - 10);
 		spriteBatch.end();
-		
-		if (inputDevicesMonitor.getButton("debug").isHolded()) 
+
+		if (inputDevicesMonitor.getButton("debug").isHolded())
 			box2dCustomDebugRenderer.render();
 	}
 
@@ -715,14 +711,16 @@ public class GameScreen extends ScreenAdapter {
 	public void internalUpdate(float delta) {
 		int deltaInMs = (int) (delta * 1000f);
 
+		worldWrapper.update(deltaInMs);
+
 		Synchronizers.synchronize();
 		inputDevicesMonitor.update();
 
-		if (inputDevicesMonitor.getButton("score").isPressed()) {
-			game.setScreen(game.scoreScreen, true);
-			gameOver = true;
-			return;
-		}
+		// if (inputDevicesMonitor.getButton("score").isPressed()) {
+		// game.setScreen(game.scoreScreen, true);
+		// gameOver = true;
+		// return;
+		// }
 
 		for (int i = 0; i < controllers.size(); i++) {
 			Controller controller = controllers.get(i);
@@ -739,6 +737,19 @@ public class GameScreen extends ScreenAdapter {
 
 		if (inputDevicesMonitor.getButton("menu").isPressed() || inputDevicesMonitor.getButton("back").isPressed()) {
 			game.setScreen(game.pauseScreen, false);
+			return;
+		}
+
+		score += 100 * delta;
+
+		HealthComponent healthComponent = mainCharacter.getComponent(HealthComponent.class);
+		SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
+
+		if (healthComponent.getHealth().isEmpty() || (spatialComponent.getPosition().y < -5)) {
+			// set score based on something...!!
+			game.scoreScreen.setScore((int) score);
+			game.setScreen(game.scoreScreen, true);
+			gameOver = true;
 			return;
 		}
 	}

@@ -93,12 +93,12 @@ public class MenuScreen extends ScreenAdapter {
 		renderLayers.add(new RenderLayer(-1000, -100, backgroundLayerCamera));
 		renderLayers.add(new RenderLayer(-100, 100, worldCamera));
 
-		worldWrapper.add(new FollowCharacterBehaviorSystem());
-		worldWrapper.add(new MovementSystem());
-		worldWrapper.add(new AnimationSystem());
-		worldWrapper.add(new CameraFollowSystem());
-		worldWrapper.add(new SpriteUpdateSystem());
-		worldWrapper.add(new SpriteRendererSystem(renderLayers));
+		worldWrapper.addUpdateSystem(new FollowCharacterBehaviorSystem());
+		worldWrapper.addUpdateSystem(new MovementSystem());
+		worldWrapper.addUpdateSystem(new AnimationSystem());
+		worldWrapper.addUpdateSystem(new CameraFollowSystem());
+		worldWrapper.addUpdateSystem(new SpriteUpdateSystem());
+		worldWrapper.addUpdateSystem(new SpriteRendererSystem(renderLayers));
 
 		worldWrapper.init();
 
