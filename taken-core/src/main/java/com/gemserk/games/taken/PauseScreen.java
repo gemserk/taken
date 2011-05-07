@@ -23,7 +23,7 @@ public class PauseScreen extends ScreenAdapter {
 
 	private ResourceManager<String> resourceManager;
 
-	private Sprite background;
+	private Sprite overlay;
 
 	private BitmapFont font;
 
@@ -46,7 +46,7 @@ public class PauseScreen extends ScreenAdapter {
 
 		loadResources();
 
-		background = resourceManager.getResourceValue("BackgroundSprite");
+		overlay = resourceManager.getResourceValue("OverlaySprite");
 		font = resourceManager.getResourceValue("PauseFont");
 
 		shouldReturnToGame = false;
@@ -73,31 +73,27 @@ public class PauseScreen extends ScreenAdapter {
 		Gdx.input.setInputProcessor(null);
 	}
 
-	@Override
-	public void render(float delta) {
-		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
-		internalRender(delta);
-		update(delta);
-	}
-
 	public void internalRender(float delta) {
+		int width = Gdx.graphics.getWidth();
+		int height = Gdx.graphics.getHeight();
+
+		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
 		pausedScreen.render(delta);
 		spriteBatch.begin();
 
-		background.setPosition(0, 0);
-		background.setColor(1f, 1f, 1f, 0.5f);
-		background.draw(spriteBatch);
+		overlay.setSize(width, height);
+		overlay.setPosition(0, 0);
+		overlay.setColor(0f, 0f, 0f, 0.5f);
+		overlay.draw(spriteBatch);
 
-		background.setPosition(background.getWidth(), 0);
-		background.setColor(1f, 1f, 1f, 0.5f);
-		background.draw(spriteBatch);
-
-		drawCentered(font, "Paused", Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() * 0.5f);
+		drawCentered(font, "Paused", width * 0.5f, height * 0.5f);
 
 		spriteBatch.end();
 	}
-
-	private void update(float delta) {
+	
+	@Override
+	public void internalUpdate(float delta) {
 		if (shouldReturnToGame)
 			game.setScreen(pausedScreen, true);
 	}
@@ -111,8 +107,8 @@ public class PauseScreen extends ScreenAdapter {
 	private void loadResources() {
 		new LibgdxResourceBuilder(resourceManager) {
 			{
-				texture("Background", "data/images/background-512x512.jpg");
-				sprite("BackgroundSprite", "Background");
+				texture("OverlayTexture", "data/images/white-rectangle.png");
+				sprite("OverlaySprite", "OverlayTexture");
 				font("PauseFont", "data/fonts/title.png", "data/fonts/title.fnt");
 			}
 		};
