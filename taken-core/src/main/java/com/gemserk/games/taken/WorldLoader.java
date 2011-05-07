@@ -27,11 +27,6 @@ public class WorldLoader {
 		this.layer = layer;
 	}
 
-	public void processWorld(InputStream scene) {
-		Document document = new DocumentParser().parse(scene);
-		processWorld(document);
-	}
-
 	public void processWorld(Document document) {
 		SvgParser svgParser = new SvgParser();
 		svgParser.addHandler(new SvgDocumentHandler() {

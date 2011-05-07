@@ -1,10 +1,10 @@
 package com.gemserk.games.taken;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.vecmath.Vector2f;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.artemis.Entity;
@@ -55,7 +55,6 @@ import com.gemserk.commons.svg.inkscape.SvgInkscapeImage;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePath;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePathHandler;
 import com.gemserk.commons.svg.inkscape.SvgParser;
-import com.gemserk.commons.svg.inkscape.DocumentParser;
 import com.gemserk.componentsengine.input.InputDevicesMonitorImpl;
 import com.gemserk.componentsengine.input.LibgdxButtonMonitor;
 import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
@@ -209,10 +208,10 @@ public class GameScreen extends ScreenAdapter {
 		loadResources();
 
 		createBackground();
-
-		loadWorld();
-
-		loadPhysicObjects();
+		
+		Document scene = resourceManager.getResourceValue("Scene01");
+		loadWorld(scene);
+		loadPhysicObjects(scene);
 
 		createCharacterBloodOverlay();
 
@@ -230,7 +229,7 @@ public class GameScreen extends ScreenAdapter {
 
 	}
 
-	void loadWorld() {
+	void loadWorld(Document document) {
 		new WorldLoader("World") {
 
 			protected void handleCharacterStartPoint(float x, float y) {
@@ -251,7 +250,7 @@ public class GameScreen extends ScreenAdapter {
 				createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
 			}
 
-		}.processWorld(Gdx.files.internal("data/scenes/scene01.svg").read());
+		}.processWorld(document);
 
 		// new WorldLoader("Water") {
 		//
@@ -271,7 +270,7 @@ public class GameScreen extends ScreenAdapter {
 
 	}
 
-	void loadPhysicObjects() {
+	void loadPhysicObjects(Document document) {
 		SvgParser svgParser = new SvgParser();
 		svgParser.addHandler(new SvgDocumentHandler() {
 			@Override
@@ -307,8 +306,7 @@ public class GameScreen extends ScreenAdapter {
 
 			}
 		});
-		InputStream svg = Gdx.files.internal("data/scenes/scene01.svg").read();
-		svgParser.parse(new DocumentParser().parse(svg));
+		svgParser.parse(document);
 	}
 
 	void createBackground() {
@@ -792,6 +790,8 @@ public class GameScreen extends ScreenAdapter {
 				sound("HealthVialSound", "data/sounds/healthvial.ogg");
 
 				font("Font", "data/fonts/font.png", "data/fonts/font.fnt");
+
+				xmlDocument("Scene01", "data/scenes/scene01.svg");
 			}
 
 		};

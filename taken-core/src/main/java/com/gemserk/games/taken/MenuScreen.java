@@ -2,6 +2,8 @@ package com.gemserk.games.taken;
 
 import java.util.ArrayList;
 
+import org.w3c.dom.Document;
+
 import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
@@ -43,7 +45,7 @@ public class MenuScreen extends ScreenAdapter {
 	private ResourceManager<String> resourceManager;
 
 	private Libgdx2dCameraTransformImpl worldCamera = new Libgdx2dCameraTransformImpl();
-	
+
 	private Libgdx2dCamera backgroundLayerCamera = new Libgdx2dCameraTransformImpl();
 
 	private Camera cameraData = new Camera(0, 0, 1f, 0f);
@@ -98,19 +100,20 @@ public class MenuScreen extends ScreenAdapter {
 		worldWrapper.init();
 
 		createBackground();
-		
-		new WorldLoader("World"){
-			
+
+		Document scene = resourceManager.getResourceValue("MenuScene");
+		new WorldLoader("World") {
+
 			@Override
 			protected void handleCharacterStartPoint(float x, float y) {
 				createMainCharacter(x, y);
 			}
-			
+
 			@Override
 			protected void handleRobotStartPoint(float x, float y) {
 				createRobo(x, y);
 			}
-			
+
 			protected void handleStaticObject(SvgInkscapeImage svgImage, float width, float height, float angle, float sx, float sy, float x, float y) {
 				Texture texture = resourceManager.getResourceValue(svgImage.getLabel());
 				if (texture == null)
@@ -119,8 +122,8 @@ public class MenuScreen extends ScreenAdapter {
 				sprite.setScale(sx, sy);
 				createStaticSprite(sprite, x, y, width, height, angle, 0, 0.5f, 0.5f, Color.WHITE);
 			};
-			
-		}.processWorld(Gdx.files.internal("data/scenes/menu-scene.svg").read());
+
+		}.processWorld(scene);
 	}
 
 	void createBackground() {
@@ -189,10 +192,10 @@ public class MenuScreen extends ScreenAdapter {
 		drawCentered(titleFont, "CODENAME: T.A.K.E.N.", Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() - 30f);
 		drawCentered(titleFont, "tap screen to start", Gdx.graphics.getWidth() * 0.5f, 80f);
 		spriteBatch.end();
-		
-		if (Gdx.input.justTouched()) 
+
+		if (Gdx.input.justTouched())
 			game.setScreen(game.gameScreen, true);
-		
+
 	}
 
 	private void drawCentered(BitmapFont font, String text, float x, float y) {
@@ -229,6 +232,8 @@ public class MenuScreen extends ScreenAdapter {
 
 				animation("Human_Idle", "CharactersSpriteSheet", 0, 0, 32, 32, 2, true, 1000, 50);
 				animation("Robo", "CharactersSpriteSheet", 4 * 32, 4 * 32, 32, 32, 1, false, 0);
+				
+				xmlDocument("MenuScene", "data/scenes/menu-scene.svg");
 
 			}
 		};
