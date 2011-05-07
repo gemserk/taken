@@ -73,7 +73,7 @@ public class PauseScreen extends ScreenAdapter {
 
 			private void fadeOut() {
 				if (!handled ) {
-					Synchronizers.transition(overlayColor, Transitions.transitionBuilder(new Color(0f, 0f, 0f, 0.5f))
+					Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor)
 							.end(new Color(0f,0f,0f,0f))
 							.time(300)
 							.build());
