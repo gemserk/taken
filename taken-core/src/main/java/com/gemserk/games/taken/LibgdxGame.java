@@ -19,6 +19,8 @@ public class LibgdxGame extends Game {
 
 	public MenuScreen menuScreen;
 
+	public PauseScreen pauseScreen;
+
 	@Override
 	public void create() {
 		Converters.register(Vector2.class, LibgdxConverters.vector2());
@@ -29,6 +31,8 @@ public class LibgdxGame extends Game {
 		gameScreen = new GameScreen(this);
 		splashScreen = new SplashScreen(this);
 		menuScreen = new MenuScreen(this);
+		
+		pauseScreen = new PauseScreen(this, gameScreen);
 
 		setScreen(splashScreen);
 		// setScreen(menuScreen);

@@ -204,7 +204,7 @@ public class MenuScreen extends ScreenAdapter {
 	private void drawCentered(BitmapFont font, String text, float x, float y) {
 		font.setScale(1f);
 		TextBounds bounds = font.getBounds(text);
-		font.draw(spriteBatch, text, x - bounds.width * 0.5f, y - bounds.height * 0.5f);
+		font.draw(spriteBatch, text, x - bounds.width * 0.5f, y + bounds.height * 0.5f);
 	}
 
 	private void loadResources() {

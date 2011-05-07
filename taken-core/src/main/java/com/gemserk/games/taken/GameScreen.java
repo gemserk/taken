@@ -137,18 +137,30 @@ public class GameScreen extends ScreenAdapter {
 		inputDevicesMonitor = new InputDevicesMonitorImpl<String>();
 
 		resourceManager = new ResourceManagerImpl<String>();
-
+		
 		new LibgdxInputMappingBuilder<String>(inputDevicesMonitor, Gdx.input) {
 			{
 				monitorKey("debug", Keys.D);
 				monitorKey("score", Keys.P);
-				monitorKey("menu", Keys.Q);
+				
+				if (Gdx.app.getType() == ApplicationType.Android)
+					monitorKey("menu", Keys.MENU);
+				else
+					monitorKey("menu", Keys.ESCAPE);
+
+				if (Gdx.app.getType() == ApplicationType.Android)
+					monitorKey("back", Keys.BACK);
+
+				// BACK and MENU keys should show a PAUSE
+				
 			}
 		};
 
 	}
 
 	void restartGame() {
+		
+		Gdx.input.setCatchBackKey(true);
 
 		Gdx.app.log("Taken", "Reloading the level");
 
@@ -719,8 +731,8 @@ public class GameScreen extends ScreenAdapter {
 
 		// if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 
-		if (inputDevicesMonitor.getButton("menu").isReleased()) {
-			game.setScreen(game.menuScreen, false);
+		if (inputDevicesMonitor.getButton("menu").isReleased() || inputDevicesMonitor.getButton("back").isReleased()) {
+			game.setScreen(game.pauseScreen, false);
 			return;
 		}
 
