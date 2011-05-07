@@ -6,8 +6,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Taken</name>
-	<description>Arielsan's Ludum Dare 20 Game</description>
+	<name>Codename: Taken</name>
+	<description>Codename: Taken - Gemserk Game</description>
 
 	<organization>
 		<name>Gemserk</name>

@@ -11,8 +11,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Taken - Core Module</name>
-	<description>Taken - Core Module</description>
+	<name>Codename: Taken - Core Module</name>
+	<description>Codename: Taken - Core Module</description>
 
 	<properties>
 		<animation4j.version>0.0.10</animation4j.version>
