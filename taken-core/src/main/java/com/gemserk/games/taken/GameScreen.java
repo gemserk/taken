@@ -666,25 +666,12 @@ public class GameScreen extends ScreenAdapter {
 		entity.refresh();
 	}
 
-	// @Override
-	// public void render(float delta) {
-	//
-	// Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
-	//
-	// camera.zoom(cameraData.getZoom() * 2f);
-	// camera.move(cameraData.getX(), cameraData.getY());
-	// camera.rotate(cameraData.getAngle());
-	//
-	// int deltaInMs = (int) (delta * 1000f);
-	//
-	// worldWrapper.update(deltaInMs);
-	//
-	// super.render(delta);
-	// }
-
 	@Override
 	public void internalRender(float delta) {
 
+		if (spriteBatch == null)
+			return;
+		
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		camera.zoom(cameraData.getZoom() * 2f);
@@ -840,6 +827,7 @@ public class GameScreen extends ScreenAdapter {
 		resourceManager.unloadAll();
 		spriteBatch.dispose();
 		physicsWorld.dispose();
+		spriteBatch = null;
 	}
 
 }

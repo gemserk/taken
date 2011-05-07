@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -29,6 +28,7 @@ import com.gemserk.commons.gdx.ScreenAdapter;
 import com.gemserk.commons.gdx.camera.Camera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCamera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
+import com.gemserk.commons.gdx.graphics.SpriteBatchUtils;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeImage;
 import com.gemserk.resources.Resource;
@@ -196,8 +196,8 @@ public class MenuScreen extends ScreenAdapter {
 		// draw the HUD
 		BitmapFont titleFont = resourceManager.getResourceValue("TitleFont");
 		spriteBatch.begin();
-		drawCentered(titleFont, "CODENAME: T.A.K.E.N.", Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() - 30f);
-		drawCentered(titleFont, "tap screen to start", Gdx.graphics.getWidth() * 0.5f, 80f);
+		SpriteBatchUtils.drawCentered(spriteBatch, titleFont, "CODENAME: T.A.K.E.N.", Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() - 30f);
+		SpriteBatchUtils.drawCentered(spriteBatch, titleFont, "tap screen to start", Gdx.graphics.getWidth() * 0.5f, 80f);
 		spriteBatch.end();
 	}
 	
@@ -206,12 +206,6 @@ public class MenuScreen extends ScreenAdapter {
 		worldWrapper.update((int) (delta * 1000f));
 		if (Gdx.input.justTouched())
 			game.setScreen(game.gameScreen, true);
-	}
-
-	private void drawCentered(BitmapFont font, String text, float x, float y) {
-		font.setScale(1f);
-		TextBounds bounds = font.getBounds(text);
-		font.draw(spriteBatch, text, x - bounds.width * 0.5f, y + bounds.height * 0.5f);
 	}
 
 	private void loadResources() {
