@@ -19,8 +19,6 @@ public class PauseScreen extends ScreenAdapter {
 
 	private final LibgdxGame game;
 
-	private final ScreenAdapter pausedScreen;
-
 	private SpriteBatch spriteBatch;
 
 	private ResourceManager<String> resourceManager;
@@ -33,9 +31,8 @@ public class PauseScreen extends ScreenAdapter {
 
 	private Color overlayColor;
 
-	public PauseScreen(LibgdxGame game, ScreenAdapter pausedScreen) {
+	public PauseScreen(LibgdxGame game) {
 		this.game = game;
-		this.pausedScreen = pausedScreen;
 	}
 
 	@Override
@@ -100,7 +97,7 @@ public class PauseScreen extends ScreenAdapter {
 
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		pausedScreen.internalRender(delta);
+		game.gameScreen.internalRender(delta);
 
 		if (spriteBatch == null)
 			return;
@@ -118,7 +115,7 @@ public class PauseScreen extends ScreenAdapter {
 	public void internalUpdate(float delta) {
 		Synchronizers.synchronize();
 		if (overlayColor.a == 0f)
-			game.setScreen(pausedScreen, true);
+			game.setScreen(game.gameScreen, true);
 	}
 
 	private void drawCentered(BitmapFont font, String text, float x, float y) {

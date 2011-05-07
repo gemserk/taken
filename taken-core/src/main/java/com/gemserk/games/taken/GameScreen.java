@@ -705,6 +705,12 @@ public class GameScreen extends ScreenAdapter {
 
 		if (inputDevicesMonitor.getButton("debug").isHolded())
 			box2dCustomDebugRenderer.render();
+
+		if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
+			ImmediateModeRendererUtils.drawRectangle(0, 0, 100, 100, Color.WHITE);
+			ImmediateModeRendererUtils.drawRectangle(100, 0, 200, 100, Color.WHITE);
+			ImmediateModeRendererUtils.drawRectangle(Gdx.graphics.getWidth() - 100, 0, Gdx.graphics.getWidth(), 100, Color.WHITE);
+		}
 	}
 
 	@Override
@@ -727,15 +733,7 @@ public class GameScreen extends ScreenAdapter {
 			controller.update(deltaInMs);
 		}
 
-		if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
-			ImmediateModeRendererUtils.drawRectangle(0, 0, 100, 100, Color.WHITE);
-			ImmediateModeRendererUtils.drawRectangle(100, 0, 200, 100, Color.WHITE);
-			ImmediateModeRendererUtils.drawRectangle(Gdx.graphics.getWidth() - 100, 0, Gdx.graphics.getWidth(), 100, Color.WHITE);
-		}
-
-		// if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-
-		if (inputDevicesMonitor.getButton("menu").isPressed() || inputDevicesMonitor.getButton("back").isPressed()) {
+		if (inputDevicesMonitor.getButton("menu").isReleased() || inputDevicesMonitor.getButton("back").isReleased()) {
 			game.setScreen(game.pauseScreen, false);
 			return;
 		}
