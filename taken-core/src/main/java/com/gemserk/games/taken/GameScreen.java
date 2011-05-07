@@ -208,10 +208,10 @@ public class GameScreen extends ScreenAdapter {
 		loadResources();
 
 		createBackground();
+
+		loadWorld();
 		
-		Document scene = resourceManager.getResourceValue("Scene01");
-		loadWorld(scene);
-		loadPhysicObjects(scene);
+		loadPhysicObjects();
 
 		createCharacterBloodOverlay();
 
@@ -229,7 +229,8 @@ public class GameScreen extends ScreenAdapter {
 
 	}
 
-	void loadWorld(Document document) {
+	void loadWorld() {
+		Document document = resourceManager.getResourceValue("Scene01");
 		new WorldLoader("World") {
 
 			protected void handleCharacterStartPoint(float x, float y) {
@@ -270,7 +271,8 @@ public class GameScreen extends ScreenAdapter {
 
 	}
 
-	void loadPhysicObjects(Document document) {
+	void loadPhysicObjects() {
+		Document document = resourceManager.getResourceValue("Scene01");
 		SvgParser svgParser = new SvgParser();
 		svgParser.addHandler(new SvgDocumentHandler() {
 			@Override
@@ -791,7 +793,9 @@ public class GameScreen extends ScreenAdapter {
 
 				font("Font", "data/fonts/font.png", "data/fonts/font.fnt");
 
-				xmlDocument("Scene01", "data/scenes/scene01.svg");
+				resource("Scene01", xmlDocument("data/scenes/scene01.svg")//
+						.cached());
+
 			}
 
 		};

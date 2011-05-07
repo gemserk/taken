@@ -232,8 +232,9 @@ public class MenuScreen extends ScreenAdapter {
 
 				animation("Human_Idle", "CharactersSpriteSheet", 0, 0, 32, 32, 2, true, 1000, 50);
 				animation("Robo", "CharactersSpriteSheet", 4 * 32, 4 * 32, 32, 32, 1, false, 0);
-				
-				xmlDocument("MenuScene", "data/scenes/menu-scene.svg");
+
+				resource("MenuScene", xmlDocument("data/scenes/menu-scene.svg")//
+						.cached());
 
 			}
 		};
