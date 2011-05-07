@@ -1,5 +1,6 @@
 package com.gemserk.games.taken;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.vecmath.Vector2f;
@@ -54,6 +55,7 @@ import com.gemserk.commons.svg.inkscape.SvgInkscapeImage;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePath;
 import com.gemserk.commons.svg.inkscape.SvgInkscapePathHandler;
 import com.gemserk.commons.svg.inkscape.SvgParser;
+import com.gemserk.commons.svg.inkscape.DocumentParser;
 import com.gemserk.componentsengine.input.InputDevicesMonitorImpl;
 import com.gemserk.componentsengine.input.LibgdxButtonMonitor;
 import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
@@ -305,7 +307,8 @@ public class GameScreen extends ScreenAdapter {
 
 			}
 		});
-		svgParser.parse(Gdx.files.internal("data/scenes/scene01.svg").read());
+		InputStream svg = Gdx.files.internal("data/scenes/scene01.svg").read();
+		svgParser.parse(new DocumentParser().parse(svg));
 	}
 
 	void createBackground() {

@@ -14,6 +14,7 @@ import com.gemserk.commons.svg.inkscape.SvgInkscapeGroupHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeImage;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeImageHandler;
 import com.gemserk.commons.svg.inkscape.SvgParser;
+import com.gemserk.commons.svg.inkscape.DocumentParser;
 
 public class WorldLoader {
 
@@ -100,7 +101,7 @@ public class WorldLoader {
 			}
 
 		});
-		svgParser.parse(scene);
+		svgParser.parse(new DocumentParser().parse(scene));
 	}
 
 	protected void handleCharacterStartPoint(float x, float y) {
