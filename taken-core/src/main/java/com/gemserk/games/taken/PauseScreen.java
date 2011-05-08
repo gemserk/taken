@@ -1,6 +1,7 @@
 package com.gemserk.games.taken;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -157,7 +158,7 @@ public class PauseScreen extends ScreenAdapter {
 			}
 		}
 
-		if (resumeButton.isReleased()) {
+		if (resumeButton.isReleased() || Gdx.input.isKeyPressed(Keys.BACK)) {
 			targetScreen = game.gameScreen;
 			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 0f)).time(300).build());
 		}

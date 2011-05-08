@@ -164,8 +164,6 @@ public class GameScreen extends ScreenAdapter {
 
 	void restartGame() {
 
-		Gdx.input.setCatchBackKey(true);
-
 		Gdx.app.log("Taken", "Reloading the level");
 
 		controllers = new ArrayList<Controller>();
@@ -747,10 +745,17 @@ public class GameScreen extends ScreenAdapter {
 	public void resize(int width, int height) {
 
 	}
+	
+	@Override
+	public void hide() {
+		super.hide();
+		Gdx.input.setCatchBackKey(false);		
+	}
 
 	@Override
 	public void show() {
-
+		Gdx.input.setCatchBackKey(true);
+		
 		// if game over then ->
 		if (gameOver) {
 			restartGame();
