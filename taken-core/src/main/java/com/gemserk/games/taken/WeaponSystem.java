@@ -6,28 +6,18 @@ import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.PowerUp.Type;
-import com.gemserk.games.taken.screens.GameScreen;
-import com.gemserk.resources.Resource;
-import com.gemserk.resources.ResourceManager;
 
 public class WeaponSystem extends EntityProcessingSystem implements ActivableSystem {
 
 	private final ActivableSystem activableSystem = new ActivableSystemImpl();
 
-	private final GameScreen gameScreen;
-
-	private final ResourceManager<String> resourceManager;
-
-	public WeaponSystem(GameScreen gameScreen, ResourceManager<String> resourceManager) {
+	public WeaponSystem() {
 		super(WeaponComponent.class);
-		this.gameScreen = gameScreen;
-		this.resourceManager = resourceManager;
 	}
 
 	@Override
@@ -93,17 +83,7 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 		velocity.nor();
 		velocity.mul(weaponComponent.getBulletSpeed());
 
-		Resource<Sound> laserSound;
-
-		if (weaponComponent.getOwnerGroup().equals("Enemy")) {
-			laserSound = resourceManager.get("EnemyLaserSound");
-		} else {
-			laserSound = resourceManager.get("FriendlyLaserSound");
-		}
-
-		laserSound.get().play();
-
-		gameScreen.createLaser(position.x, position.y, bulletAliveTime, velocity.x, velocity.y, damage, weaponComponent.getOwnerGroup(), weaponComponent.getTargetGroup());
+		weaponComponent.getEntityTemplate().fire(position.x, position.y, bulletAliveTime, velocity.x, velocity.y, damage);
 
 		int reloadTime = weaponComponent.getReloadTime();
 

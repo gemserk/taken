@@ -97,6 +97,7 @@ import com.gemserk.games.taken.SpawnerSystem;
 import com.gemserk.games.taken.TimerComponent;
 import com.gemserk.games.taken.TimerSystem;
 import com.gemserk.games.taken.WeaponComponent;
+import com.gemserk.games.taken.WeaponEntityTemplate;
 import com.gemserk.games.taken.WeaponSystem;
 import com.gemserk.games.taken.WorldLoader;
 import com.gemserk.games.taken.controllers.AreaTouchJumpController;
@@ -233,7 +234,7 @@ public class GameScreen extends ScreenAdapter {
 
 		worldWrapper.addUpdateSystem(new PhysicsSystem(physicsWorld));
 		worldWrapper.addUpdateSystem(new FollowCharacterBehaviorSystem());
-		worldWrapper.addUpdateSystem(new WeaponSystem(this, resourceManager));
+		worldWrapper.addUpdateSystem(new WeaponSystem());
 		worldWrapper.addUpdateSystem(new MovementSystem());
 		worldWrapper.addUpdateSystem(new BulletSystem());
 		worldWrapper.addUpdateSystem(new HealthVialSystem(resourceManager));
@@ -565,7 +566,16 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
 
-		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Player", "Enemy", 10f));
+		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new WeaponEntityTemplate() {
+			
+			@Override
+			public void fire(float x, float y, int aliveTime, float velocityx, float velocityy, float damage) {
+				Sound laser  = resourceManager.getResourceValue("FriendlyLaserSound");
+				laser.play();
+				createLaser(x, y, aliveTime, velocityx, velocityy, damage, "Player", "Enemy");
+			}
+
+		}));
 
 		Animation[] spriteSheets = new Animation[] { enemyAnimationResource.get(), };
 
@@ -589,7 +599,16 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
-		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Enemy", "Player", 5f));
+		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new WeaponEntityTemplate() {
+			
+			@Override
+			public void fire(float x, float y, int aliveTime, float velocityx, float velocityy, float damage) {
+				Sound laser  = resourceManager.getResourceValue("EnemyLaserSound");
+				laser.play();
+				createLaser(x, y, aliveTime, velocityx, velocityy, damage, "Enemy", "Player");
+			}
+
+		}));
 
 		entity.addComponent(new HealthComponent(new Container(20f, 20f)));
 
@@ -600,7 +619,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.refresh();
 	}
 
-	public void createLaser(float x, float y, int time, float dx, float dy, float damage, String ownerGroup, String targetGroup) {
+	void createLaser(float x, float y, int time, float dx, float dy, float damage, String ownerGroup, String targetGroup) {
 		Resource<Animation> laserAnimationResource;
 
 		if (ownerGroup.equals("Player"))
