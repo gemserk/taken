@@ -87,6 +87,16 @@ public class PauseScreen extends ScreenAdapter {
 
 		private Rectangle bounds;
 
+		private Color color = new Color(1f, 1f, 1f, 1f);
+
+		private Color overColor = new Color(1f, 1f, 1f, 1f);
+
+		private Color notOverColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+
+		public void setColor(Color color) {
+			this.color = color;
+		}
+
 		public TextButton(BitmapFont font, String text, float x, float y) {
 			this.font = font;
 			this.text = text;
@@ -102,16 +112,28 @@ public class PauseScreen extends ScreenAdapter {
 		}
 
 		public void draw(SpriteBatch spriteBatch) {
+			font.setColor(color);
 			SpriteBatchUtils.drawCentered(spriteBatch, font, text, x, y);
+
+			if (isPressed()) 
+				Synchronizers.transition(color, Transitions.transitionBuilder(color).end(overColor).time(300).build());
+
+			if (isReleased()) 
+				Synchronizers.transition(color, Transitions.transitionBuilder(color).end(notOverColor).time(300).build());
 		}
 
 		@Override
 		protected boolean isDown() {
+
+			// color.set(0.8f, 0.8f, 0.8f, 1f);
+
 			if (!Gdx.input.isTouched())
 				return false;
 
 			float x2 = Gdx.input.getX();
 			float y2 = Gdx.graphics.getHeight() - Gdx.input.getY();
+
+			// color.set(1f, 1f, 1f, 1f);
 
 			return MathUtils2.inside(bounds, x2, y2);
 		}
@@ -131,13 +153,13 @@ public class PauseScreen extends ScreenAdapter {
 
 		spriteBatch.begin();
 
-		resumeButton.draw(spriteBatch);
-		menuButton.draw(spriteBatch);
-		
 		overlay.setSize(width, height);
 		overlay.setPosition(0, 0);
 		overlay.setColor(overlayColor);
 		overlay.draw(spriteBatch);
+
+		resumeButton.draw(spriteBatch);
+		menuButton.draw(spriteBatch);
 
 		spriteBatch.end();
 	}
