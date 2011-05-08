@@ -12,6 +12,7 @@ import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.PowerUp.Type;
+import com.gemserk.games.taken.screens.GameScreen;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 

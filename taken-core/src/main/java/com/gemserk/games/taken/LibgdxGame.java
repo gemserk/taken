@@ -8,18 +8,23 @@ import com.gemserk.animation4j.commons.values.converters.CommonConverters;
 import com.gemserk.animation4j.converters.Converters;
 import com.gemserk.animation4j.gdx.converters.LibgdxConverters;
 import com.gemserk.commons.values.FloatValue;
+import com.gemserk.games.taken.screens.GameScreen;
+import com.gemserk.games.taken.screens.MenuScreen;
+import com.gemserk.games.taken.screens.PauseScreen;
+import com.gemserk.games.taken.screens.ScoreScreen;
+import com.gemserk.games.taken.screens.SplashScreen;
 
 public class LibgdxGame extends Game {
 
-	public ScoreScreen scoreScreen;
-
 	public GameScreen gameScreen;
-
-	public SplashScreen splashScreen;
 
 	public MenuScreen menuScreen;
 
 	public PauseScreen pauseScreen;
+	
+	public ScoreScreen scoreScreen;
+
+	public SplashScreen splashScreen;
 
 	@Override
 	public void create() {

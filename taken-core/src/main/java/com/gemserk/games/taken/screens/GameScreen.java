@@ -1,4 +1,4 @@
-package com.gemserk.games.taken;
+package com.gemserk.games.taken.screens;
 
 import java.util.ArrayList;
 
@@ -60,7 +60,45 @@ import com.gemserk.componentsengine.input.LibgdxButtonMonitor;
 import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
 import com.gemserk.componentsengine.properties.PropertyBuilder;
 import com.gemserk.componentsengine.utils.Container;
+import com.gemserk.games.taken.AnimationComponent;
+import com.gemserk.games.taken.AnimationSystem;
+import com.gemserk.games.taken.BloodOverlayComponent;
+import com.gemserk.games.taken.BloodOverlaySystem;
+import com.gemserk.games.taken.Box2dAngleProperty;
+import com.gemserk.games.taken.Box2dPositionProperty;
+import com.gemserk.games.taken.BulletComponent;
+import com.gemserk.games.taken.BulletSystem;
+import com.gemserk.games.taken.CameraFollowComponent;
+import com.gemserk.games.taken.CameraFollowSystem;
+import com.gemserk.games.taken.CharacterControllerComponent;
+import com.gemserk.games.taken.CharacterControllerSystem;
+import com.gemserk.games.taken.CorrectSpriteDirectionSystem;
+import com.gemserk.games.taken.FollowCharacterBehaviorSystem;
+import com.gemserk.games.taken.FollowCharacterComponent;
+import com.gemserk.games.taken.GrabComponent;
+import com.gemserk.games.taken.GrabSystem;
+import com.gemserk.games.taken.HealthComponent;
+import com.gemserk.games.taken.HealthVialComponent;
+import com.gemserk.games.taken.HealthVialSystem;
+import com.gemserk.games.taken.HitComponent;
+import com.gemserk.games.taken.HitDetectionSystem;
+import com.gemserk.games.taken.JumpComponent;
+import com.gemserk.games.taken.JumpSystem;
+import com.gemserk.games.taken.LibgdxGame;
+import com.gemserk.games.taken.PhysicsComponent;
+import com.gemserk.games.taken.PhysicsObjectsFactory;
+import com.gemserk.games.taken.PhysicsSystem;
+import com.gemserk.games.taken.PowerUp;
 import com.gemserk.games.taken.PowerUp.Type;
+import com.gemserk.games.taken.PowerUpComponent;
+import com.gemserk.games.taken.PowerUpSystem;
+import com.gemserk.games.taken.SpawnerComponent;
+import com.gemserk.games.taken.SpawnerSystem;
+import com.gemserk.games.taken.TimerComponent;
+import com.gemserk.games.taken.TimerSystem;
+import com.gemserk.games.taken.WeaponComponent;
+import com.gemserk.games.taken.WeaponSystem;
+import com.gemserk.games.taken.WorldLoader;
 import com.gemserk.games.taken.controllers.AreaTouchJumpController;
 import com.gemserk.games.taken.controllers.AreaTouchMovementController;
 import com.gemserk.games.taken.controllers.ButtonMonitorJumpController;
@@ -562,7 +600,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.refresh();
 	}
 
-	void createLaser(float x, float y, int time, float dx, float dy, float damage, String ownerGroup, String targetGroup) {
+	public void createLaser(float x, float y, int time, float dx, float dy, float damage, String ownerGroup, String targetGroup) {
 		Resource<Animation> laserAnimationResource;
 
 		if (ownerGroup.equals("Player"))

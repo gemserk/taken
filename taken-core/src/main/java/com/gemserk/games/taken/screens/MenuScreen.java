@@ -1,4 +1,4 @@
-package com.gemserk.games.taken;
+package com.gemserk.games.taken.screens;
 
 import java.util.ArrayList;
 
@@ -34,6 +34,14 @@ import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
 import com.gemserk.commons.gdx.graphics.SpriteBatchUtils;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeImage;
+import com.gemserk.games.taken.AnimationComponent;
+import com.gemserk.games.taken.AnimationSystem;
+import com.gemserk.games.taken.CameraFollowComponent;
+import com.gemserk.games.taken.CameraFollowSystem;
+import com.gemserk.games.taken.FollowCharacterBehaviorSystem;
+import com.gemserk.games.taken.FollowCharacterComponent;
+import com.gemserk.games.taken.LibgdxGame;
+import com.gemserk.games.taken.WorldLoader;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
