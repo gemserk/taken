@@ -5,18 +5,16 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
+import com.gemserk.animation4j.transitions.Transition;
 import com.gemserk.animation4j.transitions.Transitions;
+import com.gemserk.animation4j.transitions.event.TransitionEventHandler;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.gdx.ScreenAdapter;
-import com.gemserk.commons.gdx.graphics.SpriteBatchUtils;
-import com.gemserk.commons.gdx.input.LibgdxPointer;
-import com.gemserk.commons.gdx.math.MathUtils2;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
 import com.gemserk.games.taken.LibgdxGame;
+import com.gemserk.games.taken.gui.TextButton;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
 
@@ -77,90 +75,6 @@ public class PauseScreen extends ScreenAdapter {
 		Gdx.input.setInputProcessor(null);
 	}
 
-	public static class TextButton {
-
-		private float x, y;
-
-		private BitmapFont font;
-
-		private String text;
-
-		private Rectangle bounds;
-
-		private boolean pressed;
-
-		private boolean released;
-
-		private LibgdxPointer libgdxPointer = new LibgdxPointer(0);
-
-		private Color color = new Color(1f, 1f, 1f, 1f);
-
-		private Color overColor = new Color(1f, 1f, 1f, 1f);
-
-		private Color notOverColor = new Color(0.7f, 0.7f, 0.7f, 1f);
-
-		public void setColor(Color color) {
-			this.color = color;
-		}
-
-		public TextButton(BitmapFont font, String text, float x, float y) {
-			this.font = font;
-			this.text = text;
-			this.x = x;
-			this.y = y;
-
-			TextBounds bounds = font.getBounds(text);
-
-			float w = bounds.width;
-			float h = bounds.height;
-
-			this.bounds = new Rectangle(x - w * 0.5f, y - h * 0.5f, w, h);
-
-			color.set(notOverColor);
-		}
-
-		public void draw(SpriteBatch spriteBatch) {
-			font.setColor(color);
-			SpriteBatchUtils.drawCentered(spriteBatch, font, text, x, y);
-		}
-
-		public boolean isPressed() {
-			return pressed;
-		}
-
-		public boolean isReleased() {
-			return released;
-		}
-
-		public void update() {
-
-			libgdxPointer.update();
-
-			pressed = false;
-			released = false;
-
-			// if (libgdxPointer.touched) {
-			// boolean inside = MathUtils2.inside(bounds, libgdxPointer.getPressedPosition());
-			// if (!inside) {
-			// Synchronizers.transition(color, Transitions.transitionBuilder(color).end(notOverColor).time(300).build());
-			// }
-			// }
-
-			if (libgdxPointer.wasPressed) {
-				pressed = MathUtils2.inside(bounds, libgdxPointer.getPressedPosition());
-				if (pressed)
-					Synchronizers.transition(color, Transitions.transitionBuilder(color).end(overColor).time(300).build());
-			}
-
-			if (libgdxPointer.wasReleased) {
-				released = MathUtils2.inside(bounds, libgdxPointer.getReleasedPosition());
-				Synchronizers.transition(color, Transitions.transitionBuilder(color).end(notOverColor).time(300).build());
-			}
-
-		}
-
-	}
-
 	public void internalRender(float delta) {
 		int width = Gdx.graphics.getWidth();
 		int height = Gdx.graphics.getHeight();
@@ -187,29 +101,35 @@ public class PauseScreen extends ScreenAdapter {
 
 	@Override
 	public void internalUpdate(float delta) {
-		Synchronizers.synchronize();
-
 		resumeButton.update();
 		menuButton.update();
 
-		// truchex, we should have a transition handler -> onTransitionFinished or something...
-		if (overlayColor.a == 0f || overlayColor.a == 1f) {
-			game.setScreen(targetScreen, true);
-			// forcing game screen disposing :S
-			if (targetScreen == game.menuScreen) {
-				game.gameScreen.setGameOver(true);
-				game.gameScreen.dispose();
-			}
-		}
+		Synchronizers.synchronize();
 
-		if (resumeButton.isReleased() || Gdx.input.isKeyPressed(Keys.BACK)) {
-			targetScreen = game.gameScreen;
-			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 0f)).time(300).build());
+		if (resumeButton.isReleased() || Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+			// targetScreen = game.gameScreen;
+			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 0f)).time(300).build(), new TransitionEventHandler<Color>() {
+
+				@Override
+				public void onTransitionFinished(Transition<Color> transition) {
+					game.setScreen(game.gameScreen, true);
+				}
+
+			});
 		}
 
 		if (menuButton.isReleased()) {
 			targetScreen = game.menuScreen;
-			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build());
+			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build(), new TransitionEventHandler<Color>() {
+
+				@Override
+				public void onTransitionFinished(Transition<Color> transition) {
+					game.setScreen(game.menuScreen, true);
+					game.gameScreen.setGameOver(true);
+					game.gameScreen.dispose();
+				}
+
+			});
 		}
 	}
 
