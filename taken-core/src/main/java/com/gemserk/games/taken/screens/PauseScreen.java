@@ -13,9 +13,9 @@ import com.gemserk.animation4j.transitions.Transitions;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.gdx.ScreenAdapter;
 import com.gemserk.commons.gdx.graphics.SpriteBatchUtils;
+import com.gemserk.commons.gdx.input.LibgdxPointer;
 import com.gemserk.commons.gdx.math.MathUtils2;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
-import com.gemserk.componentsengine.input.ButtonMonitor;
 import com.gemserk.games.taken.LibgdxGame;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
@@ -77,7 +77,7 @@ public class PauseScreen extends ScreenAdapter {
 		Gdx.input.setInputProcessor(null);
 	}
 
-	public static class TextButton extends ButtonMonitor {
+	public static class TextButton {
 
 		private float x, y;
 
@@ -86,6 +86,12 @@ public class PauseScreen extends ScreenAdapter {
 		private String text;
 
 		private Rectangle bounds;
+
+		private boolean pressed;
+
+		private boolean released;
+
+		private LibgdxPointer libgdxPointer = new LibgdxPointer(0);
 
 		private Color color = new Color(1f, 1f, 1f, 1f);
 
@@ -109,33 +115,48 @@ public class PauseScreen extends ScreenAdapter {
 			float h = bounds.height;
 
 			this.bounds = new Rectangle(x - w * 0.5f, y - h * 0.5f, w, h);
+
+			color.set(notOverColor);
 		}
 
 		public void draw(SpriteBatch spriteBatch) {
 			font.setColor(color);
 			SpriteBatchUtils.drawCentered(spriteBatch, font, text, x, y);
-
-			if (isPressed()) 
-				Synchronizers.transition(color, Transitions.transitionBuilder(color).end(overColor).time(300).build());
-
-			if (isReleased()) 
-				Synchronizers.transition(color, Transitions.transitionBuilder(color).end(notOverColor).time(300).build());
 		}
 
-		@Override
-		protected boolean isDown() {
+		public boolean isPressed() {
+			return pressed;
+		}
 
-			// color.set(0.8f, 0.8f, 0.8f, 1f);
+		public boolean isReleased() {
+			return released;
+		}
 
-			if (!Gdx.input.isTouched())
-				return false;
+		public void update() {
 
-			float x2 = Gdx.input.getX();
-			float y2 = Gdx.graphics.getHeight() - Gdx.input.getY();
+			libgdxPointer.update();
 
-			// color.set(1f, 1f, 1f, 1f);
+			pressed = false;
+			released = false;
 
-			return MathUtils2.inside(bounds, x2, y2);
+			// if (libgdxPointer.touched) {
+			// boolean inside = MathUtils2.inside(bounds, libgdxPointer.getPressedPosition());
+			// if (!inside) {
+			// Synchronizers.transition(color, Transitions.transitionBuilder(color).end(notOverColor).time(300).build());
+			// }
+			// }
+
+			if (libgdxPointer.wasPressed) {
+				pressed = MathUtils2.inside(bounds, libgdxPointer.getPressedPosition());
+				if (pressed)
+					Synchronizers.transition(color, Transitions.transitionBuilder(color).end(overColor).time(300).build());
+			}
+
+			if (libgdxPointer.wasReleased) {
+				released = MathUtils2.inside(bounds, libgdxPointer.getReleasedPosition());
+				Synchronizers.transition(color, Transitions.transitionBuilder(color).end(notOverColor).time(300).build());
+			}
+
 		}
 
 	}
