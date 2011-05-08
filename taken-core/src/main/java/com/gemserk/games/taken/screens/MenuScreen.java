@@ -17,7 +17,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.gemserk.animation4j.gdx.Animation;
+import com.gemserk.animation4j.transitions.Transition;
 import com.gemserk.animation4j.transitions.Transitions;
+import com.gemserk.animation4j.transitions.event.TransitionEventHandler;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.artemis.WorldWrapper;
 import com.gemserk.commons.artemis.components.MovementComponent;
@@ -69,7 +71,7 @@ public class MenuScreen extends ScreenAdapter {
 	private Sprite overlay;
 
 	private Color overlayColor;
-	
+
 	private boolean shouldExit = false;
 
 	public MenuScreen(LibgdxGame game) {
@@ -82,7 +84,7 @@ public class MenuScreen extends ScreenAdapter {
 	@Override
 	public void show() {
 		super.show();
-		
+
 		Gdx.input.setCatchBackKey(false);
 
 		this.sprites = new ArrayList<Sprite>();
@@ -91,7 +93,7 @@ public class MenuScreen extends ScreenAdapter {
 		resourceManager = new ResourceManagerImpl<String>();
 
 		loadResources();
-		
+
 		Sprite b1 = resourceManager.getResourceValue("BackgroundSprite");
 		b1.setPosition(0, 0);
 		sprites.add(b1);
@@ -115,7 +117,7 @@ public class MenuScreen extends ScreenAdapter {
 		worldWrapper.addUpdateSystem(new AnimationSystem());
 		worldWrapper.addUpdateSystem(new CameraFollowSystem());
 		worldWrapper.addUpdateSystem(new SpriteUpdateSystem());
-		
+
 		worldWrapper.addRenderSystem(new SpriteRendererSystem(renderLayers));
 
 		worldWrapper.init();
@@ -145,7 +147,7 @@ public class MenuScreen extends ScreenAdapter {
 			};
 
 		}.processWorld(scene);
-		
+
 		overlay = resourceManager.getResourceValue("OverlaySprite");
 
 		overlayColor = new Color(0f, 0f, 0f, 1f);
@@ -205,12 +207,12 @@ public class MenuScreen extends ScreenAdapter {
 
 		if (spriteBatch == null)
 			return;
-		
+
 		int width = Gdx.graphics.getWidth();
 		int height = Gdx.graphics.getHeight();
-		
+
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
-		
+
 		// RenderSystem sprite batch is not being disposed.
 
 		worldCamera.zoom(cameraData.getZoom() * 2f);
@@ -221,39 +223,46 @@ public class MenuScreen extends ScreenAdapter {
 
 		// draw the HUD
 		BitmapFont titleFont = resourceManager.getResourceValue("TitleFont");
-		
+
 		spriteBatch.begin();
-		
+
 		SpriteBatchUtils.drawCentered(spriteBatch, titleFont, "CODENAME: T.A.K.E.N.", Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() - 30f);
 		SpriteBatchUtils.drawCentered(spriteBatch, titleFont, "tap screen to start", Gdx.graphics.getWidth() * 0.5f, 80f);
-		
+
 		overlay.setSize(width, height);
 		overlay.setPosition(0, 0);
 		overlay.setColor(overlayColor);
 		overlay.draw(spriteBatch);
-		
+
 		spriteBatch.end();
-		
+
 	}
-	
+
 	@Override
 	public void internalUpdate(float delta) {
 		Synchronizers.synchronize();
 		worldWrapper.update((int) (delta * 1000f));
-		
-		if (overlayColor.a >= 1f) {
-			if (shouldExit)
-				System.exit(0);
-			game.setScreen(game.gameScreen, true);
-		}
 
 		if (Gdx.input.justTouched()) {
-			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build());
+			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build(), //
+					new TransitionEventHandler() {
+						@Override
+						public void onTransitionFinished(Transition transition) {
+							game.setScreen(game.gameScreen, true);
+						}
+					});
 		}
-		
+
 		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build());
-			shouldExit = true;
+			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build(), //
+					new TransitionEventHandler() {
+
+						@Override
+						public void onTransitionFinished(Transition transition) {
+							System.exit(0);
+						}
+					});
+			// shouldExit = true;
 		}
 	}
 
