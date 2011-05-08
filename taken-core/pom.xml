@@ -15,7 +15,7 @@
 	<description>Codename: Taken - Core Module</description>
 
 	<properties>
-		<animation4j.version>0.0.11-SNAPSHOT</animation4j.version>
+		<animation4j.version>0.0.11-transitionevents-SNAPSHOT</animation4j.version>
 		<artemis.version>0.0.1-GEMSERK-SNAPSHOT</artemis.version>
 		<commons.gdx.version>0.0.1-SNAPSHOT</commons.gdx.version>
 	</properties>
