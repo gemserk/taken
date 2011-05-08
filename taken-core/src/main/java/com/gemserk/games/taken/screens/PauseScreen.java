@@ -106,7 +106,7 @@ public class PauseScreen extends ScreenAdapter {
 
 		Synchronizers.synchronize();
 
-		if (resumeButton.isReleased() || Gdx.input.isKeyPressed(Keys.BACK) || Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+		if (resumeButton.isReleased() || Gdx.input.isKeyPressed(Keys.BACK)) {
 			// targetScreen = game.gameScreen;
 			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 0f)).time(300).build(), new TransitionEventHandler<Color>() {
 
@@ -119,6 +119,7 @@ public class PauseScreen extends ScreenAdapter {
 		}
 
 		if (menuButton.isReleased()) {
+			System.out.println ("menu released");
 			targetScreen = game.menuScreen;
 			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build(), new TransitionEventHandler<Color>() {
 
