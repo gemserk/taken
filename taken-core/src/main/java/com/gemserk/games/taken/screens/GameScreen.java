@@ -97,6 +97,7 @@ import com.gemserk.games.taken.components.PhysicsComponent;
 import com.gemserk.games.taken.components.PowerUpComponent;
 import com.gemserk.games.taken.components.SpawnerComponent;
 import com.gemserk.games.taken.components.TimerComponent;
+import com.gemserk.games.taken.components.TimerTrigger;
 import com.gemserk.games.taken.components.WeaponComponent;
 import com.gemserk.games.taken.components.WeaponEntityTemplate;
 import com.gemserk.games.taken.controllers.AreaTouchJumpController;
@@ -270,7 +271,7 @@ public class GameScreen extends ScreenAdapter {
 
 		// createHealthVial(4f, 2f, 100000, 1000f);
 
-		// createEnemyRobotSpawner();
+		createEnemyRobotSpawner();
 
 		// createHealthVialSpawner();
 
@@ -611,6 +612,16 @@ public class GameScreen extends ScreenAdapter {
 		// on interact trigger () {
 		// spawn something
 		// }
+		
+//		entity.addComponent(new GrabComponent(new GrabHandler(){
+//			@Override
+//			public void handle(Entity owner) {
+//				SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
+//				Vector2 position = spatialComponent.getPosition();
+//				createRobo(position.x, position.y);
+//				world.deleteEntity(owner);
+//			}
+//		}));
 
 		Animation[] spriteSheets = new Animation[] { enemyAnimationResource.get(), };
 		entity.addComponent(new AnimationComponent(spriteSheets));
@@ -676,7 +687,13 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
 		entity.addComponent(new MovementComponent(new Vector2(dx, dy), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), color));
-		entity.addComponent(new TimerComponent(time));
+		
+		entity.addComponent(new TimerComponent(time, new TimerTrigger() {
+			@Override
+			public void handle(Entity bullet) {
+				world.deleteEntity(bullet);
+			}
+		}));
 
 		entity.addComponent(new BulletComponent());
 

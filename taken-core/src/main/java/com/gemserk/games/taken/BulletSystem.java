@@ -7,7 +7,6 @@ import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.components.BulletComponent;
-import com.gemserk.games.taken.components.TimerComponent;
 
 public class BulletSystem extends EntityProcessingSystem implements ActivableSystem {
 
@@ -33,14 +32,7 @@ public class BulletSystem extends EntityProcessingSystem implements ActivableSys
 		MovementComponent movementComponent = e.getComponent(MovementComponent.class);
 		float angle = movementComponent.getVelocity().angle();
 		spatialComponent.setAngle(angle);
-		
-		TimerComponent timerComponent = e.getComponent(TimerComponent.class);
-		
-		if (timerComponent.isFinished()) {
-			// add particle effects!!
-			world.deleteEntity(e);
-		}
-		
+
 		// or, if collides with character...
 	}
 
