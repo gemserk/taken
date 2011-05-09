@@ -12,6 +12,7 @@ import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.PowerUp.Type;
 import com.gemserk.games.taken.components.PowerUpComponent;
+import com.gemserk.games.taken.components.TargetComponent;
 import com.gemserk.games.taken.components.WeaponComponent;
 
 public class WeaponSystem extends EntityProcessingSystem implements ActivableSystem {
@@ -36,8 +37,15 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 	protected void process(Entity e) {
 
 		WeaponComponent weaponComponent = e.getComponent(WeaponComponent.class);
+		weaponComponent.setTime(weaponComponent.getTime() - world.getDelta());
 
+		if (!weaponComponent.isReady())
+			return;
+		
+		TargetComponent targetComponent = e.getComponent(TargetComponent.class);
+		
 		ImmutableBag<Entity> targets = world.getGroupManager().getEntities(weaponComponent.getTargetGroup());
+		targetComponent.setTarget(null);
 
 		if (targets == null)
 			return;
@@ -47,16 +55,9 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 
-		weaponComponent.setTime(weaponComponent.getTime() - world.getDelta());
-
-		if (!weaponComponent.isReady())
-			return;
-
 		Vector2 position = spatialComponent.getPosition();
 
 		float targetRange = weaponComponent.getTargetRange();
-
-		Entity targetEntity = null;
 
 		for (int i = 0; i < targets.size(); i++) {
 			Entity target = targets.get(i);
@@ -64,17 +65,18 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 			Vector2 targetPosition = targetSpatialComponent.getPosition();
 
 			if (targetPosition.dst(position) < targetRange) {
-				targetEntity = target;
+				targetComponent.setTarget(target);
+//				targetEntity = target;
 				break;
 			}
 		}
 
-		if (targetEntity == null)
+		if (targetComponent.getTarget() == null)
 			return;
-
+		
 		// and enemy is near
 
-		weaponComponent.getEntityTemplate().fire(e, targetEntity);
+		weaponComponent.getEntityTemplate().fire(e, targetComponent.getTarget());
 
 		int reloadTime = weaponComponent.getReloadTime();
 

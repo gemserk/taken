@@ -96,6 +96,7 @@ import com.gemserk.games.taken.components.JumpComponent;
 import com.gemserk.games.taken.components.PhysicsComponent;
 import com.gemserk.games.taken.components.PowerUpComponent;
 import com.gemserk.games.taken.components.SpawnerComponent;
+import com.gemserk.games.taken.components.TargetComponent;
 import com.gemserk.games.taken.components.TimerComponent;
 import com.gemserk.games.taken.components.TimerTrigger;
 import com.gemserk.games.taken.components.WeaponComponent;
@@ -271,7 +272,7 @@ public class GameScreen extends ScreenAdapter {
 
 		// createHealthVial(4f, 2f, 100000, 1000f);
 
-		// createEnemyRobotSpawner();
+		createEnemyRobotSpawner();
 		//
 		// createHealthVialSpawner();
 		//
@@ -577,7 +578,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
-
+		entity.addComponent(new TargetComponent());
 		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new WeaponFiredTrigger() {
 
 			@Override
@@ -661,6 +662,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
+		entity.addComponent(new TargetComponent());
 		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new WeaponFiredTrigger() {
 
 			@Override
