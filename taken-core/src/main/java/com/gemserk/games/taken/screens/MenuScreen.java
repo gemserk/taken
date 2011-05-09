@@ -72,8 +72,6 @@ public class MenuScreen extends ScreenAdapter {
 
 	private Color overlayColor;
 
-	private boolean shouldExit = false;
-
 	public MenuScreen(LibgdxGame game) {
 		this.game = game;
 		int viewportWidth = Gdx.graphics.getWidth();

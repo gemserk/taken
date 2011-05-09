@@ -22,15 +22,11 @@ public class PauseScreen extends ScreenAdapter {
 
 	private final LibgdxGame game;
 
-	private ScreenAdapter targetScreen;
+	private ResourceManager<String> resourceManager;
 
 	private SpriteBatch spriteBatch;
 
-	private ResourceManager<String> resourceManager;
-
 	private Sprite overlay;
-
-	private BitmapFont font;
 
 	private Color overlayColor;
 
@@ -53,7 +49,7 @@ public class PauseScreen extends ScreenAdapter {
 		loadResources();
 
 		overlay = resourceManager.getResourceValue("OverlaySprite");
-		font = resourceManager.getResourceValue("PauseFont");
+		BitmapFont font = resourceManager.getResourceValue("PauseFont");
 
 		int width = Gdx.graphics.getWidth();
 		int height = Gdx.graphics.getHeight();
@@ -107,29 +103,23 @@ public class PauseScreen extends ScreenAdapter {
 		Synchronizers.synchronize();
 
 		if (resumeButton.isReleased() || Gdx.input.isKeyPressed(Keys.BACK)) {
-			// targetScreen = game.gameScreen;
 			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 0f)).time(300).build(), new TransitionEventHandler<Color>() {
-
 				@Override
 				public void onTransitionFinished(Transition<Color> transition) {
 					game.setScreen(game.gameScreen, true);
 				}
-
 			});
 		}
 
 		if (menuButton.isReleased()) {
 			System.out.println ("menu released");
-			targetScreen = game.menuScreen;
 			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build(), new TransitionEventHandler<Color>() {
-
 				@Override
 				public void onTransitionFinished(Transition<Color> transition) {
 					game.setScreen(game.menuScreen, true);
 					game.gameScreen.setGameOver(true);
 					game.gameScreen.dispose();
 				}
-
 			});
 		}
 	}
