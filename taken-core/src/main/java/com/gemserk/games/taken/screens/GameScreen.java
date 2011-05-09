@@ -45,6 +45,7 @@ import com.gemserk.commons.gdx.camera.Libgdx2dCamera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
 import com.gemserk.commons.gdx.controllers.Controller;
 import com.gemserk.commons.gdx.graphics.ImmediateModeRendererUtils;
+import com.gemserk.commons.gdx.graphics.SpriteBatchUtils;
 import com.gemserk.commons.gdx.input.LibgdxPointer;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
 import com.gemserk.commons.svg.inkscape.SvgDocument;
@@ -157,6 +158,8 @@ public class GameScreen extends ScreenAdapter {
 	private final Color laserEndColor = new Color(1f, 1f, 1f, 0f);
 
 	private final Color laserStartColor = new Color(1f, 1f, 1f, 1f);
+
+	private Sprite movementButton;
 	
 	public void setGameOver(boolean gameOver) {
 		this.gameOver = gameOver;
@@ -279,6 +282,8 @@ public class GameScreen extends ScreenAdapter {
 		// Music backgroundMusic = resourceManager.getResourceValue("BackgroundMusic");
 		// backgroundMusic.play();
 		// backgroundMusic.setLooping(true);
+		
+		movementButton = resourceManager.getResourceValue("MovementButtonSprite");
 
 	}
 
@@ -747,16 +752,21 @@ public class GameScreen extends ScreenAdapter {
 		spriteBatch.setColor(Color.WHITE);
 		bitmapFont.setScale(1f);
 		bitmapFont.draw(spriteBatch, scoreLabel, 10, Gdx.graphics.getHeight() - 10);
+		
+		SpriteBatchUtils.drawCentered(spriteBatch, movementButton, 50f, 50f, 128f, 128f, 180f);
+		SpriteBatchUtils.drawCentered(spriteBatch, movementButton, 150f, 50f, 128f, 128f, 0f);
+		SpriteBatchUtils.drawCentered(spriteBatch, movementButton, Gdx.graphics.getWidth() - 50, 50f, 128f, 128f, 90f);
+
 		spriteBatch.end();
 
 		if (inputDevicesMonitor.getButton("debug").isHolded())
 			box2dCustomDebugRenderer.render();
 
-		if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
+//		if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
 			ImmediateModeRendererUtils.drawRectangle(0, 0, 100, 100, Color.WHITE);
 			ImmediateModeRendererUtils.drawRectangle(100, 0, 200, 100, Color.WHITE);
 			ImmediateModeRendererUtils.drawRectangle(Gdx.graphics.getWidth() - 100, 0, Gdx.graphics.getWidth(), 100, Color.WHITE);
-		}
+//		}
 	}
 
 	@Override
@@ -882,6 +892,9 @@ public class GameScreen extends ScreenAdapter {
 				resource("Scene01", xmlDocument("data/scenes/scene01.svg")//
 						.cached());
 
+				texture("MovementButtonTexture", "data/images/movement-button.png", true);
+				sprite("MovementButtonSprite", "MovementButtonTexture");
+				
 			}
 
 		};
