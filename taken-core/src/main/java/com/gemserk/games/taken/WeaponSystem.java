@@ -72,18 +72,9 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 		if (targetEntity == null)
 			return;
 
-		SpatialComponent targetSpatialComponent = targetEntity.getComponent(SpatialComponent.class);
-		Vector2 targetPosition = targetSpatialComponent.getPosition();
-
-		float damage = weaponComponent.getDamage();
-
 		// and enemy is near
 
-		Vector2 velocity = targetPosition.tmp().sub(position);
-		velocity.nor();
-		velocity.mul(weaponComponent.getBulletSpeed());
-
-		weaponComponent.getEntityTemplate().fire(position.x, position.y, velocity.x, velocity.y, damage);
+		weaponComponent.getEntityTemplate().fire(e, targetEntity);
 
 		int reloadTime = weaponComponent.getReloadTime();
 

@@ -581,10 +581,26 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new WeaponFiredTrigger() {
 
 			@Override
-			public void fire(float x, float y, float velocityx, float velocityy, float damage) {
+			public void fire(Entity owner, Entity target) {
+
+				WeaponComponent weaponComponent = owner.getComponent(WeaponComponent.class);
+				float damage = weaponComponent.getDamage();
+
+				SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
+				SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
+
+				Vector2 position = spatialComponent.getPosition();
+				Vector2 targetPosition = targetSpatialComponent.getPosition();
+
+				// and enemy is near
+
+				Vector2 velocity = targetPosition.tmp().sub(position);
+				velocity.nor();
+				velocity.mul(weaponComponent.getBulletSpeed());
+
 				Sound laser = resourceManager.getResourceValue("FriendlyLaserSound");
 				laser.play();
-				createLaser(x, y, 2000, velocityx, velocityy, damage, "Player", "Enemy");
+				createLaser(position.x, position.y, 2000, velocity.x, velocity.y, damage, "Player", "Enemy");
 			}
 
 		}));
@@ -620,7 +636,7 @@ public class GameScreen extends ScreenAdapter {
 				Vector2 position = spatialComponent.getPosition();
 				createRobo(position.x, position.y);
 				world.deleteEntity(owner);
-				
+
 				Sound sound = resourceManager.getResourceValue("RoboFixedSound");
 				sound.play();
 			}
@@ -648,10 +664,27 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new WeaponFiredTrigger() {
 
 			@Override
-			public void fire(float x, float y, float velocityx, float velocityy, float damage) {
+			public void fire(Entity owner, Entity target) {
+				// target should be in a target component!
+
+				WeaponComponent weaponComponent = owner.getComponent(WeaponComponent.class);
+				float damage = weaponComponent.getDamage();
+
+				SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
+				SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
+
+				Vector2 position = spatialComponent.getPosition();
+				Vector2 targetPosition = targetSpatialComponent.getPosition();
+
+				// and enemy is near
+
+				Vector2 velocity = targetPosition.tmp().sub(position);
+				velocity.nor();
+				velocity.mul(weaponComponent.getBulletSpeed());
+
 				Sound laser = resourceManager.getResourceValue("EnemyLaserSound");
 				laser.play();
-				createLaser(x, y, 2000, velocityx, velocityy, damage, "Enemy", "Player");
+				createLaser(position.x, position.y, 2000, velocity.x, velocity.y, damage, "Enemy", "Player");
 			}
 
 		}));
