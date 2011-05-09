@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -44,6 +45,7 @@ import com.gemserk.games.taken.FollowCharacterBehaviorSystem;
 import com.gemserk.games.taken.FollowCharacterComponent;
 import com.gemserk.games.taken.LibgdxGame;
 import com.gemserk.games.taken.WorldLoader;
+import com.gemserk.games.taken.gui.TextButton;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
@@ -72,6 +74,12 @@ public class MenuScreen extends ScreenAdapter {
 
 	private Color overlayColor;
 
+	private TextButton playButton;
+
+	private TextButton settingsButton;
+
+	private TextButton exitButton;
+
 	public MenuScreen(LibgdxGame game) {
 		this.game = game;
 		int viewportWidth = Gdx.graphics.getWidth();
@@ -99,6 +107,15 @@ public class MenuScreen extends ScreenAdapter {
 		Sprite b2 = resourceManager.getResourceValue("BackgroundSprite");
 		b2.setPosition(b1.getWidth(), 0);
 		sprites.add(b2);
+
+		BitmapFont buttonFont = resourceManager.getResourceValue("ButtonFont");
+
+		int width = Gdx.graphics.getWidth();
+		int height = Gdx.graphics.getHeight();
+
+		playButton = new TextButton(buttonFont, "Play", width * 0.5f, height * 0.5f + 60f);
+		settingsButton = new TextButton(buttonFont, "Settings", width * 0.5f, height * 0.5f);
+		exitButton = new TextButton(buttonFont, "Exit", width * 0.5f, height * 0.5f - 60f);
 
 		// creates the scene
 
@@ -225,7 +242,12 @@ public class MenuScreen extends ScreenAdapter {
 		spriteBatch.begin();
 
 		SpriteBatchUtils.drawCentered(spriteBatch, titleFont, "CODENAME: T.A.K.E.N.", Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() - 30f);
-		SpriteBatchUtils.drawCentered(spriteBatch, titleFont, "tap screen to start", Gdx.graphics.getWidth() * 0.5f, 80f);
+
+		playButton.draw(spriteBatch);
+		settingsButton.draw(spriteBatch);
+		
+		if (Gdx.app.getType() == ApplicationType.Desktop)
+			exitButton.draw(spriteBatch);
 
 		overlay.setSize(width, height);
 		overlay.setPosition(0, 0);
@@ -238,10 +260,18 @@ public class MenuScreen extends ScreenAdapter {
 
 	@Override
 	public void internalUpdate(float delta) {
+
+		playButton.update();
+		// settingsButton.update();
+
+		if (Gdx.app.getType() == ApplicationType.Desktop)
+			exitButton.update();
+
 		Synchronizers.synchronize();
+
 		worldWrapper.update((int) (delta * 1000f));
 
-		if (Gdx.input.justTouched()) {
+		if (playButton.isReleased()) {
 			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build(), //
 					new TransitionEventHandler() {
 						@Override
@@ -251,7 +281,7 @@ public class MenuScreen extends ScreenAdapter {
 					});
 		}
 
-		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+		if (Gdx.input.isKeyPressed(Keys.ESCAPE) || exitButton.isReleased()) {
 			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build(), //
 					new TransitionEventHandler() {
 
@@ -260,7 +290,6 @@ public class MenuScreen extends ScreenAdapter {
 							System.exit(0);
 						}
 					});
-			// shouldExit = true;
 		}
 	}
 
@@ -270,7 +299,9 @@ public class MenuScreen extends ScreenAdapter {
 				setCacheWhenLoad(true);
 
 				sprite("BackgroundSprite", "Background");
+
 				font("TitleFont", "data/fonts/title.png", "data/fonts/title.fnt");
+				font("ButtonFont", "data/fonts/title.png", "data/fonts/title.fnt");
 
 				texture("Background", "data/images/background-512x512.jpg");
 

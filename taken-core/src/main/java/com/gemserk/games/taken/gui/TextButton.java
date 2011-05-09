@@ -31,7 +31,7 @@ public class TextButton {
 
 	private Color overColor = new Color(1f, 1f, 1f, 1f);
 
-	private Color notOverColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+	private Color notOverColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
 	private boolean wasInside;
 
