@@ -30,7 +30,7 @@ public class TimerSystem extends EntityProcessingSystem implements ActivableSyst
 		TimerComponent timerComponent = e.getComponent(TimerComponent.class);
 		timerComponent.setTime(timerComponent.getTime()- world.getDelta());
 
-		Trigger timerTrigger = timerComponent.getTimerTrigger();
+		Trigger timerTrigger = timerComponent.getTrigger();
 		if (timerComponent.isFinished() && !timerTrigger.isAlreadyTriggered()) 
 			timerTrigger.trigger(e);
 	}

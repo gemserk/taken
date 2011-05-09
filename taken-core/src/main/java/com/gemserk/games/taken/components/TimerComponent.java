@@ -6,7 +6,7 @@ public class TimerComponent extends Component {
 	
 	private int time;
 	
-	private Trigger timerTrigger;
+	private Trigger trigger;
 	
 	public int getTime() {
 		return time;
@@ -20,13 +20,13 @@ public class TimerComponent extends Component {
 		return time < 0;
 	}
 	
-	public Trigger getTimerTrigger() {
-		return timerTrigger;
+	public Trigger getTrigger() {
+		return trigger;
 	}
 	
-	public TimerComponent(int time, Trigger timerTrigger) {
+	public TimerComponent(int time, Trigger trigger) {
 		this.time = time;
-		this.timerTrigger = timerTrigger;
+		this.trigger = trigger;
 	}
 
 }

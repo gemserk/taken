@@ -16,7 +16,7 @@ public class WeaponComponent extends Component {
 
 	private final float damage;
 
-	private final WeaponFiredTrigger trigger;
+	private final Trigger trigger;
 	
 	public boolean isReady() {
 		return time < 0;
@@ -50,18 +50,18 @@ public class WeaponComponent extends Component {
 		return damage;
 	}
 	
-	public WeaponFiredTrigger getTrigger() {
+	public Trigger getTrigger() {
 		return trigger;
 	}
 	
-	public WeaponComponent(int reloadTime, float bulletSpeed, float targetRange, String targetGroup, float damage, WeaponFiredTrigger entityTemplate) {
+	public WeaponComponent(int reloadTime, float bulletSpeed, float targetRange, String targetGroup, float damage, Trigger trigger) {
 		this.reloadTime = reloadTime;
 		this.time = reloadTime;
 		this.bulletSpeed = bulletSpeed;
 		this.targetRange = targetRange;
 		this.targetGroup = targetGroup;
 		this.damage = damage;
-		this.trigger = entityTemplate;
+		this.trigger = trigger;
 	}
 	
 }
