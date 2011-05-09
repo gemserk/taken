@@ -76,7 +76,7 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 		
 		// and enemy is near
 
-		weaponComponent.getEntityTemplate().fire(e);
+		weaponComponent.getTrigger().trigger(e);
 
 		int reloadTime = weaponComponent.getReloadTime();
 

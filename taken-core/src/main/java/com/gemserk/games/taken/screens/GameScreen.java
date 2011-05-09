@@ -582,7 +582,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new WeaponFiredTrigger() {
 
 			@Override
-			public void fire(Entity friendlyRobot) {
+			public boolean handle(Entity friendlyRobot) {
 
 				TargetComponent targetComponent = friendlyRobot.getComponent(TargetComponent.class);
 				Entity target = targetComponent.getTarget();
@@ -605,6 +605,8 @@ public class GameScreen extends ScreenAdapter {
 				Sound laser = resourceManager.getResourceValue("FriendlyLaserSound");
 				laser.play();
 				createLaser(position.x, position.y, 2000, velocity.x, velocity.y, damage, "Player", "Enemy");
+				
+				return true;
 			}
 
 		}));
@@ -669,7 +671,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new WeaponFiredTrigger() {
 
 			@Override
-			public void fire(Entity enemyRobot) {
+			public boolean handle(Entity enemyRobot) {
 				// target should be in a target component!
 				TargetComponent targetComponent = enemyRobot.getComponent(TargetComponent.class);
 				Entity target = targetComponent.getTarget();
@@ -692,6 +694,7 @@ public class GameScreen extends ScreenAdapter {
 				Sound laser = resourceManager.getResourceValue("EnemyLaserSound");
 				laser.play();
 				createLaser(position.x, position.y, 2000, velocity.x, velocity.y, damage, "Enemy", "Player");
+				return true;
 			}
 
 		}));

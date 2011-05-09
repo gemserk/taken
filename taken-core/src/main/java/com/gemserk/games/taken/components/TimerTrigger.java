@@ -2,17 +2,16 @@ package com.gemserk.games.taken.components;
 
 import com.artemis.Entity;
 
-public class TimerTrigger {
+public class TimerTrigger implements Trigger {
 	
 	private boolean alreadyTriggered = false;
 
+	@Override
 	public boolean isAlreadyTriggered() {
 		return alreadyTriggered;
 	}
 	
-	/**
-	 * The owner Entity of the TriggerComponent.
-	 */
+	@Override
 	public void trigger(Entity e) {
 		alreadyTriggered = handle(e);
 	}
