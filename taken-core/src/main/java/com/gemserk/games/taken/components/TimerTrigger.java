@@ -4,8 +4,21 @@ import com.artemis.Entity;
 
 public class TimerTrigger {
 	
-	public void handle(Entity owner) {
-		
+	private boolean alreadyTriggered = false;
+
+	public boolean isAlreadyTriggered() {
+		return alreadyTriggered;
+	}
+	
+	/**
+	 * The owner Entity of the TriggerComponent.
+	 */
+	public void trigger(Entity e) {
+		alreadyTriggered = handle(e);
+	}
+	
+	protected boolean handle(Entity owner) {
+		return true;
 	}
 	
 }

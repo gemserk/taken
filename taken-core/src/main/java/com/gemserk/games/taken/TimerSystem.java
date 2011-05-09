@@ -5,6 +5,7 @@ import com.artemis.EntityProcessingSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.components.TimerComponent;
+import com.gemserk.games.taken.components.TimerTrigger;
 
 public class TimerSystem extends EntityProcessingSystem implements ActivableSystem {
 
@@ -28,8 +29,10 @@ public class TimerSystem extends EntityProcessingSystem implements ActivableSyst
 	protected void process(Entity e) {
 		TimerComponent timerComponent = e.getComponent(TimerComponent.class);
 		timerComponent.setTime(timerComponent.getTime()- world.getDelta());
-		if (timerComponent.isFinished()) 
-			timerComponent.getTimerTrigger().handle(e);
+
+		TimerTrigger timerTrigger = timerComponent.getTimerTrigger();
+		if (timerComponent.isFinished() && !timerTrigger.isAlreadyTriggered()) 
+			timerTrigger.trigger(e);
 	}
 
 }

@@ -7,17 +7,13 @@ import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.components.GrabComponent;
-import com.gemserk.resources.ResourceManager;
 
 public class GrabSystem extends EntityProcessingSystem implements ActivableSystem {
 
 	private final ActivableSystem activableSystem = new ActivableSystemImpl();
 
-	private final ResourceManager<String> resourceManager;
-
-	public GrabSystem(ResourceManager<String> resourceManager) {
+	public GrabSystem() {
 		super(GrabComponent.class);
-		this.resourceManager = resourceManager;
 	}
 
 	@Override

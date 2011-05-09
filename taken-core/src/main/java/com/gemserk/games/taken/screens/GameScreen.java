@@ -240,7 +240,7 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.addUpdateSystem(new MovementSystem());
 		worldWrapper.addUpdateSystem(new BulletSystem());
 
-		worldWrapper.addUpdateSystem(new GrabSystem(resourceManager));
+		worldWrapper.addUpdateSystem(new GrabSystem());
 		worldWrapper.addUpdateSystem(new PowerUpSystem());
 
 		worldWrapper.addUpdateSystem(new AnimationSystem());
@@ -271,11 +271,11 @@ public class GameScreen extends ScreenAdapter {
 
 		// createHealthVial(4f, 2f, 100000, 1000f);
 
-		// createEnemyRobotSpawner();
-
-		// createHealthVialSpawner();
-
-		// createPowerUpSpawner();
+//		 createEnemyRobotSpawner();
+//
+//		 createHealthVialSpawner();
+//
+//		 createPowerUpSpawner();
 
 		// createRobo(4f, 4f);
 		//
@@ -613,15 +613,15 @@ public class GameScreen extends ScreenAdapter {
 		// spawn something
 		// }
 
-		// entity.addComponent(new GrabComponent(new GrabHandler(){
-		// @Override
-		// public void handle(Entity owner) {
-		// SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
-		// Vector2 position = spatialComponent.getPosition();
-		// createRobo(position.x, position.y);
-		// world.deleteEntity(owner);
-		// }
-		// }));
+		entity.addComponent(new GrabComponent(new GrabHandler() {
+			@Override
+			public void handle(Entity owner) {
+				SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
+				Vector2 position = spatialComponent.getPosition();
+				createRobo(position.x, position.y);
+				world.deleteEntity(owner);
+			}
+		}));
 
 		Animation[] spriteSheets = new Animation[] { enemyAnimationResource.get(), };
 		entity.addComponent(new AnimationComponent(spriteSheets));
@@ -690,8 +690,9 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new TimerComponent(time, new TimerTrigger() {
 			@Override
-			public void handle(Entity bullet) {
+			public boolean handle(Entity bullet) {
 				world.deleteEntity(bullet);
+				return true;
 			}
 		}));
 
@@ -729,8 +730,9 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));
 		entity.addComponent(new TimerComponent(aliveTime, new TimerTrigger() {
 			@Override
-			public void handle(Entity healthVial) {
+			public boolean handle(Entity healthVial) {
 				world.deleteEntity(healthVial);
+				return true;
 			}
 		}));
 
@@ -785,8 +787,9 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));
 		entity.addComponent(new TimerComponent(aliveTime, new TimerTrigger() {
 			@Override
-			public void handle(Entity healthVial) {
+			public boolean handle(Entity healthVial) {
 				world.deleteEntity(healthVial);
+				return true;
 			}
 		}));
 		Animation[] spriteSheets = new Animation[] { animation.get(), };
