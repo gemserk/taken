@@ -582,12 +582,15 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new WeaponFiredTrigger() {
 
 			@Override
-			public void fire(Entity owner, Entity target) {
+			public void fire(Entity friendlyRobot) {
 
-				WeaponComponent weaponComponent = owner.getComponent(WeaponComponent.class);
+				TargetComponent targetComponent = friendlyRobot.getComponent(TargetComponent.class);
+				Entity target = targetComponent.getTarget();
+				
+				WeaponComponent weaponComponent = friendlyRobot.getComponent(WeaponComponent.class);
 				float damage = weaponComponent.getDamage();
 
-				SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
+				SpatialComponent spatialComponent = friendlyRobot.getComponent(SpatialComponent.class);
 				SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
 
 				Vector2 position = spatialComponent.getPosition();
@@ -666,13 +669,15 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new WeaponFiredTrigger() {
 
 			@Override
-			public void fire(Entity owner, Entity target) {
+			public void fire(Entity enemyRobot) {
 				// target should be in a target component!
+				TargetComponent targetComponent = enemyRobot.getComponent(TargetComponent.class);
+				Entity target = targetComponent.getTarget();
 
-				WeaponComponent weaponComponent = owner.getComponent(WeaponComponent.class);
+				WeaponComponent weaponComponent = enemyRobot.getComponent(WeaponComponent.class);
 				float damage = weaponComponent.getDamage();
 
-				SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
+				SpatialComponent spatialComponent = enemyRobot.getComponent(SpatialComponent.class);
 				SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
 
 				Vector2 position = spatialComponent.getPosition();
