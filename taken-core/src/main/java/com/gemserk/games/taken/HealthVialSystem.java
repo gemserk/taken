@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.games.taken.components.HealthComponent;
+import com.gemserk.games.taken.components.HealthVialComponent;
+import com.gemserk.games.taken.components.TimerComponent;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 

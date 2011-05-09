@@ -12,6 +12,8 @@ import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.PowerUp.Type;
+import com.gemserk.games.taken.components.FollowCharacterComponent;
+import com.gemserk.games.taken.components.PowerUpComponent;
 
 public class FollowCharacterBehaviorSystem extends EntityProcessingSystem implements ActivableSystem {
 

@@ -5,6 +5,7 @@ import com.artemis.EntityProcessingSystem;
 import com.gemserk.commons.artemis.entities.EntityTemplate;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.games.taken.components.SpawnerComponent;
 
 public class SpawnerSystem extends EntityProcessingSystem implements ActivableSystem {
 

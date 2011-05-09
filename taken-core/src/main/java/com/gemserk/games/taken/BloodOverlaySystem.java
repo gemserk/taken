@@ -8,6 +8,9 @@ import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.componentsengine.utils.Container;
+import com.gemserk.games.taken.components.BloodOverlayComponent;
+import com.gemserk.games.taken.components.HealthComponent;
+import com.gemserk.games.taken.components.PhysicsComponent;
 
 public class BloodOverlaySystem extends EntityProcessingSystem implements ActivableSystem {
 

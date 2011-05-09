@@ -9,6 +9,8 @@ import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.componentsengine.utils.Container;
+import com.gemserk.games.taken.components.HealthComponent;
+import com.gemserk.games.taken.components.HitComponent;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 

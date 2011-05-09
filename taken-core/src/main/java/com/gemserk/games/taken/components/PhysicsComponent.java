@@ -1,10 +1,11 @@
-package com.gemserk.games.taken;
+package com.gemserk.games.taken.components;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.gemserk.componentsengine.properties.Property;
 import com.gemserk.componentsengine.properties.SimpleProperty;
+import com.gemserk.games.taken.Contact;
 
 public class PhysicsComponent extends Component {
 

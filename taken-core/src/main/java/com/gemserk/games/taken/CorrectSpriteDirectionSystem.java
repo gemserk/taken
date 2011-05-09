@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.games.taken.components.CharacterControllerComponent;
 
 public class CorrectSpriteDirectionSystem extends EntityProcessingSystem implements ActivableSystem {
 

@@ -7,6 +7,7 @@ import com.gemserk.animation4j.gdx.Animation;
 import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.games.taken.components.AnimationComponent;
 
 public class AnimationSystem extends EntityProcessingSystem implements ActivableSystem {
 

@@ -10,6 +10,7 @@ import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.commons.gdx.camera.Camera;
 import com.gemserk.commons.gdx.graphics.SpriteUtils;
+import com.gemserk.games.taken.components.CameraFollowComponent;
 
 public class CameraFollowSystem extends EntityProcessingSystem implements ActivableSystem {
 

@@ -1,4 +1,4 @@
-package com.gemserk.games.taken;
+package com.gemserk.games.taken.components;
 
 import com.artemis.Component;
 

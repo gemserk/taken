@@ -7,6 +7,7 @@ import com.artemis.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.games.taken.components.PowerUpComponent;
 
 public class PowerUpSystem extends EntityProcessingSystem implements ActivableSystem {
 

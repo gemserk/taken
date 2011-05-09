@@ -1,8 +1,9 @@
-package com.gemserk.games.taken;
+package com.gemserk.games.taken.components;
 
 import java.util.ArrayList;
 
 import com.artemis.Component;
+import com.gemserk.games.taken.PowerUp;
 
 public class PowerUpComponent extends Component {
 	

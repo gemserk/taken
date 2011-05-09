@@ -6,6 +6,8 @@ import com.gemserk.commons.artemis.components.MovementComponent;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.games.taken.components.BulletComponent;
+import com.gemserk.games.taken.components.TimerComponent;
 
 public class BulletSystem extends EntityProcessingSystem implements ActivableSystem {
 

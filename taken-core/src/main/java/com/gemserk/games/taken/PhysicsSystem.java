@@ -18,6 +18,7 @@ import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.commons.gdx.box2d.Box2dUtils;
+import com.gemserk.games.taken.components.PhysicsComponent;
 
 public class PhysicsSystem extends EntityProcessingSystem implements ActivableSystem {
 	

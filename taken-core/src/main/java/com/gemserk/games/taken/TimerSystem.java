@@ -4,6 +4,7 @@ import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.games.taken.components.TimerComponent;
 
 public class TimerSystem extends EntityProcessingSystem implements ActivableSystem {
 
