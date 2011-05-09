@@ -2,8 +2,8 @@ package com.gemserk.games.taken.gui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.gemserk.animation4j.transitions.Transitions;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
@@ -32,6 +32,8 @@ public class TextButton {
 	private Color overColor = new Color(1f, 1f, 1f, 1f);
 
 	private Color notOverColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+
+	private boolean wasInside;
 
 	public void setColor(Color color) {
 		this.color = color;
@@ -73,12 +75,17 @@ public class TextButton {
 		pressed = false;
 		released = false;
 
-		// if (libgdxPointer.touched) {
-		// boolean inside = MathUtils2.inside(bounds, libgdxPointer.getPressedPosition());
-		// if (!inside) {
-		// Synchronizers.transition(color, Transitions.transitionBuilder(color).end(notOverColor).time(300).build());
-		// }
-		// }
+		if (libgdxPointer.touched) {
+			boolean inside = MathUtils2.inside(bounds, libgdxPointer.getPosition());
+			
+			if (wasInside && !inside) 
+				Synchronizers.transition(color, Transitions.transitionBuilder(color).end(notOverColor).time(300).build());
+			
+			if (!wasInside && inside) 
+				Synchronizers.transition(color, Transitions.transitionBuilder(color).end(overColor).time(300).build());
+			
+			wasInside = inside;
+		}
 
 		if (libgdxPointer.wasPressed) {
 			pressed = MathUtils2.inside(bounds, libgdxPointer.getPressedPosition());
