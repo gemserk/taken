@@ -1,14 +1,11 @@
 package com.gemserk.games.taken;
 
-import java.io.InputStream;
-
 import javax.vecmath.Matrix3f;
 import javax.vecmath.Vector3f;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.gemserk.commons.svg.inkscape.DocumentParser;
 import com.gemserk.commons.svg.inkscape.SvgDocument;
 import com.gemserk.commons.svg.inkscape.SvgDocumentHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeGroup;
@@ -90,6 +87,15 @@ public class WorldLoader {
 
 				float x = position.x;
 				float y = svgDocument.getHeight() - position.y;
+				
+				if (element.hasAttribute("spawn")) {
+					String spawnType = element.getAttribute("spawn");
+					
+					if ("deadRobot".equalsIgnoreCase(spawnType)) {
+						handleDeadRobot(x, y, angle);
+					}
+					
+				}
 
 				if (element.hasAttribute("start"))
 					handleCharacterStartPoint(x, y);
@@ -105,6 +111,10 @@ public class WorldLoader {
 	}
 
 	protected void handleCharacterStartPoint(float x, float y) {
+		
+	}
+	
+	protected void handleDeadRobot(float x, float y, float angle) {
 		
 	}
 

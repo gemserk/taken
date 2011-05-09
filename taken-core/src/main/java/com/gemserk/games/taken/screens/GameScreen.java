@@ -270,11 +270,11 @@ public class GameScreen extends ScreenAdapter {
 
 		createCharacterBloodOverlay();
 
-		createEnemyRobotSpawner();
+		// createEnemyRobotSpawner();
 
-		createHealthVialSpawner();
+		// createHealthVialSpawner();
 
-		createPowerUpSpawner();
+		// createPowerUpSpawner();
 
 		score = 0;
 
@@ -290,14 +290,22 @@ public class GameScreen extends ScreenAdapter {
 		Document document = resourceManager.getResourceValue("Scene01");
 		new WorldLoader("World") {
 
+			@Override
 			protected void handleCharacterStartPoint(float x, float y) {
 				createMainCharacter(x, y);
 			};
 
+			@Override
 			protected void handleRobotStartPoint(float x, float y) {
 				createRobo(x, y);
 			}
+			
+			@Override
+			protected void handleDeadRobot(float x, float y, float angle) {
+				createDeadRobo(x, y, angle);
+			};
 
+			@Override
 			protected void handleStaticObject(SvgInkscapeImage svgImage, float width, float height, float angle, float sx, float sy, float x, float y) {
 				Resource<Texture> tileResource = resourceManager.get(svgImage.getLabel());
 				if (tileResource == null)
@@ -583,6 +591,29 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.refresh();
 	}
+	
+	void createDeadRobo(float x, float y, float angle) {
+		Resource<Animation> enemyAnimationResource = resourceManager.get("RoboDead");
+		Sprite sprite = enemyAnimationResource.get().getFrame(0);
+
+		float size = 1f;
+
+		Entity entity = world.createEntity();
+
+		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), angle));
+		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
+		
+		
+		
+		// add component interactuable con character with handler 
+		// on interact trigger () { 
+		//   spawn something
+		// }
+
+		Animation[] spriteSheets = new Animation[] { enemyAnimationResource.get(), };
+		entity.addComponent(new AnimationComponent(spriteSheets));
+		entity.refresh();
+	}
 
 	void createEnemy(float x, float y) {
 		Resource<Animation> enemyAnimationResource = resourceManager.get("Enemy");
@@ -744,8 +775,8 @@ public class GameScreen extends ScreenAdapter {
 		spriteBatch.begin();
 		String scoreLabel = "score: " + (int) score;
 		spriteBatch.setColor(Color.WHITE);
-		bitmapFont.setScale(1f);
-		bitmapFont.draw(spriteBatch, scoreLabel, 10, Gdx.graphics.getHeight() - 10);
+//		bitmapFont.setScale(1f);
+//		bitmapFont.draw(spriteBatch, scoreLabel, 10, Gdx.graphics.getHeight() - 10);
 
 		if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
 
@@ -872,6 +903,8 @@ public class GameScreen extends ScreenAdapter {
 				animation("HealthVial", "CharactersSpriteSheet", 4 * 32, 1 * 32, 32, 32, 4, true, 750);
 				animation("Powerup01", "CharactersSpriteSheet", 5 * 32, 2 * 32, 32, 32, 2, true, 750);
 				animation("Powerup02", "CharactersSpriteSheet", 5 * 32, 3 * 32, 32, 32, 2, true, 750);
+
+				animation("RoboDead", "CharactersSpriteSheet", 6 * 32, 4 * 32, 32, 32, 1, false, 0);
 
 				// animation("Enemy", "CharactersSpriteSheet", 0 * 32, 6 * 32, 32, 32, 3, true, 800, 150, 150);
 				resource("Enemy", animation2("CharactersSpriteSheet") //
