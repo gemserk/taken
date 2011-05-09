@@ -99,7 +99,7 @@ import com.gemserk.games.taken.components.SpawnerComponent;
 import com.gemserk.games.taken.components.TimerComponent;
 import com.gemserk.games.taken.components.TimerTrigger;
 import com.gemserk.games.taken.components.WeaponComponent;
-import com.gemserk.games.taken.components.WeaponEntityTemplate;
+import com.gemserk.games.taken.components.WeaponFiredTrigger;
 import com.gemserk.games.taken.controllers.AreaTouchJumpController;
 import com.gemserk.games.taken.controllers.AreaTouchMovementController;
 import com.gemserk.games.taken.controllers.ButtonMonitorJumpController;
@@ -578,7 +578,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
 
-		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new WeaponEntityTemplate() {
+		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new WeaponFiredTrigger() {
 
 			@Override
 			public void fire(float x, float y, float velocityx, float velocityy, float damage) {
@@ -645,7 +645,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
-		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new WeaponEntityTemplate() {
+		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new WeaponFiredTrigger() {
 
 			@Override
 			public void fire(float x, float y, float velocityx, float velocityy, float damage) {
