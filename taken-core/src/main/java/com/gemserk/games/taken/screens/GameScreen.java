@@ -44,7 +44,6 @@ import com.gemserk.commons.gdx.camera.Camera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCamera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
 import com.gemserk.commons.gdx.controllers.Controller;
-import com.gemserk.commons.gdx.graphics.ImmediateModeRendererUtils;
 import com.gemserk.commons.gdx.graphics.SpriteBatchUtils;
 import com.gemserk.commons.gdx.input.LibgdxPointer;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
@@ -160,7 +159,7 @@ public class GameScreen extends ScreenAdapter {
 	private final Color laserStartColor = new Color(1f, 1f, 1f, 1f);
 
 	private Sprite movementButton;
-	
+
 	public void setGameOver(boolean gameOver) {
 		this.gameOver = gameOver;
 	}
@@ -282,7 +281,7 @@ public class GameScreen extends ScreenAdapter {
 		// Music backgroundMusic = resourceManager.getResourceValue("BackgroundMusic");
 		// backgroundMusic.play();
 		// backgroundMusic.setLooping(true);
-		
+
 		movementButton = resourceManager.getResourceValue("MovementButtonSprite");
 
 	}
@@ -433,15 +432,10 @@ public class GameScreen extends ScreenAdapter {
 		if (Gdx.app.getType() == ApplicationType.Desktop) {
 			movementController = new ButtonMonitorMovementController(new LibgdxButtonMonitor(Keys.DPAD_LEFT), new LibgdxButtonMonitor(Keys.DPAD_RIGHT));
 			jumpController = new ButtonMonitorJumpController(new LibgdxButtonMonitor(Keys.DPAD_UP));
-			// characterController = new AreaTouchCharacterController(new Rectangle(0, 0, 100, 100), new Rectangle(100, 0, 100, 100));
-			// jumpController = new AreaTouchJumpController(new Rectangle(Gdx.graphics.getWidth() - 100, 0, 100, 100));
 		} else if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
+			// Screen percentage based!!
 			movementController = new AreaTouchMovementController(new Rectangle(0, 0, 100, 100), new Rectangle(100, 0, 100, 100));
 			jumpController = new AreaTouchJumpController(new Rectangle(Gdx.graphics.getWidth() - 100, 0, 100, 100));
-			// characterController = new TouchCharacterController(new LibgdxPointer(0));
-			// jumpController = new DragJumpController(new LibgdxPointer(0));
-			// add a tap controller for jump, based on a screen area..
-
 		} else {
 			movementController = new TouchMovementController(new LibgdxPointer(0));
 			jumpController = new DragJumpController(new LibgdxPointer(0));
@@ -572,10 +566,10 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
 
 		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new WeaponEntityTemplate() {
-			
+
 			@Override
 			public void fire(float x, float y, int aliveTime, float velocityx, float velocityy, float damage) {
-				Sound laser  = resourceManager.getResourceValue("FriendlyLaserSound");
+				Sound laser = resourceManager.getResourceValue("FriendlyLaserSound");
 				laser.play();
 				createLaser(x, y, aliveTime, velocityx, velocityy, damage, "Player", "Enemy");
 			}
@@ -605,10 +599,10 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
 		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new WeaponEntityTemplate() {
-			
+
 			@Override
 			public void fire(float x, float y, int aliveTime, float velocityx, float velocityy, float damage) {
-				Sound laser  = resourceManager.getResourceValue("EnemyLaserSound");
+				Sound laser = resourceManager.getResourceValue("EnemyLaserSound");
 				laser.play();
 				createLaser(x, y, aliveTime, velocityx, velocityy, damage, "Enemy", "Player");
 			}
@@ -735,7 +729,7 @@ public class GameScreen extends ScreenAdapter {
 
 		if (spriteBatch == null)
 			return;
-		
+
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		camera.zoom(cameraData.getZoom() * 2f);
@@ -752,21 +746,28 @@ public class GameScreen extends ScreenAdapter {
 		spriteBatch.setColor(Color.WHITE);
 		bitmapFont.setScale(1f);
 		bitmapFont.draw(spriteBatch, scoreLabel, 10, Gdx.graphics.getHeight() - 10);
-		
-		SpriteBatchUtils.drawCentered(spriteBatch, movementButton, 50f, 50f, 128f, 128f, 180f);
-		SpriteBatchUtils.drawCentered(spriteBatch, movementButton, 150f, 50f, 128f, 128f, 0f);
-		SpriteBatchUtils.drawCentered(spriteBatch, movementButton, Gdx.graphics.getWidth() - 50, 50f, 128f, 128f, 90f);
+
+		if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
+
+			// float movementButtonWidth = 128f;
+			// float movementButtonHeight = 128f;
+
+			float movementButtonWidth = viewportWidth * 0.16f;
+			float movementButtonHeight = viewportWidth * 0.16f;
+
+			SpriteBatchUtils.drawCentered(spriteBatch, movementButton, 50f, 50f, movementButtonWidth, movementButtonHeight, 180f);
+			SpriteBatchUtils.drawCentered(spriteBatch, movementButton, 150f, 50f, movementButtonWidth, movementButtonHeight, 0f);
+			SpriteBatchUtils.drawCentered(spriteBatch, movementButton, viewportWidth - 50, 50f, movementButtonWidth, movementButtonHeight, 90f);
+			// ImmediateModeRendererUtils.drawRectangle(0, 0, 100, 100, Color.WHITE);
+			// ImmediateModeRendererUtils.drawRectangle(100, 0, 200, 100, Color.WHITE);
+			// ImmediateModeRendererUtils.drawRectangle(Gdx.graphics.getWidth() - 100, 0, Gdx.graphics.getWidth(), 100, Color.WHITE);
+		}
 
 		spriteBatch.end();
 
 		if (inputDevicesMonitor.getButton("debug").isHolded())
 			box2dCustomDebugRenderer.render();
 
-//		if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
-			ImmediateModeRendererUtils.drawRectangle(0, 0, 100, 100, Color.WHITE);
-			ImmediateModeRendererUtils.drawRectangle(100, 0, 200, 100, Color.WHITE);
-			ImmediateModeRendererUtils.drawRectangle(Gdx.graphics.getWidth() - 100, 0, Gdx.graphics.getWidth(), 100, Color.WHITE);
-//		}
 	}
 
 	@Override
@@ -812,17 +813,17 @@ public class GameScreen extends ScreenAdapter {
 	public void resize(int width, int height) {
 
 	}
-	
+
 	@Override
 	public void hide() {
 		super.hide();
-		Gdx.input.setCatchBackKey(false);		
+		Gdx.input.setCatchBackKey(false);
 	}
 
 	@Override
 	public void show() {
 		Gdx.input.setCatchBackKey(true);
-		
+
 		// if game over then ->
 		if (gameOver) {
 			restartGame();
@@ -894,7 +895,7 @@ public class GameScreen extends ScreenAdapter {
 
 				texture("MovementButtonTexture", "data/images/movement-button.png", true);
 				sprite("MovementButtonSprite", "MovementButtonTexture");
-				
+
 			}
 
 		};
