@@ -1,6 +1,7 @@
 package com.gemserk.games.taken.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -54,6 +55,7 @@ public class ScoreScreen extends ScreenAdapter {
 		new LibgdxInputMappingBuilder<String>(inputDevicesMonitor, Gdx.input) {
 			{
 				monitorPointerDown("continue", 0);
+				monitorKey("back", Keys.BACK);
 			}
 		};
 	}
@@ -66,11 +68,7 @@ public class ScoreScreen extends ScreenAdapter {
 
 		backgroundSprite = resourceManager.getResourceValue("Background");
 
-		Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(startColor).end(endColor).time(2000).build(), new TransitionEventHandler<Color>() {
-			@Override
-			public void onTransitionFinished(Transition<Color> transition) {
-			}
-		});
+		Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(startColor).end(endColor).time(2000).build());
 		// fadingOut = false;
 
 		inputEnabled = true;
@@ -141,9 +139,9 @@ public class ScoreScreen extends ScreenAdapter {
 		// if (inputEnabled)
 		inputDevicesMonitor.update();
 
-		if (inputDevicesMonitor.getButton("continue").isPressed()) {
+		if (inputDevicesMonitor.getButton("continue").isReleased() || inputDevicesMonitor.getButton("back").isReleased()) {
 			inputEnabled = false;
-			Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(endColor).end(startColor).time(500).build(), new TransitionEventHandler<Color>() {
+			Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(fadeInColor).end(startColor).time(500).build(), new TransitionEventHandler<Color>() {
 				@Override
 				public void onTransitionFinished(Transition<Color> transition) {
 					game.setScreen(game.gameScreen);
