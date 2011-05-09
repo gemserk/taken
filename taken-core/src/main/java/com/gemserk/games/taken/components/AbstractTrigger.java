@@ -2,7 +2,7 @@ package com.gemserk.games.taken.components;
 
 import com.artemis.Entity;
 
-public class AbstractTrigger implements Trigger {
+public abstract class AbstractTrigger implements Trigger {
 	
 	private boolean alreadyTriggered = false;
 
@@ -16,8 +16,6 @@ public class AbstractTrigger implements Trigger {
 		alreadyTriggered = handle(e);
 	}
 	
-	protected boolean handle(Entity owner) {
-		return true;
-	}
+	protected abstract boolean handle(Entity owner);
 	
 }

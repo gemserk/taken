@@ -18,10 +18,6 @@ public class GrabComponent extends Component {
 		return trigger;
 	}
 	
-	public GrabComponent() {
-		this(new GrabbedTrigger());
-	}
-	
 	public GrabComponent(Trigger trigger) {
 		this.trigger = trigger;
 		this.radius = 0.25f;

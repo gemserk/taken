@@ -82,6 +82,7 @@ import com.gemserk.games.taken.SpawnerSystem;
 import com.gemserk.games.taken.TimerSystem;
 import com.gemserk.games.taken.WeaponSystem;
 import com.gemserk.games.taken.WorldLoader;
+import com.gemserk.games.taken.components.AbstractTrigger;
 import com.gemserk.games.taken.components.AnimationComponent;
 import com.gemserk.games.taken.components.BloodOverlayComponent;
 import com.gemserk.games.taken.components.BulletComponent;
@@ -89,7 +90,6 @@ import com.gemserk.games.taken.components.CameraFollowComponent;
 import com.gemserk.games.taken.components.CharacterControllerComponent;
 import com.gemserk.games.taken.components.FollowCharacterComponent;
 import com.gemserk.games.taken.components.GrabComponent;
-import com.gemserk.games.taken.components.GrabbedTrigger;
 import com.gemserk.games.taken.components.HealthComponent;
 import com.gemserk.games.taken.components.HitComponent;
 import com.gemserk.games.taken.components.JumpComponent;
@@ -98,9 +98,7 @@ import com.gemserk.games.taken.components.PowerUpComponent;
 import com.gemserk.games.taken.components.SpawnerComponent;
 import com.gemserk.games.taken.components.TargetComponent;
 import com.gemserk.games.taken.components.TimerComponent;
-import com.gemserk.games.taken.components.AbstractTrigger;
 import com.gemserk.games.taken.components.WeaponComponent;
-import com.gemserk.games.taken.components.WeaponFiredTrigger;
 import com.gemserk.games.taken.controllers.AreaTouchJumpController;
 import com.gemserk.games.taken.controllers.AreaTouchMovementController;
 import com.gemserk.games.taken.controllers.ButtonMonitorJumpController;
@@ -579,7 +577,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
 		entity.addComponent(new TargetComponent());
-		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new WeaponFiredTrigger() {
+		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new AbstractTrigger() {
 
 			@Override
 			public boolean handle(Entity friendlyRobot) {
@@ -630,12 +628,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), angle));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
-		// add component interactuable con character with handler
-		// on interact trigger () {
-		// spawn something
-		// }
-
-		entity.addComponent(new GrabComponent(0.5f, new GrabbedTrigger() {
+		entity.addComponent(new GrabComponent(0.5f, new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity owner) {
 				SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
@@ -668,7 +661,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
 		entity.addComponent(new TargetComponent());
-		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new WeaponFiredTrigger() {
+		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new AbstractTrigger() {
 
 			@Override
 			public boolean handle(Entity enemyRobot) {
@@ -789,7 +782,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new AnimationComponent(spriteSheets));
 
 		// grab handler for health vials could be shared too
-		entity.addComponent(new GrabComponent(new GrabbedTrigger() {
+		entity.addComponent(new GrabComponent(new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity owner) {
 				HealthComponent healthComponent = owner.getComponent(HealthComponent.class);
@@ -844,7 +837,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new AnimationComponent(spriteSheets));
 
 		// the handler logic could be shared...
-		entity.addComponent(new GrabComponent(new GrabbedTrigger() {
+		entity.addComponent(new GrabComponent(new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity owner) {
 
