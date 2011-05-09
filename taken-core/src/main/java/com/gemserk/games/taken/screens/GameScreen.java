@@ -89,7 +89,7 @@ import com.gemserk.games.taken.components.CameraFollowComponent;
 import com.gemserk.games.taken.components.CharacterControllerComponent;
 import com.gemserk.games.taken.components.FollowCharacterComponent;
 import com.gemserk.games.taken.components.GrabComponent;
-import com.gemserk.games.taken.components.GrabHandler;
+import com.gemserk.games.taken.components.GrabbedTrigger;
 import com.gemserk.games.taken.components.HealthComponent;
 import com.gemserk.games.taken.components.HitComponent;
 import com.gemserk.games.taken.components.JumpComponent;
@@ -635,7 +635,7 @@ public class GameScreen extends ScreenAdapter {
 		// spawn something
 		// }
 
-		entity.addComponent(new GrabComponent(0.5f, new GrabHandler() {
+		entity.addComponent(new GrabComponent(0.5f, new GrabbedTrigger() {
 			@Override
 			public boolean handle(Entity owner) {
 				SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
@@ -789,7 +789,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new AnimationComponent(spriteSheets));
 
 		// grab handler for health vials could be shared too
-		entity.addComponent(new GrabComponent(new GrabHandler() {
+		entity.addComponent(new GrabComponent(new GrabbedTrigger() {
 			@Override
 			public boolean handle(Entity owner) {
 				HealthComponent healthComponent = owner.getComponent(HealthComponent.class);
@@ -844,7 +844,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new AnimationComponent(spriteSheets));
 
 		// the handler logic could be shared...
-		entity.addComponent(new GrabComponent(new GrabHandler() {
+		entity.addComponent(new GrabComponent(new GrabbedTrigger() {
 			@Override
 			public boolean handle(Entity owner) {
 

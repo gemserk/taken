@@ -2,7 +2,7 @@ package com.gemserk.games.taken.components;
 
 import com.artemis.Entity;
 
-public class GrabHandler implements Trigger {
+public class GrabbedTrigger implements Trigger {
 
 	private boolean alreadyTriggered = false;
 

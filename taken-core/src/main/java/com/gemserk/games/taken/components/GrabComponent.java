@@ -4,7 +4,7 @@ import com.artemis.Component;
 
 public class GrabComponent extends Component {
 	
-	private GrabHandler grabHandler;
+	private GrabbedTrigger trigger;
 	
 	// should be using collision detection instead.
 	// could be an area too, an area trigger or something...
@@ -14,21 +14,21 @@ public class GrabComponent extends Component {
 		return radius;
 	}
 	
-	public GrabHandler getGrabHandler() {
-		return grabHandler;
+	public GrabbedTrigger getGrabHandler() {
+		return trigger;
 	}
 	
 	public GrabComponent() {
-		this(new GrabHandler());
+		this(new GrabbedTrigger());
 	}
 	
-	public GrabComponent(GrabHandler grabHandler) {
-		this.grabHandler = grabHandler;
+	public GrabComponent(GrabbedTrigger grabbedTrigger) {
+		this.trigger = grabbedTrigger;
 		this.radius = 0.25f;
 	}
 	
-	public GrabComponent(float radius, GrabHandler grabHandler) {
-		this.grabHandler = grabHandler;
+	public GrabComponent(float radius, GrabbedTrigger grabbedTrigger) {
+		this.trigger = grabbedTrigger;
 		this.radius = radius;
 	}
 
