@@ -70,7 +70,6 @@ import com.gemserk.games.taken.CharacterControllerSystem;
 import com.gemserk.games.taken.CorrectSpriteDirectionSystem;
 import com.gemserk.games.taken.FollowCharacterBehaviorSystem;
 import com.gemserk.games.taken.GrabSystem;
-import com.gemserk.games.taken.HealthVialSystem;
 import com.gemserk.games.taken.HitDetectionSystem;
 import com.gemserk.games.taken.JumpSystem;
 import com.gemserk.games.taken.LibgdxGame;
@@ -92,7 +91,6 @@ import com.gemserk.games.taken.components.FollowCharacterComponent;
 import com.gemserk.games.taken.components.GrabComponent;
 import com.gemserk.games.taken.components.GrabHandler;
 import com.gemserk.games.taken.components.HealthComponent;
-import com.gemserk.games.taken.components.HealthVialComponent;
 import com.gemserk.games.taken.components.HitComponent;
 import com.gemserk.games.taken.components.JumpComponent;
 import com.gemserk.games.taken.components.PhysicsComponent;
@@ -240,7 +238,6 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.addUpdateSystem(new WeaponSystem());
 		worldWrapper.addUpdateSystem(new MovementSystem());
 		worldWrapper.addUpdateSystem(new BulletSystem());
-		worldWrapper.addUpdateSystem(new HealthVialSystem(resourceManager));
 
 		worldWrapper.addUpdateSystem(new GrabSystem(resourceManager));
 		worldWrapper.addUpdateSystem(new PowerUpSystem());
@@ -271,15 +268,17 @@ public class GameScreen extends ScreenAdapter {
 
 		createCharacterBloodOverlay();
 
+		// createHealthVial(4f, 2f, 100000, 1000f);
+
 		// createEnemyRobotSpawner();
 
 		// createHealthVialSpawner();
 
 		// createPowerUpSpawner();
-		
-//		createRobo(4f, 4f);
-//		
-//		createPowerUp(4f, 2f, 100000, new PowerUp(Type.MovementSpeedModifier, 2f, 100002));
+
+		// createRobo(4f, 4f);
+		//
+		// createPowerUp(4f, 2f, 100000, new PowerUp(Type.MovementSpeedModifier, 2f, 100002));
 
 		score = 0;
 
@@ -304,7 +303,7 @@ public class GameScreen extends ScreenAdapter {
 			protected void handleRobotStartPoint(float x, float y) {
 				createRobo(x, y);
 			}
-			
+
 			@Override
 			protected void handleDeadRobot(float x, float y, float angle) {
 				createDeadRobo(x, y, angle);
@@ -596,7 +595,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.refresh();
 	}
-	
+
 	void createDeadRobo(float x, float y, float angle) {
 		Resource<Animation> enemyAnimationResource = resourceManager.get("RoboDead");
 		Sprite sprite = enemyAnimationResource.get().getFrame(0);
@@ -607,12 +606,10 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), angle));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
-		
-		
-		
-		// add component interactuable con character with handler 
-		// on interact trigger () { 
-		//   spawn something
+
+		// add component interactuable con character with handler
+		// on interact trigger () {
+		// spawn something
 		// }
 
 		Animation[] spriteSheets = new Animation[] { enemyAnimationResource.get(), };
@@ -720,7 +717,23 @@ public class GameScreen extends ScreenAdapter {
 		Animation[] spriteSheets = new Animation[] { healthVialAnimationResource.get(), };
 
 		entity.addComponent(new AnimationComponent(spriteSheets));
-		entity.addComponent(new HealthVialComponent());
+
+		// grab handler for health vials could be shared too
+		entity.addComponent(new GrabComponent(new GrabHandler() {
+			@Override
+			public void handle(Entity owner) {
+				HealthComponent healthComponent = owner.getComponent(HealthComponent.class);
+				HealthComponent characterHealthComponent = mainCharacter.getComponent(HealthComponent.class);
+
+				characterHealthComponent.getHealth().add(healthComponent.getHealth().getCurrent());
+
+				Resource<Sound> healthVialSound = resourceManager.get("HealthVialSound");
+				healthVialSound.get().play();
+
+				world.deleteEntity(owner);
+			}
+
+		}));
 
 		entity.refresh();
 	}
@@ -753,25 +766,27 @@ public class GameScreen extends ScreenAdapter {
 		Animation[] spriteSheets = new Animation[] { animation.get(), };
 
 		entity.addComponent(new AnimationComponent(spriteSheets));
+
+		// the handler logic could be shared...
 		entity.addComponent(new GrabComponent(new GrabHandler() {
 			@Override
 			public void handle(Entity owner) {
-				
+
 				Entity robot = world.getTagManager().getEntity("Robo");
-				
+
 				if (robot == null)
 					return;
-				
+
 				PowerUpComponent powerUpComponent = owner.getComponent(PowerUpComponent.class);
 				PowerUpComponent robotPowerUpComponent = robot.getComponent(PowerUpComponent.class);
 				robotPowerUpComponent.add(powerUpComponent.getPowerUps());
-				
+
 				Gdx.app.log("Taken", "Adding power ups to Robo");
-				
+
 				// add particle effects!!
 				Resource<Sound> healthVialSound = resourceManager.get("HealthVialSound");
 				healthVialSound.get().play();
-				
+
 				world.deleteEntity(owner);
 			}
 		}));
@@ -800,8 +815,8 @@ public class GameScreen extends ScreenAdapter {
 		spriteBatch.begin();
 		String scoreLabel = "score: " + (int) score;
 		spriteBatch.setColor(Color.WHITE);
-//		bitmapFont.setScale(1f);
-//		bitmapFont.draw(spriteBatch, scoreLabel, 10, Gdx.graphics.getHeight() - 10);
+		// bitmapFont.setScale(1f);
+		// bitmapFont.draw(spriteBatch, scoreLabel, 10, Gdx.graphics.getHeight() - 10);
 
 		if (Gdx.input.isPeripheralAvailable(Peripheral.MultitouchScreen)) {
 
