@@ -7,7 +7,7 @@ import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.components.GrabComponent;
-import com.gemserk.games.taken.components.GrabbedTrigger;
+import com.gemserk.games.taken.components.Trigger;
 
 public class GrabSystem extends EntityProcessingSystem implements ActivableSystem {
 
@@ -47,9 +47,9 @@ public class GrabSystem extends EntityProcessingSystem implements ActivableSyste
 		if (position.dst(targetPosition) > grabComponent.getRadius())
 			return;
 
-		GrabbedTrigger grabbedTrigger = grabComponent.getGrabHandler();
-		if (!grabbedTrigger.isAlreadyTriggered())
-			grabbedTrigger.trigger(e);
+		Trigger trigger = grabComponent.getTrigger();
+		if (!trigger.isAlreadyTriggered())
+			trigger.trigger(e);
 	}
 
 }
