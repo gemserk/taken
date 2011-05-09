@@ -56,8 +56,6 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 
 		float targetRange = weaponComponent.getTargetRange();
 
-		int bulletAliveTime = 2000;
-
 		Entity targetEntity = null;
 
 		for (int i = 0; i < targets.size(); i++) {
@@ -85,7 +83,7 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 		velocity.nor();
 		velocity.mul(weaponComponent.getBulletSpeed());
 
-		weaponComponent.getEntityTemplate().fire(position.x, position.y, bulletAliveTime, velocity.x, velocity.y, damage);
+		weaponComponent.getEntityTemplate().fire(position.x, position.y, velocity.x, velocity.y, damage);
 
 		int reloadTime = weaponComponent.getReloadTime();
 

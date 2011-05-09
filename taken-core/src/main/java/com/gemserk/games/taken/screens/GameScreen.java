@@ -581,10 +581,10 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new WeaponEntityTemplate() {
 
 			@Override
-			public void fire(float x, float y, int aliveTime, float velocityx, float velocityy, float damage) {
+			public void fire(float x, float y, float velocityx, float velocityy, float damage) {
 				Sound laser = resourceManager.getResourceValue("FriendlyLaserSound");
 				laser.play();
-				createLaser(x, y, aliveTime, velocityx, velocityy, damage, "Player", "Enemy");
+				createLaser(x, y, 2000, velocityx, velocityy, damage, "Player", "Enemy");
 			}
 
 		}));
@@ -648,10 +648,10 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new WeaponEntityTemplate() {
 
 			@Override
-			public void fire(float x, float y, int aliveTime, float velocityx, float velocityy, float damage) {
+			public void fire(float x, float y, float velocityx, float velocityy, float damage) {
 				Sound laser = resourceManager.getResourceValue("EnemyLaserSound");
 				laser.play();
-				createLaser(x, y, aliveTime, velocityx, velocityy, damage, "Enemy", "Player");
+				createLaser(x, y, 2000, velocityx, velocityy, damage, "Enemy", "Player");
 			}
 
 		}));
