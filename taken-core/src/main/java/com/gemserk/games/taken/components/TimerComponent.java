@@ -23,10 +23,6 @@ public class TimerComponent extends Component {
 	public TimerTrigger getTimerTrigger() {
 		return timerTrigger;
 	}
-
-	public TimerComponent(int time) {
-		this(time, new TimerTrigger());
-	}
 	
 	public TimerComponent(int time, TimerTrigger timerTrigger) {
 		this.time = time;

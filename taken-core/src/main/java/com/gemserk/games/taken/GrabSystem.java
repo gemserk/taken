@@ -7,7 +7,6 @@ import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.components.GrabComponent;
-import com.gemserk.games.taken.components.TimerComponent;
 import com.gemserk.resources.ResourceManager;
 
 public class GrabSystem extends EntityProcessingSystem implements ActivableSystem {
@@ -33,14 +32,7 @@ public class GrabSystem extends EntityProcessingSystem implements ActivableSyste
 
 	@Override
 	protected void process(Entity e) {
-		TimerComponent timerComponent = e.getComponent(TimerComponent.class);
-
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
-
-		if (timerComponent.isFinished()) {
-			world.deleteEntity(e);
-			return;
-		}
 
 		Entity mainCharacter = world.getTagManager().getEntity("MainCharacter");
 
