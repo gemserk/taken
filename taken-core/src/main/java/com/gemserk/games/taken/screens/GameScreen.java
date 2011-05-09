@@ -271,11 +271,11 @@ public class GameScreen extends ScreenAdapter {
 
 		// createHealthVial(4f, 2f, 100000, 1000f);
 
-//		 createEnemyRobotSpawner();
-//
-//		 createHealthVialSpawner();
-//
-//		 createPowerUpSpawner();
+		// createEnemyRobotSpawner();
+		//
+		// createHealthVialSpawner();
+		//
+		// createPowerUpSpawner();
 
 		// createRobo(4f, 4f);
 		//
@@ -613,13 +613,16 @@ public class GameScreen extends ScreenAdapter {
 		// spawn something
 		// }
 
-		entity.addComponent(new GrabComponent(new GrabHandler() {
+		entity.addComponent(new GrabComponent(0.5f, new GrabHandler() {
 			@Override
 			public void handle(Entity owner) {
 				SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
 				createRobo(position.x, position.y);
 				world.deleteEntity(owner);
+				
+				Sound sound = resourceManager.getResourceValue("RoboFixedSound");
+				sound.play();
 			}
 		}));
 
@@ -987,8 +990,8 @@ public class GameScreen extends ScreenAdapter {
 				sound("FriendlyLaserSound", "data/sounds/laser.ogg");
 				sound("EnemyLaserSound", "data/sounds/enemy_laser.ogg");
 				sound("Explosion", "data/sounds/explosion.ogg");
-
 				sound("HealthVialSound", "data/sounds/healthvial.ogg");
+				sound("RoboFixedSound", "data/sounds/healthvial.ogg");
 
 				font("Font", "data/fonts/font.png", "data/fonts/font.fnt");
 

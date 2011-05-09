@@ -36,14 +36,14 @@ public class GrabSystem extends EntityProcessingSystem implements ActivableSyste
 			return;
 
 		SpatialComponent targetSpatialComponent = mainCharacter.getComponent(SpatialComponent.class);
-		Vector2 targetPosition = targetSpatialComponent.getPosition();
+		GrabComponent grabComponent = e.getComponent(GrabComponent.class);
 
+		Vector2 targetPosition = targetSpatialComponent.getPosition();
 		Vector2 position = spatialComponent.getPosition();
 
-		if (position.dst(targetPosition) > 0.25f)
+		if (position.dst(targetPosition) > grabComponent.getRadius())
 			return;
 
-		GrabComponent grabComponent = e.getComponent(GrabComponent.class);
 		grabComponent.getGrabHandler().handle(e);
 	}
 
