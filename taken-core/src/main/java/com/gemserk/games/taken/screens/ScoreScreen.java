@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.gemserk.animation4j.transitions.Transition;
 import com.gemserk.animation4j.transitions.Transitions;
+import com.gemserk.animation4j.transitions.event.TransitionEventHandler;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.gdx.ScreenAdapter;
 import com.gemserk.commons.gdx.resources.LibgdxResourceBuilder;
@@ -25,13 +27,11 @@ public class ScoreScreen extends ScreenAdapter {
 
 	private final InputDevicesMonitorImpl<String> inputDevicesMonitor;
 
-	private final LibgdxResourceBuilder libgdxResourceBuilder;
-
 	private static final Color endColor = new Color(1f, 1f, 1f, 0f);
 
 	private static final Color startColor = new Color(1f, 1f, 1f, 1f);
 
-	private boolean fadingOut = false;
+	// private boolean fadingOut = false;
 
 	private Sprite backgroundSprite;
 
@@ -40,6 +40,8 @@ public class ScoreScreen extends ScreenAdapter {
 	private int score = 0;
 
 	private Color fadeInColor;
+
+	private boolean inputEnabled;
 
 	public void setScore(int score) {
 		this.score = score;
@@ -54,7 +56,6 @@ public class ScoreScreen extends ScreenAdapter {
 				monitorPointerDown("continue", 0);
 			}
 		};
-		libgdxResourceBuilder = new LibgdxResourceBuilder(resourceManager);
 	}
 
 	@Override
@@ -64,20 +65,35 @@ public class ScoreScreen extends ScreenAdapter {
 		fadeInColor = new Color(1f, 1f, 1f, 1f);
 
 		backgroundSprite = resourceManager.getResourceValue("Background");
-		// backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(startColor).end(endColor).time(2000).build());
-		fadingOut = false;
+		Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(startColor).end(endColor).time(2000).build(), new TransitionEventHandler<Color>() {
+			@Override
+			public void onTransitionFinished(Transition<Color> transition) {
+			}
+		});
+		// fadingOut = false;
+
+		inputEnabled = true;
+
+		Gdx.input.setCatchBackKey(true);
 	}
 
 	@Override
-	public void render(float delta) {
-		Synchronizers.synchronize();
+	public void hide() {
+		Gdx.input.setCatchBackKey(false);
+	}
 
+	@Override
+	public void internalRender(float delta) {
+		Synchronizers.synchronize();
+		
 		int width = Gdx.graphics.getWidth();
 		int height = Gdx.graphics.getHeight();
 
 		Gdx.graphics.getGL10().glClear(GL10.GL_COLOR_BUFFER_BIT);
+
+		if (spriteBatch == null)
+			return;
 
 		BitmapFont bitmapFont = resourceManager.getResourceValue("TextFont");
 
@@ -114,28 +130,40 @@ public class ScoreScreen extends ScreenAdapter {
 		backgroundSprite.draw(spriteBatch);
 
 		spriteBatch.end();
+	}
 
+	@Override
+	public void internalUpdate(float delta) {
+		
+		if (!inputEnabled)
+			return;
+
+		// if (inputEnabled)
 		inputDevicesMonitor.update();
 
-		if (inputDevicesMonitor.getButton("continue").isPressed() && !fadingOut) {
-			Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(endColor).end(startColor).time(500).build());
-			fadingOut = true;
+		if (inputDevicesMonitor.getButton("continue").isPressed()) {
+			inputEnabled = false;
+			Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(endColor).end(startColor).time(500).build(), new TransitionEventHandler<Color>() {
+				@Override
+				public void onTransitionFinished(Transition<Color> transition) {
+					game.setScreen(game.gameScreen);
+					dispose();
+				}
+			});
 		}
 
-		if (fadeInColor.equals(startColor) && fadingOut) {
-			game.setScreen(game.gameScreen, true);
-			return;
-		}
 	}
 
 	protected void loadResources() {
 
-		{
-			libgdxResourceBuilder.texture("BackgroundTexture", "data/images/background-512x512.jpg");
-			libgdxResourceBuilder.sprite("Background", "BackgroundTexture");
-			libgdxResourceBuilder.font("TextFont", "data/fonts/text.png", "data/fonts/text.fnt");
-			// libgdxResourceBuilder.texture("FontTexture", "data/fonts/font.png");
-		}
+		new LibgdxResourceBuilder(resourceManager) {
+			{
+				texture("BackgroundTexture", "data/images/background-512x512.jpg");
+				sprite("Background", "BackgroundTexture");
+				font("TextFont", "data/fonts/text.png", "data/fonts/text.fnt");
+			}
+
+		};
 
 	}
 
@@ -143,6 +171,7 @@ public class ScoreScreen extends ScreenAdapter {
 	public void dispose() {
 		resourceManager.unloadAll();
 		spriteBatch.dispose();
+		spriteBatch = null;
 	}
 
 }
