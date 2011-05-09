@@ -90,6 +90,7 @@ import com.gemserk.games.taken.components.CameraFollowComponent;
 import com.gemserk.games.taken.components.CharacterControllerComponent;
 import com.gemserk.games.taken.components.FollowCharacterComponent;
 import com.gemserk.games.taken.components.GrabComponent;
+import com.gemserk.games.taken.components.GrabHandler;
 import com.gemserk.games.taken.components.HealthComponent;
 import com.gemserk.games.taken.components.HealthVialComponent;
 import com.gemserk.games.taken.components.HitComponent;
@@ -275,6 +276,10 @@ public class GameScreen extends ScreenAdapter {
 		// createHealthVialSpawner();
 
 		// createPowerUpSpawner();
+		
+//		createRobo(4f, 4f);
+//		
+//		createPowerUp(4f, 2f, 100000, new PowerUp(Type.MovementSpeedModifier, 2f, 100002));
 
 		score = 0;
 
@@ -748,8 +753,28 @@ public class GameScreen extends ScreenAdapter {
 		Animation[] spriteSheets = new Animation[] { animation.get(), };
 
 		entity.addComponent(new AnimationComponent(spriteSheets));
-
-		entity.addComponent(new GrabComponent());
+		entity.addComponent(new GrabComponent(new GrabHandler() {
+			@Override
+			public void handle(Entity owner) {
+				
+				Entity robot = world.getTagManager().getEntity("Robo");
+				
+				if (robot == null)
+					return;
+				
+				PowerUpComponent powerUpComponent = owner.getComponent(PowerUpComponent.class);
+				PowerUpComponent robotPowerUpComponent = robot.getComponent(PowerUpComponent.class);
+				robotPowerUpComponent.add(powerUpComponent.getPowerUps());
+				
+				Gdx.app.log("Taken", "Adding power ups to Robo");
+				
+				// add particle effects!!
+				Resource<Sound> healthVialSound = resourceManager.get("HealthVialSound");
+				healthVialSound.get().play();
+				
+				world.deleteEntity(owner);
+			}
+		}));
 		entity.addComponent(new PowerUpComponent(powerUp));
 
 		entity.refresh();
