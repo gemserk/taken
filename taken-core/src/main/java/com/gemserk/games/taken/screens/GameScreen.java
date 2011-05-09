@@ -270,7 +270,7 @@ public class GameScreen extends ScreenAdapter {
 
 		createCharacterBloodOverlay();
 
-		// createHealthVial(4f, 2f, 100000, 1000f);
+		createHealthVial(4f, 2f, 100000, 1000f);
 
 		createEnemyRobotSpawner();
 		//
@@ -637,14 +637,14 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new GrabComponent(0.5f, new GrabHandler() {
 			@Override
-			public void handle(Entity owner) {
+			public boolean handle(Entity owner) {
 				SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
 				createRobo(position.x, position.y);
 				world.deleteEntity(owner);
-
 				Sound sound = resourceManager.getResourceValue("RoboFixedSound");
 				sound.play();
+				return true;
 			}
 		}));
 
@@ -791,7 +791,7 @@ public class GameScreen extends ScreenAdapter {
 		// grab handler for health vials could be shared too
 		entity.addComponent(new GrabComponent(new GrabHandler() {
 			@Override
-			public void handle(Entity owner) {
+			public boolean handle(Entity owner) {
 				HealthComponent healthComponent = owner.getComponent(HealthComponent.class);
 				HealthComponent characterHealthComponent = mainCharacter.getComponent(HealthComponent.class);
 
@@ -801,6 +801,7 @@ public class GameScreen extends ScreenAdapter {
 				healthVialSound.get().play();
 
 				world.deleteEntity(owner);
+				return true;
 			}
 
 		}));
@@ -845,12 +846,12 @@ public class GameScreen extends ScreenAdapter {
 		// the handler logic could be shared...
 		entity.addComponent(new GrabComponent(new GrabHandler() {
 			@Override
-			public void handle(Entity owner) {
+			public boolean handle(Entity owner) {
 
 				Entity robot = world.getTagManager().getEntity("Robo");
 
 				if (robot == null)
-					return;
+					return false;
 
 				PowerUpComponent powerUpComponent = owner.getComponent(PowerUpComponent.class);
 				PowerUpComponent robotPowerUpComponent = robot.getComponent(PowerUpComponent.class);
@@ -863,6 +864,8 @@ public class GameScreen extends ScreenAdapter {
 				healthVialSound.get().play();
 
 				world.deleteEntity(owner);
+				
+				return true;
 			}
 		}));
 		entity.addComponent(new PowerUpComponent(powerUp));

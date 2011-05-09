@@ -7,6 +7,7 @@ import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.components.GrabComponent;
+import com.gemserk.games.taken.components.GrabHandler;
 
 public class GrabSystem extends EntityProcessingSystem implements ActivableSystem {
 
@@ -25,6 +26,8 @@ public class GrabSystem extends EntityProcessingSystem implements ActivableSyste
 	public boolean isEnabled() {
 		return activableSystem.isEnabled();
 	}
+	
+	// It is more like a collision detection system, with a trigger on collision detection...
 
 	@Override
 	protected void process(Entity e) {
@@ -44,7 +47,9 @@ public class GrabSystem extends EntityProcessingSystem implements ActivableSyste
 		if (position.dst(targetPosition) > grabComponent.getRadius())
 			return;
 
-		grabComponent.getGrabHandler().handle(e);
+		GrabHandler grabHandler = grabComponent.getGrabHandler();
+		if (!grabHandler.isAlreadyTriggered())
+			grabHandler.trigger(e);
 	}
 
 }

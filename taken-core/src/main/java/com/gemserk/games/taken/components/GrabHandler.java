@@ -2,10 +2,22 @@ package com.gemserk.games.taken.components;
 
 import com.artemis.Entity;
 
-public class GrabHandler {
+public class GrabHandler implements Trigger {
 
-	public void handle(Entity owner) {
+	private boolean alreadyTriggered = false;
 
+	@Override
+	public boolean isAlreadyTriggered() {
+		return alreadyTriggered;
+	}
+
+	@Override
+	public void trigger(Entity e) {
+		alreadyTriggered = handle(e);
+	}
+
+	protected boolean handle(Entity e) {
+		return true;
 	}
 
 }
