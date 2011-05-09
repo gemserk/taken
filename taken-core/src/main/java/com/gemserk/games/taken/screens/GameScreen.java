@@ -98,7 +98,7 @@ import com.gemserk.games.taken.components.PowerUpComponent;
 import com.gemserk.games.taken.components.SpawnerComponent;
 import com.gemserk.games.taken.components.TargetComponent;
 import com.gemserk.games.taken.components.TimerComponent;
-import com.gemserk.games.taken.components.TimerTrigger;
+import com.gemserk.games.taken.components.AbstractTrigger;
 import com.gemserk.games.taken.components.WeaponComponent;
 import com.gemserk.games.taken.components.WeaponFiredTrigger;
 import com.gemserk.games.taken.controllers.AreaTouchJumpController;
@@ -734,7 +734,7 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new MovementComponent(new Vector2(dx, dy), 0f));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), color));
 
-		entity.addComponent(new TimerComponent(time, new TimerTrigger() {
+		entity.addComponent(new TimerComponent(time, new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity bullet) {
 				world.deleteEntity(bullet);
@@ -774,7 +774,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
 		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));
-		entity.addComponent(new TimerComponent(aliveTime, new TimerTrigger() {
+		entity.addComponent(new TimerComponent(aliveTime, new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity healthVial) {
 				world.deleteEntity(healthVial);
@@ -832,7 +832,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
 		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));
-		entity.addComponent(new TimerComponent(aliveTime, new TimerTrigger() {
+		entity.addComponent(new TimerComponent(aliveTime, new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity healthVial) {
 				world.deleteEntity(healthVial);

@@ -2,7 +2,7 @@ package com.gemserk.games.taken.components;
 
 import com.artemis.Entity;
 
-public class TimerTrigger implements Trigger {
+public class AbstractTrigger implements Trigger {
 	
 	private boolean alreadyTriggered = false;
 
