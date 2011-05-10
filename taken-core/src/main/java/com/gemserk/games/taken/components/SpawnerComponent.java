@@ -1,11 +1,11 @@
 package com.gemserk.games.taken.components;
 
 import com.artemis.Component;
-import com.gemserk.commons.artemis.entities.EntityTemplate;
+import com.gemserk.commons.artemis.triggers.Trigger;
 
 public class SpawnerComponent extends Component {
 	
-	private final EntityTemplate entityTemplate;
+	private final Trigger entityTemplate;
 
 	private final int spawnTime;
 	
@@ -23,11 +23,11 @@ public class SpawnerComponent extends Component {
 		this.time = time;
 	}
 	
-	public EntityTemplate getEntityTemplate() {
+	public Trigger getEntityTemplate() {
 		return entityTemplate;
 	}
 
-	public SpawnerComponent(int spawnTime, EntityTemplate entityTemplate) {
+	public SpawnerComponent(int spawnTime, Trigger entityTemplate) {
 		this.spawnTime = spawnTime;
 		this.time = spawnTime;
 		this.entityTemplate = entityTemplate;

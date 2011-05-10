@@ -32,7 +32,6 @@ import com.gemserk.commons.artemis.WorldWrapper;
 import com.gemserk.commons.artemis.components.MovementComponent;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.components.SpriteComponent;
-import com.gemserk.commons.artemis.entities.EntityTemplate;
 import com.gemserk.commons.artemis.systems.MovementSystem;
 import com.gemserk.commons.artemis.systems.RenderLayer;
 import com.gemserk.commons.artemis.systems.SpriteRendererSystem;
@@ -486,13 +485,10 @@ public class GameScreen extends ScreenAdapter {
 	void createEnemyRobotSpawner() {
 		Entity entity = world.createEntity();
 
-		entity.addComponent(new SpawnerComponent(4500, new EntityTemplate() {
+		entity.addComponent(new SpawnerComponent(4500, new AbstractTrigger() {
 			@Override
-			public void trigger(Entity e) {
-				// TODO Auto-generated function stub
-
+			public boolean handle(Entity e) {
 				// limit robot spawner!!
-
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
 
@@ -500,6 +496,7 @@ public class GameScreen extends ScreenAdapter {
 				float y = position.y + MathUtils.random(-5, 5);
 
 				createEnemy(x, y);
+				return true;
 			}
 		}));
 
@@ -509,11 +506,9 @@ public class GameScreen extends ScreenAdapter {
 	void createHealthVialSpawner() {
 		Entity entity = world.createEntity();
 
-		entity.addComponent(new SpawnerComponent(10000, new EntityTemplate() {
+		entity.addComponent(new SpawnerComponent(10000, new AbstractTrigger() {
 			@Override
-			public void trigger(Entity e) {
-				// TODO Auto-generated function stub
-
+			public boolean handle(Entity e) {
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
 
@@ -523,6 +518,7 @@ public class GameScreen extends ScreenAdapter {
 				createHealthVial(x, y, 15000, 25f);
 
 				Gdx.app.log("Taken", "Health vial spawned at (" + x + ", " + y + ")");
+				return true;
 			}
 		}));
 
@@ -532,11 +528,9 @@ public class GameScreen extends ScreenAdapter {
 	void createPowerUpSpawner() {
 		Entity entity = world.createEntity();
 
-		entity.addComponent(new SpawnerComponent(15000, new EntityTemplate() {
+		entity.addComponent(new SpawnerComponent(15000, new AbstractTrigger() {
 			@Override
-			public void trigger(Entity e) {
-				// TODO Auto-generated function stub
-
+			public boolean handle(Entity e) {
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
 
@@ -550,6 +544,7 @@ public class GameScreen extends ScreenAdapter {
 					createPowerUp(x, y, 25000, new PowerUp(Type.WeaponSpeedModifier, 3f, 25000));
 					Gdx.app.log("Taken", "Weapon Speed Power Up spawned at (" + x + ", " + y + ")");
 				}
+				return true;
 
 			}
 		}));

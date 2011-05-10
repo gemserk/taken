@@ -2,9 +2,9 @@ package com.gemserk.games.taken;
 
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
-import com.gemserk.commons.artemis.entities.EntityTemplate;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.commons.artemis.triggers.Trigger;
 import com.gemserk.games.taken.components.SpawnerComponent;
 
 public class SpawnerSystem extends EntityProcessingSystem implements ActivableSystem {
@@ -35,12 +35,10 @@ public class SpawnerSystem extends EntityProcessingSystem implements ActivableSy
 		if (spawnerComponent.getTime() > 0)
 			return;
 		
-		EntityTemplate entityTemplate = spawnerComponent.getEntityTemplate();
-		
-		entityTemplate.trigger(null);
-		
-		spawnerComponent.setTime(spawnerComponent.getSpawnTime());
+		Trigger trigger = spawnerComponent.getEntityTemplate();
+		trigger.trigger(null);
 
+		spawnerComponent.setTime(spawnerComponent.getSpawnTime());
 	}
 
 }
