@@ -162,8 +162,6 @@ public class GameScreen extends ScreenAdapter {
 
 	private Sprite movementButton;
 
-	private final Vector2 tmp = new Vector2();
-
 	public void setGameOver(boolean gameOver) {
 		this.gameOver = gameOver;
 	}
