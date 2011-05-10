@@ -718,20 +718,19 @@ public class GameScreen extends ScreenAdapter {
 				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
 				.build());
 
-		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, 0.1f, 0.1f, false, 0f, true);
+		// TODO: set the mass instead, like the character.
+		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, 0.1f, 0.1f, false, 0f, 0.1f, true);
 		body.setUserData(entity);
+		
+		Vector2 impulse = new Vector2(dx, dy);
+		impulse.mul(0.1f);
+		body.applyLinearImpulse(impulse, body.getTransform().getPosition());
+		
 		entity.addComponent(new PhysicsComponent(body));
 		entity.addComponent(new SpatialComponent( //
 				new Box2dPositionProperty(body), //
 				PropertyBuilder.vector2(size, size), //
 				new Box2dAngleProperty(body)));
-		
-		Vector2 impulse = new Vector2(dx, dy);
-		impulse.mul(0.01f);
-		body.applyLinearImpulse(impulse, body.getTransform().getPosition());
-
-		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
-		// entity.addComponent(new MovementComponent(new Vector2(dx, dy), 0f));
 
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), color));
 
