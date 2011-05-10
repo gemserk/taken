@@ -64,8 +64,6 @@ public class PhysicsSystem extends EntityProcessingSystem implements ActivableSy
 				PhysicsComponent physicsComponent = entityB.getComponent(PhysicsComponent.class);
 				physicsComponent.getContact().addContact(contact, bodyA);
 			}
-			
-			System.out.println("contact!!");
 
 		}
 

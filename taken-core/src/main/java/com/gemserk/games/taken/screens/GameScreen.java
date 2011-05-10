@@ -694,7 +694,19 @@ public class GameScreen extends ScreenAdapter {
 				new Box2dPositionProperty(body), //
 				PropertyBuilder.vector2(size, size), //
 				new Box2dAngleProperty(body)));
-		entity.addComponent(new TargetPositionComponent());
+		entity.addComponent(new TargetPositionComponent(new AbstractTrigger() {
+			@Override
+			protected boolean handle(Entity e) {
+				
+				SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
+				Vector2 position = spatialComponent.getPosition();
+				
+				TargetPositionComponent targetPositionComponent = e.getComponent(TargetPositionComponent.class);
+				targetPositionComponent.setPosition(position.x +  MathUtils.random(-5f, 5f), position.y + MathUtils.random(-5f, 5f));
+
+				return false;
+			}
+		}));
 		entity.addComponent(new LinearVelocityLimitComponent(2f));
 
 		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
