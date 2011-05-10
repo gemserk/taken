@@ -113,11 +113,11 @@ public class PhysicsObjectsFactory {
 		return body;
 	}
 
-	public Body createDynamicRectangle(float x, float y, float width, float height, boolean fixedRotation, float friction) {
+	public Body createDynamicRectangle(float x, float y, float width, float height, boolean fixedRotation, float friction, boolean bullet) {
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
-		// bodyDef.bullet = true;
+		bodyDef.bullet = bullet;
 		bodyDef.position.set(x, y);
 		bodyDef.fixedRotation = fixedRotation;
 
