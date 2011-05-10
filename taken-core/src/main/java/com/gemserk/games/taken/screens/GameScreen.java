@@ -438,7 +438,6 @@ public class GameScreen extends ScreenAdapter {
 				.userData(mainCharacter));
 
 		PhysicsComponent physicsComponent = new PhysicsComponent(body);
-		physicsComponent.setVertices(bodyShape);
 
 		mainCharacter.setGroup("Player");
 
