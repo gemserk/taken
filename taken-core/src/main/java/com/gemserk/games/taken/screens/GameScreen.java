@@ -32,9 +32,11 @@ import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.artemis.WorldWrapper;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.components.SpriteComponent;
+import com.gemserk.commons.artemis.components.TimerComponent;
 import com.gemserk.commons.artemis.systems.RenderLayer;
 import com.gemserk.commons.artemis.systems.SpriteRendererSystem;
 import com.gemserk.commons.artemis.systems.SpriteUpdateSystem;
+import com.gemserk.commons.artemis.systems.TimerSystem;
 import com.gemserk.commons.artemis.triggers.AbstractTrigger;
 import com.gemserk.commons.gdx.ScreenAdapter;
 import com.gemserk.commons.gdx.box2d.Box2DCustomDebugRenderer;
@@ -78,7 +80,6 @@ import com.gemserk.games.taken.PhysicsSystem;
 import com.gemserk.games.taken.PowerUp;
 import com.gemserk.games.taken.PowerUp.Type;
 import com.gemserk.games.taken.PowerUpSystem;
-import com.gemserk.games.taken.TimerSystem;
 import com.gemserk.games.taken.WeaponSystem;
 import com.gemserk.games.taken.WorldLoader;
 import com.gemserk.games.taken.components.AnimationComponent;
@@ -96,7 +97,6 @@ import com.gemserk.games.taken.components.PhysicsComponent;
 import com.gemserk.games.taken.components.PowerUpComponent;
 import com.gemserk.games.taken.components.TargetComponent;
 import com.gemserk.games.taken.components.TargetPositionComponent;
-import com.gemserk.games.taken.components.TimerComponent;
 import com.gemserk.games.taken.components.WeaponComponent;
 import com.gemserk.games.taken.controllers.AreaTouchJumpController;
 import com.gemserk.games.taken.controllers.AreaTouchMovementController;
@@ -786,10 +786,18 @@ public class GameScreen extends ScreenAdapter {
 	void createLaser(float x, float y, int time, float dx, float dy, float damage, String ownerGroup, String targetGroup) {
 		Resource<Animation> laserAnimationResource;
 
+		short categoryBits = CollisionBits.EnemyLaser;
+		short maskBits = CollisionBits.Friendly | CollisionBits.FriendlyLaser;
+
 		if (ownerGroup.equals("Player"))
 			laserAnimationResource = resourceManager.get("FriendlyLaser");
 		else
 			laserAnimationResource = resourceManager.get("EnemyLaser");
+
+		if (ownerGroup.equals("Player")) {
+			categoryBits = CollisionBits.FriendlyLaser;
+			maskBits = CollisionBits.EnemyRobot | CollisionBits.EnemyLaser;
+		}
 
 		Sprite sprite = laserAnimationResource.get().getFrame(0);
 
@@ -805,13 +813,7 @@ public class GameScreen extends ScreenAdapter {
 				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
 				.build());
 
-		short categoryBits = CollisionBits.EnemyLaser;
-		short maskBits = CollisionBits.Friendly | CollisionBits.FriendlyLaser;
 
-		if (ownerGroup.equals("Player")) {
-			categoryBits = CollisionBits.FriendlyLaser;
-			maskBits = CollisionBits.EnemyRobot | CollisionBits.EnemyLaser;
-		}
 
 		Body body = physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
 				.position(x, y) //
