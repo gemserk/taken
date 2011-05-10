@@ -3,13 +3,13 @@ package com.gemserk.games.taken;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class BodyBuilder {
 
@@ -24,12 +24,18 @@ public class BodyBuilder {
 	private Vector2 position = new Vector2();
 
 	private final World world;
-
+	
 	public BodyBuilder(World world) {
 		this.world = world;
 	}
 
 	public BodyBuilder reset() {
+		
+		if (fixtureDef != null) {
+			if (fixtureDef.shape != null)
+				fixtureDef.shape.dispose();
+		}
+		
 		bodyDef = new BodyDef();
 		fixtureDef = new FixtureDef();
 		mass = 1f;
