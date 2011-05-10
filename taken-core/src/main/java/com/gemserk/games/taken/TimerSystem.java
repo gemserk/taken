@@ -4,8 +4,8 @@ import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.commons.artemis.triggers.Trigger;
 import com.gemserk.games.taken.components.TimerComponent;
-import com.gemserk.games.taken.components.Trigger;
 
 public class TimerSystem extends EntityProcessingSystem implements ActivableSystem {
 

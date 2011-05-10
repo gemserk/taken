@@ -1,6 +1,7 @@
 package com.gemserk.games.taken.components;
 
 import com.artemis.Component;
+import com.gemserk.commons.artemis.triggers.Trigger;
 
 public class WeaponComponent extends Component {
 	

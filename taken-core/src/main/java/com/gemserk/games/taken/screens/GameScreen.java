@@ -37,6 +37,7 @@ import com.gemserk.commons.artemis.systems.MovementSystem;
 import com.gemserk.commons.artemis.systems.RenderLayer;
 import com.gemserk.commons.artemis.systems.SpriteRendererSystem;
 import com.gemserk.commons.artemis.systems.SpriteUpdateSystem;
+import com.gemserk.commons.artemis.triggers.AbstractTrigger;
 import com.gemserk.commons.gdx.ScreenAdapter;
 import com.gemserk.commons.gdx.box2d.Box2DCustomDebugRenderer;
 import com.gemserk.commons.gdx.box2d.Box2dUtils;
@@ -82,7 +83,6 @@ import com.gemserk.games.taken.SpawnerSystem;
 import com.gemserk.games.taken.TimerSystem;
 import com.gemserk.games.taken.WeaponSystem;
 import com.gemserk.games.taken.WorldLoader;
-import com.gemserk.games.taken.components.AbstractTrigger;
 import com.gemserk.games.taken.components.AnimationComponent;
 import com.gemserk.games.taken.components.BloodOverlayComponent;
 import com.gemserk.games.taken.components.BulletComponent;
@@ -488,7 +488,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new SpawnerComponent(4500, new EntityTemplate() {
 			@Override
-			public Entity build() {
+			public void build() {
 				// TODO Auto-generated function stub
 
 				// limit robot spawner!!
@@ -500,8 +500,6 @@ public class GameScreen extends ScreenAdapter {
 				float y = position.y + MathUtils.random(-5, 5);
 
 				createEnemy(x, y);
-
-				return null;
 			}
 		}));
 
@@ -513,7 +511,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new SpawnerComponent(10000, new EntityTemplate() {
 			@Override
-			public Entity build() {
+			public void build() {
 				// TODO Auto-generated function stub
 
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
@@ -525,8 +523,6 @@ public class GameScreen extends ScreenAdapter {
 				createHealthVial(x, y, 15000, 25f);
 
 				Gdx.app.log("Taken", "Health vial spawned at (" + x + ", " + y + ")");
-
-				return null;
 			}
 		}));
 
@@ -538,7 +534,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new SpawnerComponent(15000, new EntityTemplate() {
 			@Override
-			public Entity build() {
+			public void build() {
 				// TODO Auto-generated function stub
 
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
@@ -555,7 +551,6 @@ public class GameScreen extends ScreenAdapter {
 					Gdx.app.log("Taken", "Weapon Speed Power Up spawned at (" + x + ", " + y + ")");
 				}
 
-				return null;
 			}
 		}));
 

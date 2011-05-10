@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.commons.artemis.triggers.Trigger;
 import com.gemserk.games.taken.components.GrabComponent;
-import com.gemserk.games.taken.components.Trigger;
 
 public class GrabSystem extends EntityProcessingSystem implements ActivableSystem {
 

@@ -2420,9 +2420,9 @@
  borderopacity="1.0"
  inkscape:pageopacity="0.0"
  inkscape:pageshadow="2"
- inkscape:zoom="64"
- inkscape:cx="-9.91156"
- inkscape:cy="5.01461"
+ inkscape:zoom="32"
+ inkscape:cx="-0.976605"
+ inkscape:cy="2.834"
  inkscape:document-units="px"
  inkscape:current-layer="layer2"
  showgrid="true"
@@ -2823,6 +2823,17 @@
  width="2"
  style="display:inline" />
 <image
+ sodipodi:absref="/home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/scenes/../images/tile01.png"
+ xlink:href="../images/tile01.png"
+ transform="scale(-1,1)"
+ inkscape:label="Tile01"
+ y="18"
+ x="-8"
+ id="image5220-0-3-0-2-9"
+ height="2"
+ width="2"
+ style="display:inline" />
+<image
  style="display:inline"
  width="1"
  height="1"
@@ -2834,17 +2845,6 @@
  transform="matrix(-0.859536,-0.511075,0.511075,-0.859536,0,0)"
  inkscape:transform-center-x="-0.500026"
  inkscape:transform-center-y="-0.499946" />
-<image
- sodipodi:absref="/home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/scenes/../images/tile01.png"
- xlink:href="../images/tile01.png"
- transform="scale(-1,1)"
- inkscape:label="Tile01"
- y="18"
- x="-8"
- id="image5220-0-3-0-2-9"
- height="2"
- width="2"
- style="display:inline" />
 <image
  sodipodi:absref="/home/acoppes/workspace/taken/taken-desktop/src/main/resources/data/scenes/../images/tile03.png"
  xlink:href="../images/tile03.png"
@@ -5467,7 +5467,7 @@
  inkscape:groupmode="layer"
  id="layer3"
  inkscape:label="Physics"
- style="display:none">
+ style="display:inline">
 <path
  style="fill:none;stroke:#ff0000;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
  d="M 26.1102,26.1486 26.0442,19.9835 -6,20 -6,26"

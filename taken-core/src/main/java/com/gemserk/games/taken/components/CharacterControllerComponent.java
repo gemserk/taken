@@ -1,8 +1,8 @@
 package com.gemserk.games.taken.components;
 
 import com.artemis.Component;
-import com.gemserk.games.taken.controllers.MovementController;
 import com.gemserk.games.taken.controllers.JumpController;
+import com.gemserk.games.taken.controllers.MovementController;
 
 public class CharacterControllerComponent extends Component {
 
