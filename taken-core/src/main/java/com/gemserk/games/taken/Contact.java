@@ -94,7 +94,11 @@ public class Contact {
 	}
 
 	public Body getBody() {
-		return contacts[0].body;
+		return getBody(0);
+	}
+	
+	public Body getBody(int i) {
+		return contacts[i].body;
 	}
 
 }

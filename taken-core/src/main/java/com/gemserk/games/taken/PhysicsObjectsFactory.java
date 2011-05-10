@@ -113,7 +113,7 @@ public class PhysicsObjectsFactory {
 		return body;
 	}
 
-	public Body createDynamicRectangle(float x, float y, float width, float height, boolean fixedRotation, float friction, float mass, boolean bullet) {
+	public Body createDynamicRectangle(float x, float y, float width, float height, boolean fixedRotation, float friction, float mass, boolean bullet, boolean isSensor) {
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
@@ -130,6 +130,7 @@ public class PhysicsObjectsFactory {
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
 		fixtureDef.friction = friction;
+		fixtureDef.isSensor = isSensor;
 
 		body.createFixture(fixtureDef);
 		

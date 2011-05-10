@@ -14,11 +14,11 @@ import com.gemserk.games.taken.components.AntiGravityComponent;
 import com.gemserk.games.taken.components.PhysicsComponent;
 
 public class PhysicsSystem extends EntityProcessingSystem implements ActivableSystem {
-	
+
 	private static final Vector2 antiGravity = new Vector2(0, 10f);
 
-	ActivableSystem activableSystem = new ActivableSystemImpl();
-	
+	private ActivableSystem activableSystem = new ActivableSystemImpl();
+
 	private final Vector2 bodyAntiGravity = new Vector2(0, 10f);
 
 	static class PhysicsContactListener implements ContactListener {
@@ -52,10 +52,12 @@ public class PhysicsSystem extends EntityProcessingSystem implements ActivableSy
 			Entity entityA = (Entity) bodyA.getUserData();
 			Entity entityB = (Entity) bodyB.getUserData();
 
-			if (entityA != null) {
-				PhysicsComponent physicsComponent = entityA.getComponent(PhysicsComponent.class);
-				physicsComponent.getContact().addContact(contact, bodyB);
-			}
+			if (contact.isTouching())
+
+				if (entityA != null) {
+					PhysicsComponent physicsComponent = entityA.getComponent(PhysicsComponent.class);
+					physicsComponent.getContact().addContact(contact, bodyB);
+				}
 
 			if (entityB != null) {
 				PhysicsComponent physicsComponent = entityB.getComponent(PhysicsComponent.class);
@@ -88,15 +90,15 @@ public class PhysicsSystem extends EntityProcessingSystem implements ActivableSy
 
 		PhysicsComponent physicsComponent = e.getComponent(PhysicsComponent.class);
 		AntiGravityComponent antiGravityComponent = e.getComponent(AntiGravityComponent.class);
-		
+
 		if (antiGravityComponent == null)
 			return;
-		
+
 		Body body = physicsComponent.getBody();
-		
+
 		bodyAntiGravity.set(antiGravity);
 		bodyAntiGravity.mul(body.getMass());
-		
+
 		body.applyForce(bodyAntiGravity, body.getTransform().getPosition());
 
 	}
@@ -119,6 +121,25 @@ public class PhysicsSystem extends EntityProcessingSystem implements ActivableSy
 
 		Body body = component.getBody();
 		body.setUserData(null);
+
+		com.gemserk.games.taken.Contact contact = component.getContact();
+
+		// removes contact from the other entity
+		for (int i = 0; i < contact.getContactCount(); i++) {
+			if (!contact.isInContact(i))
+				continue;
+
+			Body otherBody = contact.getBody(i);
+			if (otherBody == null)
+				continue;
+
+			Entity otherEntity = (Entity) otherBody.getUserData();
+			if (otherEntity == null)
+				continue;
+
+			PhysicsComponent otherPhyiscsComponent = otherEntity.getComponent(PhysicsComponent.class);
+			otherPhyiscsComponent.getContact().removeContact(body);
+		}
 
 		physicsWorld.destroyBody(body);
 

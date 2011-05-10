@@ -720,7 +720,7 @@ public class GameScreen extends ScreenAdapter {
 				.build());
 
 		// TODO: set the mass instead, like the character.
-		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, 0.1f, 0.1f, false, 0f, 0.1f, true);
+		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, 0.1f, 0.1f, false, 0f, 0.1f, true, true);
 		body.setUserData(entity);
 		
 		Vector2 impulse = new Vector2(dx, dy);
