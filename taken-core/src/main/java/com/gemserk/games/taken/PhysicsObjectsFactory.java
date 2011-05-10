@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.gemserk.commons.gdx.box2d.Box2dUtils;
 
@@ -52,7 +53,7 @@ public class PhysicsObjectsFactory {
 
 		return body;
 	}
-	
+
 	public Body createBox(Vector2 position, Vector2 size) {
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(size.x * 0.5f, size.y * 0.5f);
@@ -74,14 +75,14 @@ public class PhysicsObjectsFactory {
 
 		return body;
 	}
-	
+
 	public Vector2[] createRectangle(float width, float height) {
 		Vector2[] vertices = Box2dUtils.initArray(4);
 		Box2dUtils.createRectangle(width, height, vertices);
 		return vertices;
 	}
-	
-	public Body createPolygonBody(float x, float y, Vector2[] vertices, boolean fixedRotation, float friction, float density, float restitution, float mass, short categoryBits, short maskBits) { 
+
+	public Body createPolygonBody(float x, float y, Vector2[] vertices, boolean fixedRotation, float friction, float density, float restitution, float mass, short categoryBits, short maskBits) {
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
@@ -97,26 +98,143 @@ public class PhysicsObjectsFactory {
 		fixtureDef.shape = shape;
 		fixtureDef.density = density;
 		fixtureDef.friction = friction;
-		fixtureDef.restitution =restitution;
-		
+		fixtureDef.restitution = restitution;
+
 		fixtureDef.filter.categoryBits = categoryBits;
 		fixtureDef.filter.maskBits = maskBits;
-		
+
 		body.createFixture(fixtureDef);
-		
+
 		MassData massData = body.getMassData();
 		massData.mass = mass;
 		body.setMassData(massData);
-		
+
 		shape.dispose();
-		
-		tmp.set(x,y);
+
+		tmp.set(x, y);
 		body.setTransform(tmp, 0f);
 
 		return body;
 	}
-	
+
 	// TODO : make a body builder!!
+
+	public class BodyBuilder {
+
+		private BodyDef bodyDef;
+		
+		private FixtureDef fixtureDef;
+
+		private float mass = 1f;
+
+		private Object userData = null;
+		
+		private Vector2 position = new Vector2();
+
+		public BodyBuilder() {
+			bodyDef = new BodyDef();
+			fixtureDef = new FixtureDef();
+		}
+
+		public BodyBuilder type(BodyType type) {
+			bodyDef.type = type;
+			return this;
+		}
+		
+		public BodyBuilder bullet() {
+			bodyDef.bullet = true;
+			return this;
+		}
+		
+		public BodyBuilder sensor() {
+			fixtureDef.isSensor = true;
+			return this;
+		}
+		
+		public BodyBuilder boxShape(float hx, float hy) {
+			PolygonShape shape = new PolygonShape();
+			shape.setAsBox(hx, hy);
+			fixtureDef.shape = shape;
+			return this;
+		}
+		
+		public BodyBuilder circleShape(float radius) {
+			Shape shape = new CircleShape();
+			shape.setRadius(radius);
+			fixtureDef.shape = shape;
+			return this;
+		}
+		
+		public BodyBuilder polygonShape(Vector2[] vertices) {
+			PolygonShape shape = new PolygonShape();
+			shape.set(vertices);
+			fixtureDef.shape = shape;
+			return this;
+		}
+		
+		public BodyBuilder mass(float mass) {
+			this.mass = mass;
+			return this;
+		}
+		
+		public BodyBuilder friction(float friction) {
+			fixtureDef.friction = friction;
+			return this;
+		}
+
+		public BodyBuilder categoryBits(short categoryBits) {
+			fixtureDef.filter.categoryBits = categoryBits;
+			return this;
+		}
+
+		public BodyBuilder maskBits(short maskBits) {
+			fixtureDef.filter.maskBits = maskBits;
+			return this;
+		}
+		
+		public BodyBuilder userData(Object userData) {
+			this.userData = userData;
+			return this;
+		}
+		
+		public BodyBuilder position(float x, float y) {
+			this.position.set(x, y);
+			return this;
+		}
+
+		public Body build() {
+			Body body = world.createBody(bodyDef);
+			body.createFixture(fixtureDef);
+			
+			MassData massData = body.getMassData();
+			massData.mass = mass;
+			body.setMassData(massData);
+			body.setUserData(userData);
+			body.setTransform(position, 0f);
+			return body;
+		}
+
+	}
+
+	public BodyBuilder bodyBuilder() {
+		return new BodyBuilder();
+	}
+
+	public Body createBody(BodyBuilder bodyBuilder) {
+		return bodyBuilder.build();
+	}
+
+	public Body builderExample() {
+		return createBody(bodyBuilder() //
+				.type(BodyType.DynamicBody) //
+				.circleShape(5f) //
+				.bullet() //
+				.mass(1f) //
+				.friction(0.1f) //
+				.categoryBits(CollisionBits.EnemyLaser) //
+				.maskBits(CollisionBits.All)
+		);
+	}
 
 	public Body createDynamicRectangle(float x, float y, float width, float height, boolean fixedRotation, float friction, float mass, boolean bullet, //
 			boolean isSensor, short categoryBits, short maskBits) {
@@ -137,12 +255,12 @@ public class PhysicsObjectsFactory {
 		fixtureDef.density = 1f;
 		fixtureDef.friction = friction;
 		fixtureDef.isSensor = isSensor;
-		
+
 		fixtureDef.filter.categoryBits = categoryBits;
 		fixtureDef.filter.maskBits = maskBits;
 
 		body.createFixture(fixtureDef);
-		
+
 		MassData massData = body.getMassData();
 		massData.mass = mass;
 		body.setMassData(massData);

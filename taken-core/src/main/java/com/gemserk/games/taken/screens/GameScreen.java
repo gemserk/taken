@@ -24,6 +24,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.gemserk.animation4j.gdx.Animation;
 import com.gemserk.animation4j.interpolator.function.InterpolationFunctions;
 import com.gemserk.animation4j.transitions.Transitions;
@@ -160,6 +161,8 @@ public class GameScreen extends ScreenAdapter {
 	private final Color laserStartColor = new Color(1f, 1f, 1f, 1f);
 
 	private Sprite movementButton;
+
+	private final Vector2 tmp = new Vector2();
 
 	public void setGameOver(boolean gameOver) {
 		this.gameOver = gameOver;
@@ -663,8 +666,18 @@ public class GameScreen extends ScreenAdapter {
 		short categoryBits = CollisionBits.EnemyRobot;
 		short maskBits = CollisionBits.FriendlyLaser;
 
-		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, 0.3f, 0.3f, false, 0f, 0.1f, false, true, categoryBits, maskBits);
-		body.setUserData(entity);
+		Body body = physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
+				.type(BodyType.DynamicBody) //
+				.boxShape(0.15f, 0.15f) //
+				.mass(0.1f) //
+				.friction(0f) //
+				.categoryBits(categoryBits) //
+				.maskBits(maskBits) //
+				.userData(entity) //
+				.position(x, y));
+
+		// Body body = physicsObjectsFactory.createDynamicRectangle(x, y, 0.3f, 0.3f, false, 0f, 0.1f, false, false, categoryBits, maskBits);
+		// body.setUserData(entity);
 
 		entity.addComponent(new PhysicsComponent(body));
 		entity.addComponent(new AntiGravityComponent());
