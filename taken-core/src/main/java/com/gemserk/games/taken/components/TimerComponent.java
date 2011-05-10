@@ -5,7 +5,9 @@ import com.gemserk.commons.artemis.triggers.Trigger;
 
 public class TimerComponent extends Component {
 	
-	private int time;
+	private final int time;
+	
+	private int currentTime;
 	
 	private Trigger trigger;
 	
@@ -13,12 +15,20 @@ public class TimerComponent extends Component {
 		return time;
 	}
 	
-	public void setTime(int time) {
-		this.time = time;
+	public int getCurrentTime() {
+		return currentTime;
+	}
+	
+	public void setCurrentTime(int currentTime) {
+		this.currentTime = currentTime;
 	}
 	
 	public boolean isFinished() {
-		return time < 0;
+		return currentTime < 0;
+	}
+	
+	public void reset() {
+		currentTime = time;
 	}
 	
 	public Trigger getTrigger() {
@@ -27,6 +37,7 @@ public class TimerComponent extends Component {
 	
 	public TimerComponent(int time, Trigger trigger) {
 		this.time = time;
+		this.currentTime = time;
 		this.trigger = trigger;
 	}
 

@@ -28,7 +28,7 @@ public class TimerSystem extends EntityProcessingSystem implements ActivableSyst
 	@Override
 	protected void process(Entity e) {
 		TimerComponent timerComponent = e.getComponent(TimerComponent.class);
-		timerComponent.setTime(timerComponent.getTime()- world.getDelta());
+		timerComponent.setCurrentTime(timerComponent.getCurrentTime()- world.getDelta());
 		
 		if (!timerComponent.isFinished())
 			return;
