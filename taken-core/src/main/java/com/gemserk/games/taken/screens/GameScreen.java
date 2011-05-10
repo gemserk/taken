@@ -732,10 +732,34 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new BulletComponent());
 
+		entity.addComponent(new TargetComponent());
 		entity.addComponent(new HitComponent(targetGroup, damage, new AbstractTrigger() {
 			@Override
 			protected boolean handle(Entity e) {
-				return false;
+				
+				TargetComponent targetComponent = e.getComponent(TargetComponent.class);
+				Entity targetEntity = targetComponent.getTarget();
+				
+				HealthComponent healthComponent = targetEntity.getComponent(HealthComponent.class);
+				Container health = healthComponent.getHealth();
+
+				HitComponent hitComponent = e.getComponent(HitComponent.class);
+				health.remove(hitComponent.getDamage());
+
+				// explosion sound
+				// explosion graphics
+
+				Resource<Sound> explosionSound = resourceManager.get("Explosion");
+				explosionSound.get().play();
+
+				world.deleteEntity(e);
+
+				if (health.isEmpty()) {
+					if (mainCharacter != targetEntity)
+						world.deleteEntity(targetEntity);
+				}
+
+				return true;
 			}
 		}));
 

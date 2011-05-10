@@ -3,15 +3,12 @@ package com.gemserk.games.taken;
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
 import com.artemis.utils.ImmutableBag;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
-import com.gemserk.componentsengine.utils.Container;
-import com.gemserk.games.taken.components.HealthComponent;
 import com.gemserk.games.taken.components.HitComponent;
-import com.gemserk.resources.Resource;
+import com.gemserk.games.taken.components.TargetComponent;
 import com.gemserk.resources.ResourceManager;
 
 public class HitDetectionSystem extends EntityProcessingSystem implements ActivableSystem {
@@ -39,6 +36,9 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 	protected void process(Entity e) {
 
 		HitComponent hitComponent = e.getComponent(HitComponent.class);
+		TargetComponent targetComponent = e.getComponent(TargetComponent.class);
+
+		targetComponent.setTarget(null);
 
 		String hitGroup = hitComponent.getGroup();
 
@@ -53,7 +53,7 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 		Vector2 position = spatialComponent.getPosition();
 
-		Entity mainCharacter = world.getTagManager().getEntity("MainCharacter");
+		// Entity mainCharacter = world.getTagManager().getEntity("MainCharacter");
 
 		// find the first entity colliding
 
@@ -74,25 +74,28 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 		if (targetEntity == null)
 			return;
 
-		HealthComponent healthComponent = targetEntity.getComponent(HealthComponent.class);
-		Container health = healthComponent.getHealth();
+		targetComponent.setTarget(targetEntity);
+		hitComponent.getTrigger().trigger(e);
 
-		health.remove(hitComponent.getDamage());
-
-		// explosion sound
-		// explosion graphics
-
-		Resource<Sound> explosionSound = resourceManager.get("Explosion");
-		explosionSound.get().play();
-
-		world.deleteEntity(e);
-
-		if (health.isEmpty()) {
-			if (mainCharacter != targetEntity)
-				world.deleteEntity(targetEntity);
-		}
-
-		return;
+		// HealthComponent healthComponent = targetEntity.getComponent(HealthComponent.class);
+		// Container health = healthComponent.getHealth();
+		//
+		// health.remove(hitComponent.getDamage());
+		//
+		// // explosion sound
+		// // explosion graphics
+		//
+		// Resource<Sound> explosionSound = resourceManager.get("Explosion");
+		// explosionSound.get().play();
+		//
+		// world.deleteEntity(e);
+		//
+		// if (health.isEmpty()) {
+		// if (mainCharacter != targetEntity)
+		// world.deleteEntity(targetEntity);
+		// }
+		//
+		// return;
 
 	}
 
