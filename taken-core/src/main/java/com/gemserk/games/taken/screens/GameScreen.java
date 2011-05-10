@@ -732,7 +732,12 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new BulletComponent());
 
-		entity.addComponent(new HitComponent(targetGroup, damage));
+		entity.addComponent(new HitComponent(targetGroup, damage, new AbstractTrigger() {
+			@Override
+			protected boolean handle(Entity e) {
+				return false;
+			}
+		}));
 
 		entity.addComponent(new HealthComponent(new Container(2f, 2f)));
 

@@ -39,54 +39,60 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 	protected void process(Entity e) {
 
 		HitComponent hitComponent = e.getComponent(HitComponent.class);
-		
+
 		String hitGroup = hitComponent.getGroup();
-		
+
 		ImmutableBag<Entity> targets = world.getGroupManager().getEntities(hitGroup);
-		
+
 		if (targets == null)
-			return ;
-		
+			return;
+
 		if (targets.isEmpty())
 			return;
-		
+
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 		Vector2 position = spatialComponent.getPosition();
-		
+
 		Entity mainCharacter = world.getTagManager().getEntity("MainCharacter");
-		
+
+		// find the first entity colliding
+
+		Entity targetEntity = null;
+
 		for (int i = 0; i < targets.size(); i++) {
 			Entity target = targets.get(i);
 			SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
 			Vector2 targetPosition = targetSpatialComponent.getPosition();
-			
+
 			if (position.dst(targetPosition) < 0.3f) {
-				
-				HealthComponent healthComponent = target.getComponent(HealthComponent.class);
-				Container health = healthComponent.getHealth();
-				
-				health.remove(hitComponent.getDamage());
-				
-				// explosion sound
-				// explosion graphics
-				
-				Resource<Sound> explosionSound = resourceManager.get("Explosion");
-				explosionSound.get().play();
-				
-				world.deleteEntity(e);
-				
-				if (health.isEmpty()) {
-					if (mainCharacter != target)
-						world.deleteEntity(target);
-				}
-				
-				return;
-				
-				// reduce health, if 0 then remove the entity
+				targetEntity = target;
+				break;
 			}
-			
+
 		}
-	
+
+		if (targetEntity == null)
+			return;
+
+		HealthComponent healthComponent = targetEntity.getComponent(HealthComponent.class);
+		Container health = healthComponent.getHealth();
+
+		health.remove(hitComponent.getDamage());
+
+		// explosion sound
+		// explosion graphics
+
+		Resource<Sound> explosionSound = resourceManager.get("Explosion");
+		explosionSound.get().play();
+
+		world.deleteEntity(e);
+
+		if (health.isEmpty()) {
+			if (mainCharacter != targetEntity)
+				world.deleteEntity(targetEntity);
+		}
+
+		return;
 
 	}
 
