@@ -37,7 +37,7 @@ public class SpawnerSystem extends EntityProcessingSystem implements ActivableSy
 		
 		EntityTemplate entityTemplate = spawnerComponent.getEntityTemplate();
 		
-		entityTemplate.build();
+		entityTemplate.trigger(null);
 		
 		spawnerComponent.setTime(spawnerComponent.getSpawnTime());
 

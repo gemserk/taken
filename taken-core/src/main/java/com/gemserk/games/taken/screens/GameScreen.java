@@ -488,7 +488,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new SpawnerComponent(4500, new EntityTemplate() {
 			@Override
-			public void build() {
+			public void trigger(Entity e) {
 				// TODO Auto-generated function stub
 
 				// limit robot spawner!!
@@ -511,7 +511,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new SpawnerComponent(10000, new EntityTemplate() {
 			@Override
-			public void build() {
+			public void trigger(Entity e) {
 				// TODO Auto-generated function stub
 
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
@@ -534,7 +534,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new SpawnerComponent(15000, new EntityTemplate() {
 			@Override
-			public void build() {
+			public void trigger(Entity e) {
 				// TODO Auto-generated function stub
 
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
