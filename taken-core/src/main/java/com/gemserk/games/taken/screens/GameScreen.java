@@ -94,7 +94,6 @@ import com.gemserk.games.taken.components.HitComponent;
 import com.gemserk.games.taken.components.JumpComponent;
 import com.gemserk.games.taken.components.PhysicsComponent;
 import com.gemserk.games.taken.components.PowerUpComponent;
-import com.gemserk.games.taken.components.SpawnerComponent;
 import com.gemserk.games.taken.components.TargetComponent;
 import com.gemserk.games.taken.components.TimerComponent;
 import com.gemserk.games.taken.components.WeaponComponent;
@@ -482,12 +481,12 @@ public class GameScreen extends ScreenAdapter {
 
 	void createEnemyRobotSpawner() {
 		Entity entity = world.createEntity();
-		entity.addComponent(new SpawnerComponent(4500, new AbstractTrigger() {
+		entity.addComponent(new TimerComponent(4500, new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity e) {
 				// limit robot spawner!!
-				SpawnerComponent spawnerComponent = e.getComponent(SpawnerComponent.class);
-				spawnerComponent.setTime(spawnerComponent.getSpawnTime());
+				TimerComponent timerComponent = e.getComponent(TimerComponent.class);
+				timerComponent.reset();
 
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
@@ -508,11 +507,11 @@ public class GameScreen extends ScreenAdapter {
 	void createHealthVialSpawner() {
 		Entity entity = world.createEntity();
 
-		entity.addComponent(new SpawnerComponent(10000, new AbstractTrigger() {
+		entity.addComponent(new TimerComponent(10000, new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity e) {
-				SpawnerComponent spawnerComponent = e.getComponent(SpawnerComponent.class);
-				spawnerComponent.setTime(spawnerComponent.getSpawnTime());
+				TimerComponent timerComponent = e.getComponent(TimerComponent.class);
+				timerComponent.reset();
 
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
@@ -534,11 +533,11 @@ public class GameScreen extends ScreenAdapter {
 	void createPowerUpSpawner() {
 		Entity entity = world.createEntity();
 
-		entity.addComponent(new SpawnerComponent(15000, new AbstractTrigger() {
+		entity.addComponent(new TimerComponent(15000, new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity e) {
-				SpawnerComponent spawnerComponent = e.getComponent(SpawnerComponent.class);
-				spawnerComponent.setTime(spawnerComponent.getSpawnTime());
+				TimerComponent timerComponent = e.getComponent(TimerComponent.class);
+				timerComponent.reset();
 
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
