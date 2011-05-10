@@ -374,8 +374,14 @@ public class GameScreen extends ScreenAdapter {
 					vertices[i] = new Vector2(point.x, svgDocument.getHeight() - point.y);
 					// System.out.println(vertices[i]);
 				}
+				Vector2 position = new Vector2();
 
-				physicsObjectsFactory.createGround(new Vector2(), vertices);
+				physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
+						.position(position.x, position.y) //
+						.type(BodyType.StaticBody) //
+						.polygonShape(vertices) //
+						.friction(0.5f) //
+						);
 
 			}
 		});
@@ -411,17 +417,25 @@ public class GameScreen extends ScreenAdapter {
 		float width = 0.15f;
 		float height = 1f;
 
+		mainCharacter = world.createEntity();
+		mainCharacter.setTag("MainCharacter");
+		
 		short categoryBits = CollisionBits.Friendly;
 		short maskBits = CollisionBits.All & ~CollisionBits.EnemyRobot & ~CollisionBits.FriendlyLaser;
 
 		Vector2[] bodyShape = Box2dUtils.createRectangle(width, height);
-		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0f, 0.15f, categoryBits, maskBits);
-
-		mainCharacter = world.createEntity();
-
-		mainCharacter.setTag("MainCharacter");
-
-		body.setUserData(mainCharacter);
+		Body body = physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
+				.position(x, y) //
+				.type(BodyType.DynamicBody) //
+				.fixedRotation() //
+				.polygonShape(bodyShape) //
+				.friction(0.1f) //
+				.density(1f) //
+				.restitution(0f) //
+				.mass(0.15f) //
+				.categoryBits(categoryBits) //
+				.maskBits(maskBits) //
+				.userData(mainCharacter));
 
 		PhysicsComponent physicsComponent = new PhysicsComponent(body);
 		physicsComponent.setVertices(bodyShape);
@@ -433,8 +447,7 @@ public class GameScreen extends ScreenAdapter {
 				new Box2dPositionProperty(body), //
 				PropertyBuilder.vector2(size, size), //
 				new Box2dAngleProperty(body)));
-		// PropertyBuilder.property(ValueBuilder.floatValue(0f))));
-		// entity.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(viewportWidth, viewportWidth), 0f));
+		
 		mainCharacter.addComponent(new SpriteComponent(sprite, 1, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
 		Animation[] spriteSheets = new Animation[] { walkingAnimationResource.get(), idleAnimationResource.get(), jumpAnimationResource.get(), fallAnimationResource.get(), };
@@ -676,9 +689,6 @@ public class GameScreen extends ScreenAdapter {
 				.userData(entity) //
 				.position(x, y));
 
-		// Body body = physicsObjectsFactory.createDynamicRectangle(x, y, 0.3f, 0.3f, false, 0f, 0.1f, false, false, categoryBits, maskBits);
-		// body.setUserData(entity);
-
 		entity.addComponent(new PhysicsComponent(body));
 		entity.addComponent(new AntiGravityComponent());
 		entity.addComponent(new SpatialComponent( //
@@ -764,8 +774,18 @@ public class GameScreen extends ScreenAdapter {
 			maskBits = CollisionBits.EnemyRobot | CollisionBits.EnemyLaser;
 		}
 
-		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, 0.1f, 0.1f, false, 0f, 0.1f, true, true, categoryBits, maskBits);
-		body.setUserData(entity);
+		Body body = physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
+				.position(x, y) //
+				.type(BodyType.DynamicBody) //
+				.fixedRotation() //
+				.boxShape(0.1f * 0.5f, 0.1f * 0.5f) //
+				.friction(0f) //
+				.mass(0.1f) //
+				.categoryBits(categoryBits) //
+				.maskBits(maskBits) //
+				.bullet() //
+				.sensor() //
+				.userData(entity));
 
 		Vector2 impulse = new Vector2(dx, dy);
 		impulse.mul(0.1f);

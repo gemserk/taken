@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class BodyBuilder {
-
+	
 	private BodyDef bodyDef;
 	
 	private FixtureDef fixtureDef;
@@ -54,6 +54,11 @@ public class BodyBuilder {
 		return this;
 	}
 	
+	public BodyBuilder fixedRotation() {
+		bodyDef.fixedRotation = true;
+		return this;
+	}
+	
 	public BodyBuilder sensor() {
 		fixtureDef.isSensor = true;
 		return this;
@@ -85,8 +90,18 @@ public class BodyBuilder {
 		return this;
 	}
 	
+	public BodyBuilder density(float density) {
+		fixtureDef.density = density;
+		return this;
+	}
+	
 	public BodyBuilder friction(float friction) {
 		fixtureDef.friction = friction;
+		return this;
+	}
+	
+	public BodyBuilder restitution(float restitution) {
+		fixtureDef.restitution = restitution;
 		return this;
 	}
 
