@@ -753,8 +753,15 @@ public class GameScreen extends ScreenAdapter {
 
 				TargetComponent targetComponent = e.getComponent(TargetComponent.class);
 				Entity targetEntity = targetComponent.getTarget();
+				
+				if (targetEntity == null)
+					return false;
 
 				HealthComponent healthComponent = targetEntity.getComponent(HealthComponent.class);
+				
+				if (healthComponent == null)
+					return false;
+				
 				Container health = healthComponent.getHealth();
 
 				HitComponent hitComponent = e.getComponent(HitComponent.class);

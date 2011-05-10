@@ -2,13 +2,11 @@ package com.gemserk.games.taken;
 
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
-import com.artemis.utils.ImmutableBag;
-import com.badlogic.gdx.math.Vector2;
-import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.commons.artemis.triggers.Trigger;
 import com.gemserk.games.taken.components.HitComponent;
+import com.gemserk.games.taken.components.PhysicsComponent;
 import com.gemserk.games.taken.components.TargetComponent;
 
 public class HitDetectionSystem extends EntityProcessingSystem implements ActivableSystem {
@@ -36,45 +34,66 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 
 		targetComponent.setTarget(null);
 
-		String hitGroup = hitComponent.getGroup();
+		// String hitGroup = hitComponent.getGroup();
 
-		ImmutableBag<Entity> targets = world.getGroupManager().getEntities(hitGroup);
+		// ImmutableBag<Entity> targets = world.getGroupManager().getEntities(hitGroup);
+		//
+		// if (targets == null)
+		// return;
+		//
+		// if (targets.isEmpty())
+		// return;
 
-		if (targets == null)
-			return;
-
-		if (targets.isEmpty())
-			return;
-
-		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
-		Vector2 position = spatialComponent.getPosition();
+		// SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
+		// Vector2 position = spatialComponent.getPosition();
 
 		// Entity mainCharacter = world.getTagManager().getEntity("MainCharacter");
 
 		// find the first entity colliding
 
-		Entity targetEntity = null;
+		PhysicsComponent physicsComponent = e.getComponent(PhysicsComponent.class);
+		Contact contact = physicsComponent.getContact();
+		Trigger trigger = hitComponent.getTrigger();
 
-		for (int i = 0; i < targets.size(); i++) {
-			Entity target = targets.get(i);
-			SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
-			Vector2 targetPosition = targetSpatialComponent.getPosition();
+		for (int i = 0; i < contact.getContactCount(); i++) {
 
-			if (position.dst(targetPosition) < 0.3f) {
-				targetEntity = target;
-				break;
-			}
+			if (!contact.isInContact(i))
+				continue;
+
+			Entity otherEntity = contact.getEntity(i);
+			if (otherEntity == null)
+				continue;
+
+			targetComponent.setTarget(otherEntity);
+
+			if (trigger.isAlreadyTriggered())
+				return;
+
+			trigger.trigger(e);
 
 		}
 
-		if (targetEntity == null)
-			return;
-
-		targetComponent.setTarget(targetEntity);
-		Trigger trigger = hitComponent.getTrigger();
-		if (trigger.isAlreadyTriggered())
-			return;
-		trigger.trigger(e);
+		// Entity targetEntity = null;
+		//
+		// for (int i = 0; i < targets.size(); i++) {
+		// Entity target = targets.get(i);
+		// SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
+		// Vector2 targetPosition = targetSpatialComponent.getPosition();
+		//
+		// if (position.dst(targetPosition) < 0.3f) {
+		// targetEntity = target;
+		// break;
+		// }
+		//
+		// }
+		//
+		// if (targetEntity == null)
+		// return;
+		//
+		// targetComponent.setTarget(targetEntity);
+		// if (trigger.isAlreadyTriggered())
+		// return;
+		// trigger.trigger(e);
 	}
 
 }

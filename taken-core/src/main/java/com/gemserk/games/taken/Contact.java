@@ -90,7 +90,11 @@ public class Contact {
 	}
 
 	public Entity getEntity() {
-		return (Entity) contacts[0].body.getUserData();
+		return getEntity(0);
+	}
+
+	public Entity getEntity(int i) {
+		return (Entity) contacts[i].body.getUserData();
 	}
 
 	public Body getBody() {
