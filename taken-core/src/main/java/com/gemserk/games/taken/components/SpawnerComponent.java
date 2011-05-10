@@ -5,7 +5,7 @@ import com.gemserk.commons.artemis.triggers.Trigger;
 
 public class SpawnerComponent extends Component {
 	
-	private final Trigger entityTemplate;
+	private final Trigger trigger;
 
 	private final int spawnTime;
 	
@@ -23,14 +23,14 @@ public class SpawnerComponent extends Component {
 		this.time = time;
 	}
 	
-	public Trigger getEntityTemplate() {
-		return entityTemplate;
+	public Trigger getTrigger() {
+		return trigger;
 	}
 
-	public SpawnerComponent(int spawnTime, Trigger entityTemplate) {
+	public SpawnerComponent(int spawnTime, Trigger trigger) {
 		this.spawnTime = spawnTime;
 		this.time = spawnTime;
-		this.entityTemplate = entityTemplate;
+		this.trigger = trigger;
 	}
 
 }

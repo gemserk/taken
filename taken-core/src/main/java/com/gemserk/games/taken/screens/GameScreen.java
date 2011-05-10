@@ -270,10 +270,8 @@ public class GameScreen extends ScreenAdapter {
 		createHealthVial(4f, 2f, 100000, 1000f);
 
 		createEnemyRobotSpawner();
-		//
-		// createHealthVialSpawner();
-		//
-		// createPowerUpSpawner();
+		createHealthVialSpawner();
+		createPowerUpSpawner();
 
 		// createRobo(4f, 4f);
 		//
@@ -484,11 +482,13 @@ public class GameScreen extends ScreenAdapter {
 
 	void createEnemyRobotSpawner() {
 		Entity entity = world.createEntity();
-
 		entity.addComponent(new SpawnerComponent(4500, new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity e) {
 				// limit robot spawner!!
+				SpawnerComponent spawnerComponent = e.getComponent(SpawnerComponent.class);
+				spawnerComponent.setTime(spawnerComponent.getSpawnTime());
+
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
 
@@ -496,10 +496,12 @@ public class GameScreen extends ScreenAdapter {
 				float y = position.y + MathUtils.random(-5, 5);
 
 				createEnemy(x, y);
-				return true;
+
+				Gdx.app.log("Taken", "Enemy robot spawned at (" + x + ", " + y + ")");
+
+				return false;
 			}
 		}));
-
 		entity.refresh();
 	}
 
@@ -509,6 +511,9 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpawnerComponent(10000, new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity e) {
+				SpawnerComponent spawnerComponent = e.getComponent(SpawnerComponent.class);
+				spawnerComponent.setTime(spawnerComponent.getSpawnTime());
+
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
 
@@ -518,7 +523,8 @@ public class GameScreen extends ScreenAdapter {
 				createHealthVial(x, y, 15000, 25f);
 
 				Gdx.app.log("Taken", "Health vial spawned at (" + x + ", " + y + ")");
-				return true;
+
+				return false;
 			}
 		}));
 
@@ -531,6 +537,9 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new SpawnerComponent(15000, new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity e) {
+				SpawnerComponent spawnerComponent = e.getComponent(SpawnerComponent.class);
+				spawnerComponent.setTime(spawnerComponent.getSpawnTime());
+
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
 
@@ -544,8 +553,8 @@ public class GameScreen extends ScreenAdapter {
 					createPowerUp(x, y, 25000, new PowerUp(Type.WeaponSpeedModifier, 3f, 25000));
 					Gdx.app.log("Taken", "Weapon Speed Power Up spawned at (" + x + ", " + y + ")");
 				}
-				return true;
 
+				return false;
 			}
 		}));
 
@@ -574,7 +583,7 @@ public class GameScreen extends ScreenAdapter {
 
 				TargetComponent targetComponent = friendlyRobot.getComponent(TargetComponent.class);
 				Entity target = targetComponent.getTarget();
-				
+
 				WeaponComponent weaponComponent = friendlyRobot.getComponent(WeaponComponent.class);
 				float damage = weaponComponent.getDamage();
 
@@ -593,7 +602,7 @@ public class GameScreen extends ScreenAdapter {
 				Sound laser = resourceManager.getResourceValue("FriendlyLaserSound");
 				laser.play();
 				createLaser(position.x, position.y, 2000, velocity.x, velocity.y, damage, "Player", "Enemy");
-				
+
 				return true;
 			}
 
@@ -847,7 +856,7 @@ public class GameScreen extends ScreenAdapter {
 				healthVialSound.get().play();
 
 				world.deleteEntity(owner);
-				
+
 				return true;
 			}
 		}));

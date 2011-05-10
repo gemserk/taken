@@ -29,10 +29,15 @@ public class TimerSystem extends EntityProcessingSystem implements ActivableSyst
 	protected void process(Entity e) {
 		TimerComponent timerComponent = e.getComponent(TimerComponent.class);
 		timerComponent.setTime(timerComponent.getTime()- world.getDelta());
-
-		Trigger timerTrigger = timerComponent.getTrigger();
-		if (timerComponent.isFinished() && !timerTrigger.isAlreadyTriggered()) 
-			timerTrigger.trigger(e);
+		
+		if (!timerComponent.isFinished())
+			return;
+		
+		Trigger trigger = timerComponent.getTrigger();
+		if (trigger.isAlreadyTriggered())
+			return;
+		
+		trigger.trigger(e);
 	}
 
 }

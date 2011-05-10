@@ -10,7 +10,7 @@ import com.gemserk.games.taken.components.SpawnerComponent;
 public class SpawnerSystem extends EntityProcessingSystem implements ActivableSystem {
 
 	private final ActivableSystem activableSystem = new ActivableSystemImpl();
-	
+
 	public SpawnerSystem() {
 		super(SpawnerComponent.class);
 	}
@@ -27,18 +27,17 @@ public class SpawnerSystem extends EntityProcessingSystem implements ActivableSy
 
 	@Override
 	protected void process(Entity e) {
-		
 		SpawnerComponent spawnerComponent = e.getComponent(SpawnerComponent.class);
-		
 		spawnerComponent.setTime(spawnerComponent.getTime() - world.getDelta());
-		
+
 		if (spawnerComponent.getTime() > 0)
 			return;
-		
-		Trigger trigger = spawnerComponent.getEntityTemplate();
-		trigger.trigger(null);
 
-		spawnerComponent.setTime(spawnerComponent.getSpawnTime());
+		Trigger trigger = spawnerComponent.getTrigger();
+		if (trigger.isAlreadyTriggered())
+			return;
+
+		trigger.trigger(e);
 	}
 
 }
