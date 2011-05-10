@@ -78,7 +78,6 @@ import com.gemserk.games.taken.PhysicsSystem;
 import com.gemserk.games.taken.PowerUp;
 import com.gemserk.games.taken.PowerUp.Type;
 import com.gemserk.games.taken.PowerUpSystem;
-import com.gemserk.games.taken.SpawnerSystem;
 import com.gemserk.games.taken.TimerSystem;
 import com.gemserk.games.taken.WeaponSystem;
 import com.gemserk.games.taken.WorldLoader;
@@ -249,8 +248,6 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.addUpdateSystem(new SpriteUpdateSystem());
 		worldWrapper.addRenderSystem(new SpriteRendererSystem(renderLayers));
 		worldWrapper.addUpdateSystem(new TimerSystem());
-
-		worldWrapper.addUpdateSystem(new SpawnerSystem());
 
 		worldWrapper.init();
 
