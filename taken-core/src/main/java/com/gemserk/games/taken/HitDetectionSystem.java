@@ -7,19 +7,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.commons.artemis.triggers.Trigger;
 import com.gemserk.games.taken.components.HitComponent;
 import com.gemserk.games.taken.components.TargetComponent;
-import com.gemserk.resources.ResourceManager;
 
 public class HitDetectionSystem extends EntityProcessingSystem implements ActivableSystem {
 
 	private final ActivableSystem activableSystem = new ActivableSystemImpl();
-	private final ResourceManager<String> resourceManager;
 
-	public HitDetectionSystem(ResourceManager<String> resourceManager) {
+	public HitDetectionSystem() {
 		super(HitComponent.class);
-		// and health component
-		this.resourceManager = resourceManager;
 	}
 
 	@Override
@@ -34,7 +31,6 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 
 	@Override
 	protected void process(Entity e) {
-
 		HitComponent hitComponent = e.getComponent(HitComponent.class);
 		TargetComponent targetComponent = e.getComponent(TargetComponent.class);
 
@@ -75,28 +71,10 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 			return;
 
 		targetComponent.setTarget(targetEntity);
-		hitComponent.getTrigger().trigger(e);
-
-		// HealthComponent healthComponent = targetEntity.getComponent(HealthComponent.class);
-		// Container health = healthComponent.getHealth();
-		//
-		// health.remove(hitComponent.getDamage());
-		//
-		// // explosion sound
-		// // explosion graphics
-		//
-		// Resource<Sound> explosionSound = resourceManager.get("Explosion");
-		// explosionSound.get().play();
-		//
-		// world.deleteEntity(e);
-		//
-		// if (health.isEmpty()) {
-		// if (mainCharacter != targetEntity)
-		// world.deleteEntity(targetEntity);
-		// }
-		//
-		// return;
-
+		Trigger trigger = hitComponent.getTrigger();
+		if (trigger.isAlreadyTriggered())
+			return;
+		trigger.trigger(e);
 	}
 
 }

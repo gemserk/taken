@@ -243,7 +243,7 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.addUpdateSystem(new CorrectSpriteDirectionSystem());
 
 		worldWrapper.addUpdateSystem(new BloodOverlaySystem());
-		worldWrapper.addUpdateSystem(new HitDetectionSystem(resourceManager));
+		worldWrapper.addUpdateSystem(new HitDetectionSystem());
 		worldWrapper.addUpdateSystem(new CameraFollowSystem());
 		worldWrapper.addUpdateSystem(new SpriteUpdateSystem());
 		worldWrapper.addRenderSystem(new SpriteRendererSystem(renderLayers));
