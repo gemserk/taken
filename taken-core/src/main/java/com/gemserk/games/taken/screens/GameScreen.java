@@ -30,10 +30,8 @@ import com.gemserk.animation4j.interpolator.function.InterpolationFunctions;
 import com.gemserk.animation4j.transitions.Transitions;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.artemis.WorldWrapper;
-import com.gemserk.commons.artemis.components.MovementComponent;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.components.SpriteComponent;
-import com.gemserk.commons.artemis.systems.MovementSystem;
 import com.gemserk.commons.artemis.systems.RenderLayer;
 import com.gemserk.commons.artemis.systems.SpriteRendererSystem;
 import com.gemserk.commons.artemis.systems.SpriteUpdateSystem;
@@ -70,7 +68,6 @@ import com.gemserk.games.taken.CameraFollowSystem;
 import com.gemserk.games.taken.CharacterControllerSystem;
 import com.gemserk.games.taken.CollisionBits;
 import com.gemserk.games.taken.CorrectSpriteDirectionSystem;
-import com.gemserk.games.taken.FollowCharacterBehaviorSystem;
 import com.gemserk.games.taken.FollowTargetPositionSystem;
 import com.gemserk.games.taken.GrabSystem;
 import com.gemserk.games.taken.HitDetectionSystem;
@@ -90,7 +87,6 @@ import com.gemserk.games.taken.components.BloodOverlayComponent;
 import com.gemserk.games.taken.components.BulletComponent;
 import com.gemserk.games.taken.components.CameraFollowComponent;
 import com.gemserk.games.taken.components.CharacterControllerComponent;
-import com.gemserk.games.taken.components.FollowCharacterComponent;
 import com.gemserk.games.taken.components.GrabComponent;
 import com.gemserk.games.taken.components.HealthComponent;
 import com.gemserk.games.taken.components.HitComponent;
@@ -237,10 +233,8 @@ public class GameScreen extends ScreenAdapter {
 		worldWrapper.addUpdateSystem(new JumpSystem());
 
 		worldWrapper.addUpdateSystem(new PhysicsSystem(physicsWorld));
-		worldWrapper.addUpdateSystem(new FollowCharacterBehaviorSystem());
 		worldWrapper.addUpdateSystem(new FollowTargetPositionSystem());
 		worldWrapper.addUpdateSystem(new WeaponSystem());
-		worldWrapper.addUpdateSystem(new MovementSystem());
 		worldWrapper.addUpdateSystem(new BulletSystem());
 
 		worldWrapper.addUpdateSystem(new GrabSystem());
@@ -417,7 +411,7 @@ public class GameScreen extends ScreenAdapter {
 
 		mainCharacter = world.createEntity();
 		mainCharacter.setTag("MainCharacter");
-		
+
 		short categoryBits = CollisionBits.Friendly;
 		short maskBits = CollisionBits.All & ~CollisionBits.EnemyRobot & ~CollisionBits.FriendlyLaser;
 
@@ -444,7 +438,7 @@ public class GameScreen extends ScreenAdapter {
 				new Box2dPositionProperty(body), //
 				PropertyBuilder.vector2(size, size), //
 				new Box2dAngleProperty(body)));
-		
+
 		mainCharacter.addComponent(new SpriteComponent(sprite, 1, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
 		Animation[] spriteSheets = new Animation[] { walkingAnimationResource.get(), idleAnimationResource.get(), jumpAnimationResource.get(), fallAnimationResource.get(), };
@@ -589,10 +583,44 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.setTag("Robo");
 
-		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
-		entity.addComponent(new MovementComponent(new Vector2(), 0f));
-		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
-		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
+		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
+		// entity.addComponent(new MovementComponent(new Vector2(), 0f));
+		// entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
+
+		short categoryBits = CollisionBits.Friendly;
+		short maskBits = CollisionBits.EnemyLaser;
+
+		Body body = physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
+				.type(BodyType.DynamicBody) //
+				.boxShape(0.15f, 0.15f) //
+				.mass(0.1f) //
+				.friction(0f) //
+				.categoryBits(categoryBits) //
+				.maskBits(maskBits) //
+				.userData(entity) //
+				.position(x, y));
+
+		entity.addComponent(new PhysicsComponent(body));
+		entity.addComponent(new AntiGravityComponent());
+		entity.addComponent(new SpatialComponent( //
+				new Box2dPositionProperty(body), //
+				PropertyBuilder.vector2(size, size), //
+				new Box2dAngleProperty(body)));
+		entity.addComponent(new TargetPositionComponent(new AbstractTrigger() {
+			@Override
+			protected boolean handle(Entity e) {
+
+				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
+				Vector2 position = spatialComponent.getPosition();
+
+				TargetPositionComponent targetPositionComponent = e.getComponent(TargetPositionComponent.class);
+				targetPositionComponent.setPosition(position.x + MathUtils.random(-5f, 5f), position.y + MathUtils.random(-5f, 5f));
+
+				return false;
+			}
+		}));
+		entity.addComponent(new LinearVelocityLimitComponent(2f));
+
 		entity.addComponent(new TargetComponent());
 		entity.addComponent(new WeaponComponent(500, 6f, 2.5f, "Enemy", 10f, new AbstractTrigger() {
 
@@ -625,6 +653,8 @@ public class GameScreen extends ScreenAdapter {
 			}
 
 		}));
+
+		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
 		Animation[] spriteSheets = new Animation[] { enemyAnimationResource.get(), };
 
@@ -695,12 +725,12 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new TargetPositionComponent(new AbstractTrigger() {
 			@Override
 			protected boolean handle(Entity e) {
-				
+
 				SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 				Vector2 position = spatialComponent.getPosition();
-				
+
 				TargetPositionComponent targetPositionComponent = e.getComponent(TargetPositionComponent.class);
-				targetPositionComponent.setPosition(position.x +  MathUtils.random(-5f, 5f), position.y + MathUtils.random(-5f, 5f));
+				targetPositionComponent.setPosition(position.x + MathUtils.random(-5f, 5f), position.y + MathUtils.random(-5f, 5f));
 
 				return false;
 			}
