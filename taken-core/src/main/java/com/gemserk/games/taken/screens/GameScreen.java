@@ -67,8 +67,10 @@ import com.gemserk.games.taken.Box2dPositionProperty;
 import com.gemserk.games.taken.BulletSystem;
 import com.gemserk.games.taken.CameraFollowSystem;
 import com.gemserk.games.taken.CharacterControllerSystem;
+import com.gemserk.games.taken.CollisionBits;
 import com.gemserk.games.taken.CorrectSpriteDirectionSystem;
 import com.gemserk.games.taken.FollowCharacterBehaviorSystem;
+import com.gemserk.games.taken.FollowTargetPositionSystem;
 import com.gemserk.games.taken.GrabSystem;
 import com.gemserk.games.taken.HitDetectionSystem;
 import com.gemserk.games.taken.JumpSystem;
@@ -92,9 +94,11 @@ import com.gemserk.games.taken.components.GrabComponent;
 import com.gemserk.games.taken.components.HealthComponent;
 import com.gemserk.games.taken.components.HitComponent;
 import com.gemserk.games.taken.components.JumpComponent;
+import com.gemserk.games.taken.components.LinearVelocityLimitComponent;
 import com.gemserk.games.taken.components.PhysicsComponent;
 import com.gemserk.games.taken.components.PowerUpComponent;
 import com.gemserk.games.taken.components.TargetComponent;
+import com.gemserk.games.taken.components.TargetPositionComponent;
 import com.gemserk.games.taken.components.TimerComponent;
 import com.gemserk.games.taken.components.WeaponComponent;
 import com.gemserk.games.taken.controllers.AreaTouchJumpController;
@@ -233,6 +237,7 @@ public class GameScreen extends ScreenAdapter {
 
 		worldWrapper.addUpdateSystem(new PhysicsSystem(physicsWorld));
 		worldWrapper.addUpdateSystem(new FollowCharacterBehaviorSystem());
+		worldWrapper.addUpdateSystem(new FollowTargetPositionSystem());
 		worldWrapper.addUpdateSystem(new WeaponSystem());
 		worldWrapper.addUpdateSystem(new MovementSystem());
 		worldWrapper.addUpdateSystem(new BulletSystem());
@@ -403,8 +408,11 @@ public class GameScreen extends ScreenAdapter {
 		float width = 0.15f;
 		float height = 1f;
 
+		short categoryBits = CollisionBits.Friendly;
+		short maskBits = CollisionBits.All & ~CollisionBits.EnemyRobot & ~CollisionBits.FriendlyLaser;
+
 		Vector2[] bodyShape = Box2dUtils.createRectangle(width, height);
-		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0f, 0.15f);
+		Body body = physicsObjectsFactory.createPolygonBody(x, y, bodyShape, true, 0.1f, 1f, 0f, 0.15f, categoryBits, maskBits);
 
 		mainCharacter = world.createEntity();
 
@@ -652,10 +660,26 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.setGroup("Enemy");
 
-		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
-		entity.addComponent(new MovementComponent(new Vector2(), 0f));
+		short categoryBits = CollisionBits.EnemyRobot;
+		short maskBits = CollisionBits.FriendlyLaser;
+
+		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, 0.3f, 0.3f, false, 0f, 0.1f, false, true, categoryBits, maskBits);
+		body.setUserData(entity);
+
+		entity.addComponent(new PhysicsComponent(body));
+		entity.addComponent(new AntiGravityComponent());
+		entity.addComponent(new SpatialComponent( //
+				new Box2dPositionProperty(body), //
+				PropertyBuilder.vector2(size, size), //
+				new Box2dAngleProperty(body)));
+		entity.addComponent(new TargetPositionComponent());
+		entity.addComponent(new LinearVelocityLimitComponent(2f));
+
+		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
+		// entity.addComponent(new MovementComponent(new Vector2(), 0f));
+		// entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
+
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
-		entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
 		entity.addComponent(new TargetComponent());
 		entity.addComponent(new WeaponComponent(900, 5.5f, 7f, "Player", 5f, new AbstractTrigger() {
 
@@ -719,14 +743,21 @@ public class GameScreen extends ScreenAdapter {
 				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
 				.build());
 
-		// TODO: set the mass instead, like the character.
-		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, 0.1f, 0.1f, false, 0f, 0.1f, true, true);
+		short categoryBits = CollisionBits.EnemyLaser;
+		short maskBits = CollisionBits.Friendly | CollisionBits.FriendlyLaser;
+
+		if (ownerGroup.equals("Player")) {
+			categoryBits = CollisionBits.FriendlyLaser;
+			maskBits = CollisionBits.EnemyRobot | CollisionBits.EnemyLaser;
+		}
+
+		Body body = physicsObjectsFactory.createDynamicRectangle(x, y, 0.1f, 0.1f, false, 0f, 0.1f, true, true, categoryBits, maskBits);
 		body.setUserData(entity);
-		
+
 		Vector2 impulse = new Vector2(dx, dy);
 		impulse.mul(0.1f);
 		body.applyLinearImpulse(impulse, body.getTransform().getPosition());
-		
+
 		entity.addComponent(new PhysicsComponent(body));
 		entity.addComponent(new AntiGravityComponent());
 		entity.addComponent(new SpatialComponent( //
@@ -753,15 +784,15 @@ public class GameScreen extends ScreenAdapter {
 
 				TargetComponent targetComponent = e.getComponent(TargetComponent.class);
 				Entity targetEntity = targetComponent.getTarget();
-				
+
 				if (targetEntity == null)
 					return false;
 
 				HealthComponent healthComponent = targetEntity.getComponent(HealthComponent.class);
-				
+
 				if (healthComponent == null)
 					return false;
-				
+
 				Container health = healthComponent.getHealth();
 
 				HitComponent hitComponent = e.getComponent(HitComponent.class);

@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.games.taken.components.AntiGravityComponent;
+import com.gemserk.games.taken.components.LinearVelocityLimitComponent;
 import com.gemserk.games.taken.components.PhysicsComponent;
 
 public class PhysicsSystem extends EntityProcessingSystem implements ActivableSystem {
@@ -100,6 +101,21 @@ public class PhysicsSystem extends EntityProcessingSystem implements ActivableSy
 		bodyAntiGravity.mul(body.getMass());
 
 		body.applyForce(bodyAntiGravity, body.getTransform().getPosition());
+		
+		LinearVelocityLimitComponent limitComponent = e.getComponent(LinearVelocityLimitComponent.class);
+		if (limitComponent == null)
+			return;
+		
+		Vector2 linearVelocity = body.getLinearVelocity();
+
+		float speed = linearVelocity.len();
+		float maxSpeed = limitComponent.getLimit();
+
+		if (speed > maxSpeed) {
+			float factor = maxSpeed / speed;
+			linearVelocity.mul(factor);
+			body.setLinearVelocity(linearVelocity);
+		}
 
 	}
 

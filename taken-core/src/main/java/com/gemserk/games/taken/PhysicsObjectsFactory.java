@@ -81,7 +81,7 @@ public class PhysicsObjectsFactory {
 		return vertices;
 	}
 	
-	public Body createPolygonBody(float x, float y, Vector2[] vertices, boolean fixedRotation, float friction, float density, float restitution, float mass) { 
+	public Body createPolygonBody(float x, float y, Vector2[] vertices, boolean fixedRotation, float friction, float density, float restitution, float mass, short categoryBits, short maskBits) { 
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
@@ -99,6 +99,9 @@ public class PhysicsObjectsFactory {
 		fixtureDef.friction = friction;
 		fixtureDef.restitution =restitution;
 		
+		fixtureDef.filter.categoryBits = categoryBits;
+		fixtureDef.filter.maskBits = maskBits;
+		
 		body.createFixture(fixtureDef);
 		
 		MassData massData = body.getMassData();
@@ -112,8 +115,11 @@ public class PhysicsObjectsFactory {
 
 		return body;
 	}
+	
+	// TODO : make a body builder!!
 
-	public Body createDynamicRectangle(float x, float y, float width, float height, boolean fixedRotation, float friction, float mass, boolean bullet, boolean isSensor) {
+	public Body createDynamicRectangle(float x, float y, float width, float height, boolean fixedRotation, float friction, float mass, boolean bullet, //
+			boolean isSensor, short categoryBits, short maskBits) {
 
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
@@ -131,6 +137,9 @@ public class PhysicsObjectsFactory {
 		fixtureDef.density = 1f;
 		fixtureDef.friction = friction;
 		fixtureDef.isSensor = isSensor;
+		
+		fixtureDef.filter.categoryBits = categoryBits;
+		fixtureDef.filter.maskBits = maskBits;
 
 		body.createFixture(fixtureDef);
 		

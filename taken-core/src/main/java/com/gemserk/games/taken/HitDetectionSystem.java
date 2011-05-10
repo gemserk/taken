@@ -34,23 +34,6 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 
 		targetComponent.setTarget(null);
 
-		// String hitGroup = hitComponent.getGroup();
-
-		// ImmutableBag<Entity> targets = world.getGroupManager().getEntities(hitGroup);
-		//
-		// if (targets == null)
-		// return;
-		//
-		// if (targets.isEmpty())
-		// return;
-
-		// SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
-		// Vector2 position = spatialComponent.getPosition();
-
-		// Entity mainCharacter = world.getTagManager().getEntity("MainCharacter");
-
-		// find the first entity colliding
-
 		PhysicsComponent physicsComponent = e.getComponent(PhysicsComponent.class);
 		Contact contact = physicsComponent.getContact();
 		Trigger trigger = hitComponent.getTrigger();
@@ -73,27 +56,6 @@ public class HitDetectionSystem extends EntityProcessingSystem implements Activa
 
 		}
 
-		// Entity targetEntity = null;
-		//
-		// for (int i = 0; i < targets.size(); i++) {
-		// Entity target = targets.get(i);
-		// SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
-		// Vector2 targetPosition = targetSpatialComponent.getPosition();
-		//
-		// if (position.dst(targetPosition) < 0.3f) {
-		// targetEntity = target;
-		// break;
-		// }
-		//
-		// }
-		//
-		// if (targetEntity == null)
-		// return;
-		//
-		// targetComponent.setTarget(targetEntity);
-		// if (trigger.isAlreadyTriggered())
-		// return;
-		// trigger.trigger(e);
 	}
 
 }
