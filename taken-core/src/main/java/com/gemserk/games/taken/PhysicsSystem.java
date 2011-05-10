@@ -1,7 +1,5 @@
 package com.gemserk.games.taken;
 
-import java.util.ArrayList;
-
 import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
@@ -9,20 +7,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
-import com.badlogic.gdx.physics.box2d.Shape.Type;
 import com.badlogic.gdx.physics.box2d.World;
-import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
-import com.gemserk.commons.gdx.box2d.Box2dUtils;
+import com.gemserk.games.taken.components.AntiGravityComponent;
 import com.gemserk.games.taken.components.PhysicsComponent;
 
 public class PhysicsSystem extends EntityProcessingSystem implements ActivableSystem {
 	
+	private static final Vector2 antiGravity = new Vector2(0, 10f);
+
 	ActivableSystem activableSystem = new ActivableSystemImpl();
+	
+	private final Vector2 bodyAntiGravity = new Vector2(0, 10f);
 
 	static class PhysicsContactListener implements ContactListener {
 		@Override
@@ -30,10 +27,10 @@ public class PhysicsSystem extends EntityProcessingSystem implements ActivableSy
 
 			Body bodyA = contact.getFixtureA().getBody();
 			Body bodyB = contact.getFixtureB().getBody();
-			
+
 			Entity entityA = (Entity) bodyA.getUserData();
 			Entity entityB = (Entity) bodyB.getUserData();
-			
+
 			if (entityA != null) {
 				PhysicsComponent physicsComponent = entityA.getComponent(PhysicsComponent.class);
 				physicsComponent.getContact().removeContact(bodyB);
@@ -43,7 +40,7 @@ public class PhysicsSystem extends EntityProcessingSystem implements ActivableSy
 				PhysicsComponent physicsComponent = entityB.getComponent(PhysicsComponent.class);
 				physicsComponent.getContact().removeContact(bodyA);
 			}
-			
+
 		}
 
 		@Override
@@ -51,10 +48,10 @@ public class PhysicsSystem extends EntityProcessingSystem implements ActivableSy
 
 			Body bodyA = contact.getFixtureA().getBody();
 			Body bodyB = contact.getFixtureB().getBody();
-			
+
 			Entity entityA = (Entity) bodyA.getUserData();
 			Entity entityB = (Entity) bodyB.getUserData();
-			
+
 			if (entityA != null) {
 				PhysicsComponent physicsComponent = entityA.getComponent(PhysicsComponent.class);
 				physicsComponent.getContact().addContact(contact, bodyB);
@@ -70,12 +67,11 @@ public class PhysicsSystem extends EntityProcessingSystem implements ActivableSy
 	}
 
 	World physicsWorld;
-	
+
 	private PhysicsContactListener physicsContactListener;
 
-	@SuppressWarnings("unchecked")
 	public PhysicsSystem(World physicsWorld) {
-		super(PhysicsComponent.class, SpatialComponent.class);
+		super(PhysicsComponent.class);
 		this.physicsWorld = physicsWorld;
 		physicsContactListener = new PhysicsContactListener();
 	}
@@ -87,73 +83,45 @@ public class PhysicsSystem extends EntityProcessingSystem implements ActivableSy
 
 	@Override
 	protected void process(Entity e) {
-		
+
 		// synchronize sizes between spatial and physics components.
-		
+
 		PhysicsComponent physicsComponent = e.getComponent(PhysicsComponent.class);
+		AntiGravityComponent antiGravityComponent = e.getComponent(AntiGravityComponent.class);
 		
-		// if we dont have the original shape, we cannot resize
-		if (physicsComponent.getVertices() == null)
+		if (antiGravityComponent == null)
 			return;
 		
 		Body body = physicsComponent.getBody();
+		
+		bodyAntiGravity.set(antiGravity);
+		bodyAntiGravity.mul(body.getMass());
+		
+		body.applyForce(bodyAntiGravity, body.getTransform().getPosition());
 
-		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
-
-		float size = spatialComponent.getSize().x;
-		float bodySize = physicsComponent.getSize();
-
-		if (size != bodySize) {
-
-			ArrayList<Fixture> fixtureList = body.getFixtureList();
-
-			for (int i = 0; i < fixtureList.size(); i++) {
-
-				Fixture fixture = fixtureList.get(i);
-				Shape shape = fixture.getShape();
-
-				if (shape.getType() == Type.Polygon) {
-
-					Vector2[] vertices = physicsComponent.getVertices();
-
-					PolygonShape polygonShape = (PolygonShape) shape;
-					Vector2[] newVertices = new Vector2[vertices.length];
-					Box2dUtils.initArray(newVertices);
-
-					for (int j = 0; j < vertices.length; j++) {
-						newVertices[j].x = vertices[j].x * size;
-						newVertices[j].y = vertices[j].y * size;
-					}
-
-					polygonShape.set(newVertices);
-				}
-			}
-		}
 	}
 
 	@Override
 	protected boolean checkProcessing() {
 		return isEnabled();
 	}
-	
+
 	@Override
 	protected void removed(Entity e) {
-		
+
 		// on entity removed, we should remove body from physics world
-		
+
 		PhysicsComponent component = e.getComponent(PhysicsComponent.class);
-		
+
 		if (component == null) {
-			// throw new RuntimeException("Entity without physics component found");
-			Gdx.app.log("Archer Vs Zombies", "Entity without physics component");
 			return;
 		}
-		
+
 		Body body = component.getBody();
 		body.setUserData(null);
-		
+
 		physicsWorld.destroyBody(body);
-		
+
 	}
 
 	@Override
@@ -172,9 +140,5 @@ public class PhysicsSystem extends EntityProcessingSystem implements ActivableSy
 	public boolean isEnabled() {
 		return activableSystem.isEnabled();
 	}
-
-
-	
-	
 
 }

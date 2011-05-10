@@ -82,6 +82,7 @@ import com.gemserk.games.taken.TimerSystem;
 import com.gemserk.games.taken.WeaponSystem;
 import com.gemserk.games.taken.WorldLoader;
 import com.gemserk.games.taken.components.AnimationComponent;
+import com.gemserk.games.taken.components.AntiGravityComponent;
 import com.gemserk.games.taken.components.BloodOverlayComponent;
 import com.gemserk.games.taken.components.BulletComponent;
 import com.gemserk.games.taken.components.CameraFollowComponent;
@@ -727,6 +728,7 @@ public class GameScreen extends ScreenAdapter {
 		body.applyLinearImpulse(impulse, body.getTransform().getPosition());
 		
 		entity.addComponent(new PhysicsComponent(body));
+		entity.addComponent(new AntiGravityComponent());
 		entity.addComponent(new SpatialComponent( //
 				new Box2dPositionProperty(body), //
 				PropertyBuilder.vector2(size, size), //
