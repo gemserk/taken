@@ -113,6 +113,8 @@ public class SplashScreen extends ScreenAdapter {
 		
 	}
 
+	// TODO: use the SpriteUtils of 0.0.2-SNAPSHOT version
+	
 	/**
 	 * Resizes the sprite to the specified width maintaining the aspect ration.
 	 */
