@@ -59,7 +59,7 @@ public class PauseScreen extends ScreenAdapter {
 
 		overlayColor = new Color();
 
-		Synchronizers.transition(overlayColor, Transitions.transitionBuilder(new Color(0f, 0f, 0f, 0f)).end(new Color(0f, 0f, 0f, 0.3f)).time(500).build());
+		Synchronizers.transition(overlayColor, Transitions.transitionBuilder(new Color(0f, 0f, 0f, 0f)).end(new Color(0f, 0f, 0f, 0.3f)).time(500));
 
 		Gdx.input.setCatchBackKey(true);
 	}
@@ -103,7 +103,7 @@ public class PauseScreen extends ScreenAdapter {
 		Synchronizers.synchronize();
 
 		if (resumeButton.isReleased() || Gdx.input.isKeyPressed(Keys.BACK)) {
-			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 0f)).time(300).build(), new TransitionEventHandler<Color>() {
+			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 0f)).time(300), new TransitionEventHandler<Color>() {
 				@Override
 				public void onTransitionFinished(Transition<Color> transition) {
 					game.setScreen(game.gameScreen, true);
@@ -113,7 +113,7 @@ public class PauseScreen extends ScreenAdapter {
 
 		if (menuButton.isReleased()) {
 			System.out.println ("menu released");
-			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build(), new TransitionEventHandler<Color>() {
+			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300), new TransitionEventHandler<Color>() {
 				@Override
 				public void onTransitionFinished(Transition<Color> transition) {
 					game.setScreen(game.menuScreen, true);

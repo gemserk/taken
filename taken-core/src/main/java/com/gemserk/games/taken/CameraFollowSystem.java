@@ -37,14 +37,14 @@ public class CameraFollowSystem extends EntityProcessingSystem implements Activa
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 		SpriteComponent spriteComponent = e.getComponent(SpriteComponent.class);
 
-		Camera cameraImpl = cameraFollowComponent.getCamera();
+		Camera camera = cameraFollowComponent.getCamera();
 		Spatial spatial = spatialComponent.getSpatial();
 
 		Sprite sprite = spriteComponent.getSprite();
 		float width = SpriteUtils.getOriginalHeight(sprite);
 		
-		cameraImpl.setPosition(spatial.getX(), spatial.getY());
-		cameraImpl.setZoom(width / spatial.getWidth());
+		camera.setPosition(spatial.getX(), spatial.getY());
+		camera.setZoom(width / spatial.getWidth());
 
 	}
 

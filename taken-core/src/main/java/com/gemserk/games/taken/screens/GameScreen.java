@@ -176,6 +176,7 @@ public class GameScreen extends ScreenAdapter {
 
 		Vector2 cameraPosition = new Vector2(viewportWidth * 0.5f * invZoom, viewportHeight * 0.5f * invZoom);
 		cameraData = new CameraImpl(cameraPosition.x, cameraPosition.y, zoom, 0f);
+		// cameraData = new CameraRestrictedImpl(cameraPosition.x, cameraPosition.y, zoom, 0f, viewportWidth, viewportHeight, new Rectangle(-20f, -6f, 50f, 30f));
 
 		inputDevicesMonitor = new InputDevicesMonitorImpl<String>();
 
@@ -798,8 +799,7 @@ public class GameScreen extends ScreenAdapter {
 		Color color = new Color();
 
 		Synchronizers.transition(color, Transitions.transitionBuilder(laserStartColor).end(laserEndColor).time(time)//
-				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
-				.build());
+				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()));
 
 		Body body = bodyBuilder //
 				.position(x, y) //
@@ -896,8 +896,7 @@ public class GameScreen extends ScreenAdapter {
 		int spawnTime = 1000;
 
 		Synchronizers.transition(color, Transitions.transitionBuilder(laserEndColor).end(laserStartColor).time(spawnTime)//
-				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
-				.build());
+				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()));
 
 		entity.addComponent(new SpatialComponent(new SpatialImpl(x, y, size, size, 0f)));
 		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));
@@ -954,8 +953,7 @@ public class GameScreen extends ScreenAdapter {
 		int spawnTime = 1000;
 
 		Synchronizers.transition(color, Transitions.transitionBuilder(laserEndColor).end(laserStartColor).time(spawnTime)//
-				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
-				.build());
+				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()));
 
 		entity.addComponent(new SpatialComponent(new SpatialImpl(x, y, size, size, 0f)));
 		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));

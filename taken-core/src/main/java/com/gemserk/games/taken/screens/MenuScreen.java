@@ -168,7 +168,7 @@ public class MenuScreen extends ScreenAdapter {
 		overlay = resourceManager.getResourceValue("OverlaySprite");
 
 		overlayColor = new Color(0f, 0f, 0f, 1f);
-		Synchronizers.transition(overlayColor, Transitions.transitionBuilder(new Color(0f, 0f, 0f, 1f)).end(new Color(0f, 0f, 0f, 0f)).time(500).build());
+		Synchronizers.transition(overlayColor, Transitions.transitionBuilder(new Color(0f, 0f, 0f, 1f)).end(new Color(0f, 0f, 0f, 0f)).time(500));
 	}
 
 	void createBackground() {
@@ -277,7 +277,7 @@ public class MenuScreen extends ScreenAdapter {
 		worldWrapper.update((int) (delta * 1000f));
 
 		if (playButton.isReleased()) {
-			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build(), //
+			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300), //
 					new TransitionEventHandler() {
 						@Override
 						public void onTransitionFinished(Transition transition) {
@@ -287,7 +287,7 @@ public class MenuScreen extends ScreenAdapter {
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.ESCAPE) || exitButton.isReleased()) {
-			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300).build(), //
+			Synchronizers.transition(overlayColor, Transitions.transitionBuilder(overlayColor).end(new Color(0f, 0f, 0f, 1f)).time(300), //
 					new TransitionEventHandler() {
 
 						@Override

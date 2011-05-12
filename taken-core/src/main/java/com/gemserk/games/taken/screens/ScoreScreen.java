@@ -68,7 +68,7 @@ public class ScoreScreen extends ScreenAdapter {
 
 		backgroundSprite = resourceManager.getResourceValue("Background");
 
-		Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(startColor).end(endColor).time(2000).build());
+		Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(startColor).end(endColor).time(2000));
 		// fadingOut = false;
 
 		inputEnabled = true;
@@ -141,7 +141,7 @@ public class ScoreScreen extends ScreenAdapter {
 
 		if (inputDevicesMonitor.getButton("continue").isReleased() || inputDevicesMonitor.getButton("back").isReleased()) {
 			inputEnabled = false;
-			Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(fadeInColor).end(startColor).time(500).build(), new TransitionEventHandler<Color>() {
+			Synchronizers.transition(fadeInColor, Transitions.transitionBuilder(fadeInColor).end(startColor).time(500), new TransitionEventHandler<Color>() {
 				@Override
 				public void onTransitionFinished(Transition<Color> transition) {
 					game.setScreen(game.gameScreen);

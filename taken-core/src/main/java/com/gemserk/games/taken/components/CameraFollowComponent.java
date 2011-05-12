@@ -5,14 +5,14 @@ import com.gemserk.commons.gdx.camera.Camera;
 
 public class CameraFollowComponent extends Component {
 
-	private final Camera cameraImpl;
+	private final Camera camera;
 	
 	public Camera getCamera() {
-		return cameraImpl;
+		return camera;
 	}
 
-	public CameraFollowComponent(Camera cameraImpl) {
-		this.cameraImpl = cameraImpl;
+	public CameraFollowComponent(Camera camera) {
+		this.camera = camera;
 	}
 	
 }
