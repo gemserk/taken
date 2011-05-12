@@ -387,7 +387,6 @@ public class GameScreen extends ScreenAdapter {
 
 	Entity createStaticSprite(Sprite sprite, float x, float y, float width, float height, float angle, int layer, float centerx, float centery, Color color) {
 		Entity entity = world.createEntity();
-		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(width, height), angle));
 		entity.addComponent(new SpatialComponent(new SpatialImpl(x, y, width, height, angle)));
 		entity.addComponent(new SpriteComponent(sprite, layer, new Vector2(centerx, centery), new Color(color)));
 		entity.refresh();
@@ -435,11 +434,6 @@ public class GameScreen extends ScreenAdapter {
 
 		mainCharacter.addComponent(physicsComponent);
 		mainCharacter.addComponent(new SpatialComponent(new SpatialPhysicsImpl(body, size, size)));
-		// mainCharacter.addComponent(new SpatialComponent( //
-		// new Box2dPositionProperty(body), //
-		// PropertyBuilder.vector2(size, size), //
-		// new Box2dAngleProperty(body)));
-
 		mainCharacter.addComponent(new SpriteComponent(sprite, 1, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
 		Animation[] spriteSheets = new Animation[] { walkingAnimationResource.get(), idleAnimationResource.get(), jumpAnimationResource.get(), fallAnimationResource.get(), };
@@ -483,7 +477,6 @@ public class GameScreen extends ScreenAdapter {
 
 		Entity e = world.createEntity();
 
-		// e.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(size, size), 0));
 		e.addComponent(new SpatialComponent(new SpatialImpl(0f, 0f, size, size, 0f)));
 		e.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
@@ -585,10 +578,6 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.setTag("Robo");
 
-		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
-		// entity.addComponent(new MovementComponent(new Vector2(), 0f));
-		// entity.addComponent(new FollowCharacterComponent(new Vector2(x, y), 0f));
-
 		short categoryBits = CollisionBits.Friendly;
 		short maskBits = CollisionBits.EnemyLaser;
 
@@ -605,10 +594,6 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new PhysicsComponent(body));
 		entity.addComponent(new AntiGravityComponent());
 		entity.addComponent(new SpatialComponent(new SpatialPhysicsImpl(body, size, size)));
-		// entity.addComponent(new SpatialComponent( //
-		// new Box2dPositionProperty(body), //
-		// PropertyBuilder.vector2(size, size), //
-		// new Box2dAngleProperty(body)));
 		entity.addComponent(new TargetPositionComponent(new AbstractTrigger() {
 			@Override
 			protected boolean handle(Entity e) {
@@ -675,7 +660,6 @@ public class GameScreen extends ScreenAdapter {
 
 		Entity entity = world.createEntity();
 
-		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), angle));
 		entity.addComponent(new SpatialComponent(new SpatialImpl(x, y, size, size, angle)));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
@@ -723,10 +707,6 @@ public class GameScreen extends ScreenAdapter {
 		entity.addComponent(new PhysicsComponent(body));
 		entity.addComponent(new AntiGravityComponent());
 		entity.addComponent(new SpatialComponent(new SpatialPhysicsImpl(body, size, size)));
-		// entity.addComponent(new SpatialComponent( //
-		// new Box2dPositionProperty(body), //
-		// PropertyBuilder.vector2(size, size), //
-		// new Box2dAngleProperty(body)));
 		entity.addComponent(new TargetPositionComponent(new AbstractTrigger() {
 			@Override
 			protected boolean handle(Entity e) {
