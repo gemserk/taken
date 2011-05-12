@@ -31,6 +31,8 @@ import com.gemserk.animation4j.transitions.Transitions;
 import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.artemis.WorldWrapper;
 import com.gemserk.commons.artemis.components.SpatialComponent;
+import com.gemserk.commons.artemis.components.SpatialImpl;
+import com.gemserk.commons.artemis.components.SpatialPhysicsImpl;
 import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.components.TimerComponent;
 import com.gemserk.commons.artemis.systems.RenderLayer;
@@ -59,12 +61,9 @@ import com.gemserk.commons.svg.inkscape.SvgParser;
 import com.gemserk.componentsengine.input.InputDevicesMonitorImpl;
 import com.gemserk.componentsengine.input.LibgdxButtonMonitor;
 import com.gemserk.componentsengine.input.LibgdxInputMappingBuilder;
-import com.gemserk.componentsengine.properties.PropertyBuilder;
 import com.gemserk.componentsengine.utils.Container;
 import com.gemserk.games.taken.AnimationSystem;
 import com.gemserk.games.taken.BloodOverlaySystem;
-import com.gemserk.games.taken.Box2dAngleProperty;
-import com.gemserk.games.taken.Box2dPositionProperty;
 import com.gemserk.games.taken.BulletSystem;
 import com.gemserk.games.taken.CameraFollowSystem;
 import com.gemserk.games.taken.CharacterControllerSystem;
@@ -388,7 +387,8 @@ public class GameScreen extends ScreenAdapter {
 
 	Entity createStaticSprite(Sprite sprite, float x, float y, float width, float height, float angle, int layer, float centerx, float centery, Color color) {
 		Entity entity = world.createEntity();
-		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(width, height), angle));
+		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(width, height), angle));
+		entity.addComponent(new SpatialComponent(new SpatialImpl(x, y, width, height, angle)));
 		entity.addComponent(new SpriteComponent(sprite, layer, new Vector2(centerx, centery), new Color(color)));
 		entity.refresh();
 		return entity;
@@ -434,10 +434,11 @@ public class GameScreen extends ScreenAdapter {
 		mainCharacter.setGroup("Player");
 
 		mainCharacter.addComponent(physicsComponent);
-		mainCharacter.addComponent(new SpatialComponent( //
-				new Box2dPositionProperty(body), //
-				PropertyBuilder.vector2(size, size), //
-				new Box2dAngleProperty(body)));
+		mainCharacter.addComponent(new SpatialComponent(new SpatialPhysicsImpl(body, size, size)));
+		// mainCharacter.addComponent(new SpatialComponent( //
+		// new Box2dPositionProperty(body), //
+		// PropertyBuilder.vector2(size, size), //
+		// new Box2dAngleProperty(body)));
 
 		mainCharacter.addComponent(new SpriteComponent(sprite, 1, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
@@ -482,7 +483,8 @@ public class GameScreen extends ScreenAdapter {
 
 		Entity e = world.createEntity();
 
-		e.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(size, size), 0));
+		// e.addComponent(new SpatialComponent(new Vector2(0, 0), new Vector2(size, size), 0));
+		e.addComponent(new SpatialComponent(new SpatialImpl(0f, 0f, size, size, 0f)));
 		e.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
 		Animation[] spriteSheets = new Animation[] { frontBloodAnimationResource.get(), sideBloodAnimationResource.get() };
@@ -502,7 +504,7 @@ public class GameScreen extends ScreenAdapter {
 				timerComponent.reset();
 
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
-				Vector2 position = spatialComponent.getPosition();
+				Vector2 position = spatialComponent.getSpatial().getPosition();
 
 				float x = position.x + MathUtils.random(-5, 5);
 				float y = position.y + MathUtils.random(-5, 5);
@@ -527,7 +529,7 @@ public class GameScreen extends ScreenAdapter {
 				timerComponent.reset();
 
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
-				Vector2 position = spatialComponent.getPosition();
+				Vector2 position = spatialComponent.getSpatial().getPosition();
 
 				float x = position.x + MathUtils.random(-10, 10);
 				float y = 0f + MathUtils.random(0f, 2.5f);
@@ -553,7 +555,7 @@ public class GameScreen extends ScreenAdapter {
 				timerComponent.reset();
 
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
-				Vector2 position = spatialComponent.getPosition();
+				Vector2 position = spatialComponent.getSpatial().getPosition();
 
 				float x = position.x + MathUtils.random(-10, 10);
 				float y = 0f + MathUtils.random(1f, 3f);
@@ -602,16 +604,17 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new PhysicsComponent(body));
 		entity.addComponent(new AntiGravityComponent());
-		entity.addComponent(new SpatialComponent( //
-				new Box2dPositionProperty(body), //
-				PropertyBuilder.vector2(size, size), //
-				new Box2dAngleProperty(body)));
+		entity.addComponent(new SpatialComponent(new SpatialPhysicsImpl(body, size, size)));
+		// entity.addComponent(new SpatialComponent( //
+		// new Box2dPositionProperty(body), //
+		// PropertyBuilder.vector2(size, size), //
+		// new Box2dAngleProperty(body)));
 		entity.addComponent(new TargetPositionComponent(new AbstractTrigger() {
 			@Override
 			protected boolean handle(Entity e) {
 
 				SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
-				Vector2 position = spatialComponent.getPosition();
+				Vector2 position = spatialComponent.getSpatial().getPosition();
 
 				TargetPositionComponent targetPositionComponent = e.getComponent(TargetPositionComponent.class);
 				targetPositionComponent.setPosition(position.x + MathUtils.random(-5f, 5f), position.y + MathUtils.random(-5f, 5f));
@@ -636,8 +639,8 @@ public class GameScreen extends ScreenAdapter {
 				SpatialComponent spatialComponent = friendlyRobot.getComponent(SpatialComponent.class);
 				SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
 
-				Vector2 position = spatialComponent.getPosition();
-				Vector2 targetPosition = targetSpatialComponent.getPosition();
+				Vector2 position = spatialComponent.getSpatial().getPosition();
+				Vector2 targetPosition = targetSpatialComponent.getSpatial().getPosition();
 
 				// and enemy is near
 
@@ -672,14 +675,15 @@ public class GameScreen extends ScreenAdapter {
 
 		Entity entity = world.createEntity();
 
-		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), angle));
+		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), angle));
+		entity.addComponent(new SpatialComponent(new SpatialImpl(x, y, size, size, angle)));
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 
 		entity.addComponent(new GrabComponent(0.5f, new AbstractTrigger() {
 			@Override
 			public boolean handle(Entity owner) {
 				SpatialComponent spatialComponent = owner.getComponent(SpatialComponent.class);
-				Vector2 position = spatialComponent.getPosition();
+				Vector2 position = spatialComponent.getSpatial().getPosition();
 				createRobo(position.x, position.y);
 				world.deleteEntity(owner);
 				Sound sound = resourceManager.getResourceValue("RoboFixedSound");
@@ -718,16 +722,17 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new PhysicsComponent(body));
 		entity.addComponent(new AntiGravityComponent());
-		entity.addComponent(new SpatialComponent( //
-				new Box2dPositionProperty(body), //
-				PropertyBuilder.vector2(size, size), //
-				new Box2dAngleProperty(body)));
+		entity.addComponent(new SpatialComponent(new SpatialPhysicsImpl(body, size, size)));
+		// entity.addComponent(new SpatialComponent( //
+		// new Box2dPositionProperty(body), //
+		// PropertyBuilder.vector2(size, size), //
+		// new Box2dAngleProperty(body)));
 		entity.addComponent(new TargetPositionComponent(new AbstractTrigger() {
 			@Override
 			protected boolean handle(Entity e) {
 
 				SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
-				Vector2 position = spatialComponent.getPosition();
+				Vector2 position = spatialComponent.getSpatial().getPosition();
 
 				TargetPositionComponent targetPositionComponent = e.getComponent(TargetPositionComponent.class);
 				targetPositionComponent.setPosition(position.x + MathUtils.random(-5f, 5f), position.y + MathUtils.random(-5f, 5f));
@@ -757,8 +762,8 @@ public class GameScreen extends ScreenAdapter {
 				SpatialComponent spatialComponent = enemyRobot.getComponent(SpatialComponent.class);
 				SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
 
-				Vector2 position = spatialComponent.getPosition();
-				Vector2 targetPosition = targetSpatialComponent.getPosition();
+				Vector2 position = spatialComponent.getSpatial().getPosition();
+				Vector2 targetPosition = targetSpatialComponent.getSpatial().getPosition();
 
 				// and enemy is near
 
@@ -813,8 +818,6 @@ public class GameScreen extends ScreenAdapter {
 				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
 				.build());
 
-
-
 		Body body = physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
 				.position(x, y) //
 				.type(BodyType.DynamicBody) //
@@ -834,10 +837,7 @@ public class GameScreen extends ScreenAdapter {
 
 		entity.addComponent(new PhysicsComponent(body));
 		entity.addComponent(new AntiGravityComponent());
-		entity.addComponent(new SpatialComponent( //
-				new Box2dPositionProperty(body), //
-				PropertyBuilder.vector2(size, size), //
-				new Box2dAngleProperty(body)));
+		entity.addComponent(new SpatialComponent(new SpatialPhysicsImpl(body, size, size)));
 
 		entity.addComponent(new SpriteComponent(sprite, 2, new Vector2(0.5f, 0.5f), color));
 
@@ -915,7 +915,7 @@ public class GameScreen extends ScreenAdapter {
 				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
 				.build());
 
-		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
+		entity.addComponent(new SpatialComponent(new SpatialImpl(x, y, size, size, 0f)));
 		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));
 		entity.addComponent(new TimerComponent(aliveTime, new AbstractTrigger() {
 			@Override
@@ -973,7 +973,7 @@ public class GameScreen extends ScreenAdapter {
 				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
 				.build());
 
-		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(size, size), 0f));
+		entity.addComponent(new SpatialComponent(new SpatialImpl(x, y, size, size, 0f)));
 		entity.addComponent(new SpriteComponent(sprite, -1, new Vector2(0.5f, 0.5f), color));
 		entity.addComponent(new TimerComponent(aliveTime, new AbstractTrigger() {
 			@Override
@@ -1092,7 +1092,7 @@ public class GameScreen extends ScreenAdapter {
 		HealthComponent healthComponent = mainCharacter.getComponent(HealthComponent.class);
 		SpatialComponent spatialComponent = mainCharacter.getComponent(SpatialComponent.class);
 
-		if (healthComponent.getHealth().isEmpty() || (spatialComponent.getPosition().y < -5)) {
+		if (healthComponent.getHealth().isEmpty() || (spatialComponent.getSpatial().getPosition().y < -5)) {
 			// set score based on something...!!
 			game.scoreScreen.setScore((int) score);
 			game.setScreen(game.scoreScreen, true);

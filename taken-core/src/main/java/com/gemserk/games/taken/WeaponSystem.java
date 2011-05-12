@@ -6,10 +6,11 @@ import com.artemis.Entity;
 import com.artemis.EntityProcessingSystem;
 import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
+import com.gemserk.commons.artemis.components.Spatial;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
+import com.gemserk.commons.gdx.math.MathUtils2;
 import com.gemserk.games.taken.PowerUp.Type;
 import com.gemserk.games.taken.components.PowerUpComponent;
 import com.gemserk.games.taken.components.TargetComponent;
@@ -41,9 +42,9 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 
 		if (!weaponComponent.isReady())
 			return;
-		
+
 		TargetComponent targetComponent = e.getComponent(TargetComponent.class);
-		
+
 		ImmutableBag<Entity> targets = world.getGroupManager().getEntities(weaponComponent.getTargetGroup());
 		targetComponent.setTarget(null);
 
@@ -55,25 +56,29 @@ public class WeaponSystem extends EntityProcessingSystem implements ActivableSys
 
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 
-		Vector2 position = spatialComponent.getPosition();
+		Spatial spatial = spatialComponent.getSpatial();
+		// Vector2 position = spatialComponent.getPosition();
 
 		float targetRange = weaponComponent.getTargetRange();
 
 		for (int i = 0; i < targets.size(); i++) {
 			Entity target = targets.get(i);
 			SpatialComponent targetSpatialComponent = target.getComponent(SpatialComponent.class);
-			Vector2 targetPosition = targetSpatialComponent.getPosition();
 
-			if (targetPosition.dst(position) < targetRange) {
+			Spatial targetSpatial = targetSpatialComponent.getSpatial();
+			// Vector2 targetPosition = targetSpatialComponent.getPosition();
+
+			if (MathUtils2.distance(spatial.getX(), spatial.getY(), targetSpatial.getX(), targetSpatial.getY()) < targetRange) {
+				// if (targetPosition.dst(position) < targetRange) {
 				targetComponent.setTarget(target);
-//				targetEntity = target;
+				// targetEntity = target;
 				break;
 			}
 		}
 
 		if (targetComponent.getTarget() == null)
 			return;
-		
+
 		// and enemy is near
 
 		weaponComponent.getTrigger().trigger(e);

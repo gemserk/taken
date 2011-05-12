@@ -16,8 +16,7 @@
 
 	<properties>
 		<animation4j.version>0.0.11-transitionevents-SNAPSHOT</animation4j.version>
-		<artemis.version>0.0.1-GEMSERK-SNAPSHOT</artemis.version>
-		<commons.gdx.version>0.0.1-SNAPSHOT</commons.gdx.version>
+		<commons.gdx.version>0.0.2-SNAPSHOT</commons.gdx.version>
 	</properties>
 
 	<dependencies>
@@ -32,12 +31,6 @@
 			<groupId>com.gemserk.animation4j</groupId>
 			<artifactId>animation4j-core</artifactId>
 			<version>${animation4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.gamadu.artemis</groupId>
-			<artifactId>artemis</artifactId>
-			<version>${artemis.version}</version>
 		</dependency>
 
 		<dependency>

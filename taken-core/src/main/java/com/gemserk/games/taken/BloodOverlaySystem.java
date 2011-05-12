@@ -37,50 +37,52 @@ public class BloodOverlaySystem extends EntityProcessingSystem implements Activa
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 
 		Entity character = bloodOverlayComponent.getEntity();
-		
+
 		SpatialComponent characterSpatialComponent = character.getComponent(SpatialComponent.class);
-		
-		spatialComponent.setPosition(characterSpatialComponent.getPosition());
-		spatialComponent.setAngle(characterSpatialComponent.getAngle());
+
+		spatialComponent.getSpatial().set(characterSpatialComponent.getSpatial());
+
+		// spatialComponent.setPosition(characterSpatialComponent.getPosition());
+		// spatialComponent.setAngle(characterSpatialComponent.getAngle());
 
 		SpriteComponent bloodSpriteComponent = e.getComponent(SpriteComponent.class);
 
 		// sprite sheet depends on movement and health..
 		PhysicsComponent characterPhysicsComponent = character.getComponent(PhysicsComponent.class);
-		
+
 		Vector2 linearVelocity = characterPhysicsComponent.getBody().getLinearVelocity();
 
 		// idle animation?
 		if (linearVelocity.len() < 0.1f) {
-			// front 
+			// front
 			bloodOverlayComponent.setCurrentAnimation(0);
 		} else {
-			// side 
+			// side
 			bloodOverlayComponent.setCurrentAnimation(1);
-			
+
 			if (linearVelocity.x < 0f) {
 				bloodSpriteComponent.getSprite().setScale(-1f, 1f);
 			} else {
 				bloodSpriteComponent.getSprite().setScale(1f, 1f);
 			}
-			
+
 		}
-		
+
 		HealthComponent healthComponent = character.getComponent(HealthComponent.class);
 		Container health = healthComponent.getHealth();
-		
+
 		float percentage = health.getPercentage();
-		
+
 		int frame;
-		
+
 		if (percentage > 0.7f)
 			frame = 0;
 		else if (percentage > 0.4f)
 			frame = 1;
-		else 
+		else
 			frame = 2;
 
-		// depends on the health 
+		// depends on the health
 		bloodSpriteComponent.setSprite(bloodOverlayComponent.getSpriteSheets().getFrame(frame));
 
 	}

@@ -25,6 +25,7 @@ import com.gemserk.animation4j.transitions.sync.Synchronizers;
 import com.gemserk.commons.artemis.WorldWrapper;
 import com.gemserk.commons.artemis.components.MovementComponent;
 import com.gemserk.commons.artemis.components.SpatialComponent;
+import com.gemserk.commons.artemis.components.SpatialImpl;
 import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.systems.MovementSystem;
 import com.gemserk.commons.artemis.systems.RenderLayer;
@@ -177,7 +178,8 @@ public class MenuScreen extends ScreenAdapter {
 
 	void createStaticSprite(Sprite sprite, float x, float y, float width, float height, float angle, int layer, float centerx, float centery, Color color) {
 		Entity entity = world.createEntity();
-		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(width, height), angle));
+		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(width, height), angle));
+		entity.addComponent(new SpatialComponent(new SpatialImpl(x, y, width, height, angle)));
 		entity.addComponent(new SpriteComponent(sprite, layer, new Vector2(centerx, centery), new Color(color)));
 		entity.refresh();
 	}
@@ -191,7 +193,8 @@ public class MenuScreen extends ScreenAdapter {
 		entity.setTag("MainCharacter");
 		entity.setGroup("Player");
 
-		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(1f, 1f), 0f));
+		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(1f, 1f), 0f));
+		entity.addComponent(new SpatialComponent(new SpatialImpl(x, y, 1f, 1f, 0f)));
 		entity.addComponent(new SpriteComponent(new Sprite(idleAnimation.getFrame(0)), //
 				1, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
 		entity.addComponent(new AnimationComponent(animations));
@@ -207,7 +210,8 @@ public class MenuScreen extends ScreenAdapter {
 		Entity entity = world.createEntity();
 		entity.setTag("Robo");
 
-		entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(1, 1), 0f));
+		// entity.addComponent(new SpatialComponent(new Vector2(x, y), new Vector2(1, 1), 0f));
+		entity.addComponent(new SpatialComponent(new SpatialImpl(x, y, 1f, 1f, 0f)));
 		entity.addComponent(new MovementComponent(new Vector2(), 0f));
 		entity.addComponent(new SpriteComponent(idleAnimation.getFrame(0), //
 				2, new Vector2(0.5f, 0.5f), new Color(Color.WHITE)));
@@ -245,7 +249,7 @@ public class MenuScreen extends ScreenAdapter {
 
 		playButton.draw(spriteBatch);
 		settingsButton.draw(spriteBatch);
-		
+
 		if (Gdx.app.getType() == ApplicationType.Desktop)
 			exitButton.draw(spriteBatch);
 

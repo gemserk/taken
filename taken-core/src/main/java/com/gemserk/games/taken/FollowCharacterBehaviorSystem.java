@@ -44,12 +44,12 @@ public class FollowCharacterBehaviorSystem extends EntityProcessingSystem implem
 		MovementComponent movementComponent = e.getComponent(MovementComponent.class);
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 		
-		Vector2 position = spatialComponent.getPosition();
+		Vector2 position = spatialComponent.getSpatial().getPosition();
 		Vector2 targetPosition = followCharacterComponent.getTargetPosition();
 		
 		if (targetPosition.dst(position) < 1f) {
 			
-			Vector2 targetEntityPosition = targetSpatialComponent.getPosition();
+			Vector2 targetEntityPosition = targetSpatialComponent.getSpatial().getPosition();
 			
 			// near the character ?
 			targetPosition.set(targetEntityPosition.x + MathUtils.random(-2, 2), targetEntityPosition.y + MathUtils.random(-2, 2));
