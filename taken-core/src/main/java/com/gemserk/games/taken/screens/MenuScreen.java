@@ -33,6 +33,7 @@ import com.gemserk.commons.artemis.systems.SpriteRendererSystem;
 import com.gemserk.commons.artemis.systems.SpriteUpdateSystem;
 import com.gemserk.commons.gdx.ScreenAdapter;
 import com.gemserk.commons.gdx.camera.Camera;
+import com.gemserk.commons.gdx.camera.CameraImpl;
 import com.gemserk.commons.gdx.camera.Libgdx2dCamera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
 import com.gemserk.commons.gdx.graphics.SpriteBatchUtils;
@@ -65,7 +66,7 @@ public class MenuScreen extends ScreenAdapter {
 
 	private Libgdx2dCamera backgroundLayerCamera = new Libgdx2dCameraTransformImpl();
 
-	private Camera cameraData = new Camera(0, 0, 1f, 0f);
+	private Camera cameraData = new CameraImpl(0, 0, 1f, 0f);
 
 	private WorldWrapper worldWrapper;
 

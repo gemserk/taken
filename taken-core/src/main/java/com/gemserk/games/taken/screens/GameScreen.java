@@ -45,6 +45,7 @@ import com.gemserk.commons.gdx.box2d.BodyBuilder;
 import com.gemserk.commons.gdx.box2d.Box2DCustomDebugRenderer;
 import com.gemserk.commons.gdx.box2d.Box2dUtils;
 import com.gemserk.commons.gdx.camera.Camera;
+import com.gemserk.commons.gdx.camera.CameraImpl;
 import com.gemserk.commons.gdx.camera.Libgdx2dCamera;
 import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
 import com.gemserk.commons.gdx.controllers.Controller;
@@ -174,7 +175,7 @@ public class GameScreen extends ScreenAdapter {
 		float invZoom = 1 / zoom;
 
 		Vector2 cameraPosition = new Vector2(viewportWidth * 0.5f * invZoom, viewportHeight * 0.5f * invZoom);
-		cameraData = new Camera(cameraPosition.x, cameraPosition.y, zoom, 0f);
+		cameraData = new CameraImpl(cameraPosition.x, cameraPosition.y, zoom, 0f);
 
 		inputDevicesMonitor = new InputDevicesMonitorImpl<String>();
 
