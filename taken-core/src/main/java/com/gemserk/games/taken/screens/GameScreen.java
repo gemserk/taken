@@ -41,6 +41,7 @@ import com.gemserk.commons.artemis.systems.SpriteUpdateSystem;
 import com.gemserk.commons.artemis.systems.TimerSystem;
 import com.gemserk.commons.artemis.triggers.AbstractTrigger;
 import com.gemserk.commons.gdx.ScreenAdapter;
+import com.gemserk.commons.gdx.box2d.BodyBuilder;
 import com.gemserk.commons.gdx.box2d.Box2DCustomDebugRenderer;
 import com.gemserk.commons.gdx.box2d.Box2dUtils;
 import com.gemserk.commons.gdx.camera.Camera;
@@ -74,7 +75,6 @@ import com.gemserk.games.taken.GrabSystem;
 import com.gemserk.games.taken.HitDetectionSystem;
 import com.gemserk.games.taken.JumpSystem;
 import com.gemserk.games.taken.LibgdxGame;
-import com.gemserk.games.taken.PhysicsObjectsFactory;
 import com.gemserk.games.taken.PhysicsSystem;
 import com.gemserk.games.taken.PowerUp;
 import com.gemserk.games.taken.PowerUp.Type;
@@ -129,7 +129,7 @@ public class GameScreen extends ScreenAdapter {
 
 	private SvgDocument svgDocument;
 
-	private PhysicsObjectsFactory physicsObjectsFactory;
+	private BodyBuilder bodyBuilder;
 
 	private int viewportWidth;
 
@@ -211,7 +211,7 @@ public class GameScreen extends ScreenAdapter {
 		// create the scene...
 		physicsWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, -10f), false);
 
-		physicsObjectsFactory = new PhysicsObjectsFactory(physicsWorld);
+		bodyBuilder = new BodyBuilder(physicsWorld);
 
 		box2dCustomDebugRenderer = new Box2DCustomDebugRenderer(camera, physicsWorld);
 
@@ -367,12 +367,11 @@ public class GameScreen extends ScreenAdapter {
 				}
 				Vector2 position = new Vector2();
 
-				physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
-						.position(position.x, position.y) //
+				bodyBuilder.position(position.x, position.y) //
 						.type(BodyType.StaticBody) //
 						.polygonShape(vertices) //
 						.friction(0.5f) //
-						);
+						.build();
 
 			}
 		});
@@ -415,7 +414,7 @@ public class GameScreen extends ScreenAdapter {
 		short maskBits = CollisionBits.All & ~CollisionBits.EnemyRobot & ~CollisionBits.FriendlyLaser;
 
 		Vector2[] bodyShape = Box2dUtils.createRectangle(width, height);
-		Body body = physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
+		Body body = bodyBuilder //
 				.position(x, y) //
 				.type(BodyType.DynamicBody) //
 				.fixedRotation() //
@@ -426,7 +425,8 @@ public class GameScreen extends ScreenAdapter {
 				.mass(0.15f) //
 				.categoryBits(categoryBits) //
 				.maskBits(maskBits) //
-				.userData(mainCharacter));
+				.userData(mainCharacter) //
+				.build();
 
 		PhysicsComponent physicsComponent = new PhysicsComponent(body);
 
@@ -581,7 +581,7 @@ public class GameScreen extends ScreenAdapter {
 		short categoryBits = CollisionBits.Friendly;
 		short maskBits = CollisionBits.EnemyLaser;
 
-		Body body = physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
+		Body body = bodyBuilder //
 				.type(BodyType.DynamicBody) //
 				.boxShape(0.15f, 0.15f) //
 				.mass(0.1f) //
@@ -589,7 +589,8 @@ public class GameScreen extends ScreenAdapter {
 				.categoryBits(categoryBits) //
 				.maskBits(maskBits) //
 				.userData(entity) //
-				.position(x, y));
+				.position(x, y) //
+				.build();
 
 		entity.addComponent(new PhysicsComponent(body));
 		entity.addComponent(new AntiGravityComponent());
@@ -694,7 +695,7 @@ public class GameScreen extends ScreenAdapter {
 		short categoryBits = CollisionBits.EnemyRobot;
 		short maskBits = CollisionBits.FriendlyLaser;
 
-		Body body = physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
+		Body body = bodyBuilder //
 				.type(BodyType.DynamicBody) //
 				.boxShape(0.15f, 0.15f) //
 				.mass(0.1f) //
@@ -702,7 +703,8 @@ public class GameScreen extends ScreenAdapter {
 				.categoryBits(categoryBits) //
 				.maskBits(maskBits) //
 				.userData(entity) //
-				.position(x, y));
+				.position(x, y) //
+				.build();
 
 		entity.addComponent(new PhysicsComponent(body));
 		entity.addComponent(new AntiGravityComponent());
@@ -798,7 +800,7 @@ public class GameScreen extends ScreenAdapter {
 				.functions(InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut(), InterpolationFunctions.easeOut()) //
 				.build());
 
-		Body body = physicsObjectsFactory.createBody(physicsObjectsFactory.bodyBuilder() //
+		Body body = bodyBuilder //
 				.position(x, y) //
 				.type(BodyType.DynamicBody) //
 				.fixedRotation() //
@@ -809,7 +811,8 @@ public class GameScreen extends ScreenAdapter {
 				.maskBits(maskBits) //
 				.bullet() //
 				.sensor() //
-				.userData(entity));
+				.userData(entity) //
+				.build();
 
 		Vector2 impulse = new Vector2(dx, dy);
 		impulse.mul(0.1f);
