@@ -1050,7 +1050,7 @@ public class GameScreen extends ScreenAdapter {
 
 		worldWrapper.update(deltaInMs);
 
-		Synchronizers.synchronize();
+		Synchronizers.synchronize(deltaInMs);
 		inputDevicesMonitor.update();
 
 		// if (inputDevicesMonitor.getButton("score").isPressed()) {

@@ -9,7 +9,6 @@ import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.systems.ActivableSystem;
 import com.gemserk.commons.artemis.systems.ActivableSystemImpl;
 import com.gemserk.commons.gdx.camera.Camera;
-import com.gemserk.commons.gdx.graphics.SpriteUtils;
 import com.gemserk.games.taken.components.CameraFollowComponent;
 
 public class CameraFollowSystem extends EntityProcessingSystem implements ActivableSystem {
@@ -32,7 +31,6 @@ public class CameraFollowSystem extends EntityProcessingSystem implements Activa
 
 	@Override
 	protected void process(Entity e) {
-
 		CameraFollowComponent cameraFollowComponent = e.getComponent(CameraFollowComponent.class);
 		SpatialComponent spatialComponent = e.getComponent(SpatialComponent.class);
 		SpriteComponent spriteComponent = e.getComponent(SpriteComponent.class);
@@ -41,11 +39,11 @@ public class CameraFollowSystem extends EntityProcessingSystem implements Activa
 		Spatial spatial = spatialComponent.getSpatial();
 
 		Sprite sprite = spriteComponent.getSprite();
-		float width = SpriteUtils.getOriginalHeight(sprite);
+		// float width = SpriteUtils.getOriginalHeight(sprite);
+		float width = 32f;
 		
 		camera.setPosition(spatial.getX(), spatial.getY());
 		camera.setZoom(width / spatial.getWidth());
-
 	}
 
 }
