@@ -1,8 +1,5 @@
 package com.gemserk.games.taken;
 
-import javax.vecmath.Matrix3f;
-import javax.vecmath.Vector3f;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -13,6 +10,8 @@ import com.gemserk.commons.svg.inkscape.SvgInkscapeGroupHandler;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeImage;
 import com.gemserk.commons.svg.inkscape.SvgInkscapeImageHandler;
 import com.gemserk.commons.svg.inkscape.SvgParser;
+import com.gemserk.vecmath.Matrix3f;
+import com.gemserk.vecmath.Vector3f;
 
 public class WorldLoader {
 

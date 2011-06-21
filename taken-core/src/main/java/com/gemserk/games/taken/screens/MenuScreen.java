@@ -6,7 +6,6 @@ import org.w3c.dom.Document;
 
 import com.artemis.Entity;
 import com.artemis.World;
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -249,10 +248,10 @@ public class MenuScreen extends ScreenAdapter {
 		SpriteBatchUtils.drawCentered(spriteBatch, titleFont, "CODENAME: T.A.K.E.N.", Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() - 30f);
 
 		playButton.draw(spriteBatch);
-		settingsButton.draw(spriteBatch);
+		// settingsButton.draw(spriteBatch);
 
-		if (Gdx.app.getType() == ApplicationType.Desktop)
-			exitButton.draw(spriteBatch);
+		// if (Gdx.app.getType() == ApplicationType.Desktop)
+		exitButton.draw(spriteBatch);
 
 		overlay.setSize(width, height);
 		overlay.setPosition(0, 0);
@@ -269,8 +268,8 @@ public class MenuScreen extends ScreenAdapter {
 		playButton.update();
 		// settingsButton.update();
 
-		if (Gdx.app.getType() == ApplicationType.Desktop)
-			exitButton.update();
+		// if (Gdx.app.getType() == ApplicationType.Desktop)
+		exitButton.update();
 
 		Synchronizers.synchronize();
 

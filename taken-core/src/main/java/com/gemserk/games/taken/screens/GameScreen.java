@@ -2,8 +2,6 @@ package com.gemserk.games.taken.screens;
 
 import java.util.ArrayList;
 
-import javax.vecmath.Vector2f;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -109,6 +107,7 @@ import com.gemserk.games.taken.controllers.TouchMovementController;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
 import com.gemserk.resources.ResourceManagerImpl;
+import com.gemserk.vecmath.Vector2f;
 
 public class GameScreen extends ScreenAdapter {
 
